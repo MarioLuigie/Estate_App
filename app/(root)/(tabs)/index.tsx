@@ -4,7 +4,7 @@ import { View, StyleSheet, Text } from 'react-native';
 export default function Index() {
 	return (
 		<View style={styles.container}>
-			<Text className='text-6xl text-orange-500'>WELCOME!!!</Text>
+			<Text className='text-xl my-10 font-rubik-bold'>Welcome to Estate!</Text>
 			<Link href='/sign-in'>Sign</Link>
 			<Link href='/explore'>Explore</Link>
 			<Link href='/profile'>Profile</Link>
