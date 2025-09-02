@@ -41,7 +41,7 @@ export async function login() {
 	try {
 		const redirectUri = Linking.createURL('/'); // returned exp://192.168.0.17:8081/--/
 
-		console.log(redirectUri)
+		console.log(redirectUri);
 
 		// const response = await account.createOAuth2Token(
 		// 	OAuthProvider.Google,
@@ -104,12 +104,21 @@ export async function getCurrentUser() {
 		const result = await account.get();
 		if (result.$id) {
 			// const userAvatar = avatar.getInitials(result.name);
-      // Now Arg for getInitilas is the object with prop name, not string
-			const buffer = await avatar.getInitials({
-				name: result.name,
-			});
+			// Now Arg for getInitilas is the object with prop name, not string
+			let avatarBase64: string | undefined;
 
-			const avatarBase64 = arrayBufferToBase64(buffer);
+			try {
+				const buffer = await avatar.getInitials({
+					name: result.name,
+					background: '000000',
+				});
+
+				avatarBase64 = arrayBufferToBase64(buffer);
+
+			} catch (avatarError) {
+				console.warn('Failed to generate avatar initials:', avatarError);
+				avatarBase64 = undefined;
+			}
 
 			return {
 				...result,

@@ -14,7 +14,7 @@ interface User {
 	$id: string;
 	name: string;
 	email: string;
-	avatar: string;
+	avatar: string | undefined;
 }
 
 const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
