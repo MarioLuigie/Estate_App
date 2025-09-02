@@ -95,3 +95,26 @@ export async function logout() {
 		return false;
 	}
 }
+
+export async function getCurrentUser() {
+	try {
+		const result = await account.get();
+		if (result.$id) {
+			// const userAvatar = avatar.getInitials(result.name);
+      // Now Arg for getInitilas is the object with prop name, not string
+			const userAvatar = avatar.getInitials({
+				name: result.name,
+			});
+
+			return {
+				...result,
+				avatar: userAvatar.toString(),
+			};
+		}
+
+		return null;
+	} catch (error) {
+		console.log(error);
+		return null;
+	}
+}
