@@ -33,7 +33,7 @@ export default function SignIn() {
 						Welcome To Estate
 					</Text>
 
-					<Text className="text-3xl font-rubik-bold text-black-300 text-center mt-2">
+					<Text className="text-5xl font-rubik-bold text-black-300 text-center mt-2">
 						Dream about {'\n'}
 						<Text className="text-primary-300">Your Home</Text>
 					</Text>
