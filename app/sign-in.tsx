@@ -1,11 +1,19 @@
 import icons from '@/constants/icons';
 import images from '@/constants/images';
 import React from 'react';
-import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, Text, TouchableOpacity, View, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { login } from '@/lib/appwrite';
 
 export default function SignIn() {
-	const handleLogin = () => {};
+	const handleLogin = async () => {
+		const result = await login();
+		if (result) {
+			console.log("Login success")
+		} else {
+			Alert.alert('Error', 'Failed to login');
+		}
+	};
 
 	return (
 		<SafeAreaView className="bg-white h-full">
