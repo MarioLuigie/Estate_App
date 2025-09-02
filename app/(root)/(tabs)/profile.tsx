@@ -69,7 +69,7 @@ export default function Profile() {
 			>
 				<View className="flex flex-row items-center justify-between mt-16">
 					<Text className="text-xl font-rubik-bold">Profile</Text>
-					<Image source={icons.bell} className="size-10" />
+					<Image source={icons.bell} className="size-7" />
 				</View>
 
 				<View className="flex flex-row justify-center mt-5">
@@ -83,7 +83,7 @@ export default function Profile() {
 							<Image source={icons.edit} className="size-9" />
 						</TouchableOpacity>
 
-						<Text className="text-2xl font-rubik-bold mt-2">
+						<Text className="text-2xl font-rubik-bold mt-3">
 							{user?.name}
 						</Text>
 					</View>

@@ -1,15 +1,10 @@
-// import { Link } from 'expo-router';
-import { View, StyleSheet, Text } from 'react-native';
+import { SafeAreaView, StyleSheet, Text } from 'react-native';
 
-export default function Index() {
+export default function Home() {
 	return (
-		<View style={styles.container}>
-			<Text className='text-xl my-10 font-rubik-bold'>Welcome to Estate!</Text>
-			{/* <Link href='/sign-in'>Sign</Link>
-			<Link href='/explore'>Explore</Link>
-			<Link href='/profile'>Profile</Link>
-			<Link href='/properties/1'>Properties</Link> */}
-		</View>
+		<SafeAreaView style={styles.container} className='h-full bg-white'>
+			<Text className='text-xl my-10 font-rubik-bold'>Home</Text>
+		</SafeAreaView>
 	);
 }
 
@@ -20,3 +15,24 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 });
+
+// import { Link } from 'expo-router';
+// import { SafeAreaView, StyleSheet, Text } from 'react-native';
+
+
+
+// export default function Home() {
+// 	return (
+// 		<SafeAreaView style={styles.container} className='h-full bg-white'>
+// 			<Text className='text-xl my-10 font-rubik-bold'>Home</Text>
+// 		</SafeAreaView>
+// 	);
+// }
+
+// const styles = StyleSheet.create({
+// 	container: {
+// 		flex: 1,
+// 		justifyContent: 'center',
+// 		alignItems: 'center',
+// 	},
+// });
