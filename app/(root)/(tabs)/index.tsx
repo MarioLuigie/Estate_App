@@ -5,10 +5,10 @@ export default function Index() {
 	return (
 		<View style={styles.container}>
 			<Text className='text-xl my-10 font-rubik-bold'>Welcome to Estate!</Text>
-			<Link href='/sign-in'>Sign</Link>
+			{/* <Link href='/sign-in'>Sign</Link>
 			<Link href='/explore'>Explore</Link>
 			<Link href='/profile'>Profile</Link>
-			<Link href='/properties/1'>Properties</Link>
+			<Link href='/properties/1'>Properties</Link> */}
 		</View>
 	);
 }
