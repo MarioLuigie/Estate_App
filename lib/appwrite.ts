@@ -10,6 +10,7 @@ import {
 } from 'react-native-appwrite';
 import * as Linking from 'expo-linking';
 import { openAuthSessionAsync } from 'expo-web-browser';
+import { arrayBufferToBase64 } from '@/tools';
 
 export const config = {
 	platform: 'com.mlotocki.estate',
@@ -104,13 +105,15 @@ export async function getCurrentUser() {
 		if (result.$id) {
 			// const userAvatar = avatar.getInitials(result.name);
       // Now Arg for getInitilas is the object with prop name, not string
-			const userAvatar = avatar.getInitials({
+			const buffer = await avatar.getInitials({
 				name: result.name,
 			});
 
+			const avatarBase64 = arrayBufferToBase64(buffer);
+
 			return {
 				...result,
-				avatar: userAvatar.toString(),
+				avatar: avatarBase64,
 			};
 		}
 

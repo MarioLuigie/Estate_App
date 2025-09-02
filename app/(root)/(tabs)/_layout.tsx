@@ -41,7 +41,7 @@ export default function TabsLayout() {
           position: "absolute",
           borderTopColor: "#0061FF1A",
           borderTopWidth: 1,
-          minHeight: 100,
+          minHeight: 105,
         },
       }}
     >
