@@ -49,7 +49,7 @@ export default function TabsLayout() {
         name="index"
         options={{
           title: "Home",
-          headerShown: true,
+          headerShown: false,
           tabBarIcon: ({ focused }) => (
             <TabIcon focused={focused} icon={icons.home} title="Home" />
           ),
@@ -59,7 +59,7 @@ export default function TabsLayout() {
         name="explore"
         options={{
           title: "Explore",
-          headerShown: true,
+          headerShown: false,
           tabBarIcon: ({ focused }) => (
             <TabIcon focused={focused} icon={icons.search} title="Explore" />
           ),
@@ -69,7 +69,7 @@ export default function TabsLayout() {
         name="profile"
         options={{
           title: "Profile",
-          headerShown: true,
+          headerShown: false,
           tabBarIcon: ({ focused }) => (
             <TabIcon focused={focused} icon={icons.person} title="Profile" />
           ),
