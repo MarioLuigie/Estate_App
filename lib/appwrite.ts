@@ -38,7 +38,9 @@ export const storage = new Storage(client);
 
 export async function login() {
 	try {
-		const redirectUri = Linking.createURL('/');
+		const redirectUri = Linking.createURL('/'); // returned exp://192.168.0.17:8081/--/
+
+		console.log(redirectUri)
 
 		// const response = await account.createOAuth2Token(
 		// 	OAuthProvider.Google,

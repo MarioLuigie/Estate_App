@@ -11,7 +11,7 @@ interface UseAppwriteReturn<T, P> {
   data: T | null;
   loading: boolean;
   error: string | null;
-  refetch: (newParams: P) => Promise<void>;
+  refetch: (newParams?: P) => Promise<void>;
 }
 
 // This is a hook for automating activities involving fetching data from the appwrite api or other
@@ -51,7 +51,7 @@ export const useAppwrite = <T, P extends Record<string, string | number>>({
     }
   }, []);
 
-  const refetch = async (newParams: P) => await fetchData(newParams);
+  const refetch = async (newParams?: P) => await fetchData(newParams ?? params);
 
   return { data, loading, error, refetch };
 };
