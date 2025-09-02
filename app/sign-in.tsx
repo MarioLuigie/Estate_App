@@ -1,14 +1,12 @@
-import React from 'react';
-import { Image, ScrollView, Text, View, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import images from '@/constants/images';
 import icons from '@/constants/icons';
+import images from '@/constants/images';
+import React from 'react';
+import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SignIn() {
-  const handleLogin = () => {
+	const handleLogin = () => {};
 
-  }
-  
 	return (
 		<SafeAreaView className="bg-white h-full">
 			<ScrollView

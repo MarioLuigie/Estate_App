@@ -12,6 +12,7 @@
 			"supportsTablet": true
 		},
 		"android": {
+			"package": "com.mlotocki.estate",
 			"adaptiveIcon": {
 				"foregroundImage": "@/assets/images/icon.png",
 				"backgroundColor": "#ffffff"
