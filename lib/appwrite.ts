@@ -40,14 +40,24 @@ export async function login() {
 	try {
 		const redirectUri = Linking.createURL('/');
 
-		const response = await account.createOAuth2Token(
-			OAuthProvider.Google,
-			redirectUri
-		);
-		if (!response) throw new Error('Create OAuth2 token failed');
+		// const response = await account.createOAuth2Token(
+		// 	OAuthProvider.Google,
+		// 	redirectUri
+		// );
+		const oauthUrl = account.createOAuth2Token({
+			provider: OAuthProvider.Google,
+			success: redirectUri,
+			failure: redirectUri,
+		});
+		// if (!response) throw new Error('Create OAuth2 token failed');
+		if (!oauthUrl) throw new Error('Create OAuth2 token failed');
 
+		// const browserResult = await openAuthSessionAsync(
+		// 	response.toString(),
+		// 	redirectUri
+		// );
 		const browserResult = await openAuthSessionAsync(
-			response.toString(),
+			oauthUrl.toString(),
 			redirectUri
 		);
 		if (browserResult.type !== 'success')
@@ -58,10 +68,28 @@ export async function login() {
 		const userId = url.searchParams.get('userId')?.toString();
 		if (!secret || !userId) throw new Error('Create OAuth2 token failed');
 
-		const session = await account.createSession(userId, secret);
+		// const session = await account.createSession(userId, secret);
+		const session = await account.createSession({
+			userId,
+			secret,
+		});
 		if (!session) throw new Error('Failed to create session');
 
 		return true;
+	} catch (error) {
+		console.error(error);
+		return false;
+	}
+}
+
+export async function logout() {
+	try {
+		// const result = await account.deleteSession('current');
+		const result = await account.deleteSession({
+			sessionId: 'current', // lub inny sessionId, jeśli chcesz wylogować konkretną sesję
+		});
+
+		return result;
 	} catch (error) {
 		console.error(error);
 		return false;
