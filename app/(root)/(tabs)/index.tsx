@@ -6,15 +6,17 @@ import {
 	View,
 	Image,
 	TouchableOpacity,
+	ScrollView,
 } from 'react-native';
 import Search from '@/components/Search';
 import { FeaturedCard, Card } from '@/components/Cards';
+import Filters from '@/components/Filters';
 
 export default function Home() {
 	return (
 		<SafeAreaView className="h-full bg-white">
+			{/* HEADER */}
 			<View className="px-5">
-				{/* HEADER */}
 				<View className="flex flex-row items-center justify-between mt-16">
 					<View className="flex flex-row items-center">
 						<View>
@@ -35,10 +37,15 @@ export default function Home() {
 					</View>
 					<Image source={icons.bell} className="size-6" />
 				</View>
+			</View>
 
-				{/* SEARCH */}
+			{/* SEARCH */}
+			<View className="px-5 mb-4">
 				<Search />
+			</View>
 
+			{/* MAIN */}
+			<ScrollView contentContainerClassName="pb-28" className="px-5">
 				{/* FEATURED */}
 				<View className="my-5">
 					<View className="flex flex-row items-center justify-between">
@@ -52,15 +59,26 @@ export default function Home() {
 						</TouchableOpacity>
 					</View>
 
-					<View className='mt-5 flex flex-row gap-5'>
-						<FeaturedCard onPress={() => {}}/>
-						<FeaturedCard onPress={() => {}}/>
-					</View>
+					<ScrollView
+						horizontal
+						showsHorizontalScrollIndicator={false}
+						className="my-3"
+					>
+						<View className="mr-5">
+							<FeaturedCard onPress={() => {}} />
+						</View>
+						<View className="mr-5">
+							<FeaturedCard onPress={() => {}} />
+						</View>
+						<View className="mr-5">
+							<FeaturedCard onPress={() => {}} />
+						</View>
+					</ScrollView>
 				</View>
-				
+
 				{/* OUR RECOMMANDATION */}
 				<View className="my-5">
-					<View className="flex flex-row items-center justify-between">
+					<View className="flex flex-row items-center justify-between mb-4">
 						<Text className="text-xl font-rubik-bold text-black-300">
 							Our Recommandation
 						</Text>
@@ -71,12 +89,29 @@ export default function Home() {
 						</TouchableOpacity>
 					</View>
 
-					<View className='mt-5 flex flex-row gap-5'>
-						<Card />
-						<Card />
+					<View className='mb-4'>
+						<Filters />
 					</View>
+
+					<ScrollView
+						horizontal
+						showsHorizontalScrollIndicator={false}
+						className="mb-4"
+					>
+						<View className="mr-5">
+							<Card />
+						</View>
+
+						<View className="mr-5">
+							<Card />
+						</View>
+
+						<View className="mr-5">
+							<Card />
+						</View>
+					</ScrollView>
 				</View>
-			</View>
+			</ScrollView>
 		</SafeAreaView>
 	);
 }
