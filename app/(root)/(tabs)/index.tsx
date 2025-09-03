@@ -7,6 +7,7 @@ import {
 	TouchableOpacity,
 	FlatList,
 	Button,
+	ActivityIndicator,
 } from 'react-native';
 import Search from '@/components/shared/Search';
 import { FeaturedCard, Card } from '@/components/shared/Cards';
@@ -18,6 +19,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useAppwrite } from '@/hooks/useAppwrite';
 import { getLatestProperties, getProperties } from '@/lib/appwrite';
 import { useEffect } from 'react';
+import NoResults from '@/components/shared/NoReults';
 
 export default function Home() {
 	const { user } = useGlobalContext();
@@ -55,8 +57,8 @@ export default function Home() {
 	}, [params.filter, params.query]);
 
 	const handleCardPress = (id: string) => {
-		router.push(`/properties/${id}`)
-		console.log("CARD PRESSED:", id)
+		router.push(`/properties/${id}`);
+		console.log('CARD PRESSED:', id);
 	};
 
 	return (
@@ -106,11 +108,21 @@ export default function Home() {
 				columnWrapperClassName="flex gap-3 px-5 pb-3"
 				numColumns={2}
 				keyExtractor={(item) => item.$id}
+				ListEmptyComponent={
+					propertiesLoading ? (
+						<ActivityIndicator
+							size="large"
+							className="text-primary-300 mt-5"
+						/>
+					) : (
+						<NoResults />
+					)
+				}
 				ListHeaderComponent={
 					<View className="px-5 pb-5">
 						{/* FEATURED */}
-						<View className="my-5">
-							<View className="flex flex-row items-center justify-between mb-4">
+						<View className="my-5 flex flex-col items-center">
+							<View className="w-full flex flex-row items-center justify-between mb-4">
 								<Text className="text-xl font-rubik-bold text-black-300">
 									Featured
 								</Text>
@@ -134,6 +146,16 @@ export default function Home() {
 								horizontal
 								bounces={false}
 								keyExtractor={(item) => item.$id}
+								ListEmptyComponent={
+									latestPropertiesLoading ? (
+										<ActivityIndicator
+											size="large"
+											className="text-primary-300 mt-5"
+										/>
+									) : (
+										<NoResults />
+									)
+								}
 							/>
 						</View>
 
