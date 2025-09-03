@@ -18,7 +18,6 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useAppwrite } from '@/hooks/useAppwrite';
 import { getLatestProperties, getProperties } from '@/lib/appwrite';
 import { useEffect } from 'react';
-import { Property } from '@/lib/types/appwrite-types';
 
 export default function Home() {
 	const { user } = useGlobalContext();
