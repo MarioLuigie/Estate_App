@@ -14,10 +14,11 @@ import Filters from '@/components/shared/Filters';
 import { useGlobalContext } from '@/lib/global-provider';
 import { getTimeGreeting } from '@/tools';
 import seed from '@/lib/seed';
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useAppwrite } from '@/hooks/useAppwrite';
 import { getLatestProperties, getProperties } from '@/lib/appwrite';
 import { useEffect } from 'react';
+import { Property } from '@/lib/types/appwrite-types';
 
 export default function Home() {
 	const { user } = useGlobalContext();
@@ -47,8 +48,17 @@ export default function Home() {
 	});
 
 	useEffect(() => {
-		refetch();
-	}, [params.filter, params.query, refetch]);
+		refetch({
+			filter: params.filter!,
+			query: params.query!,
+			limit: 6,
+		});
+	}, [params.filter, params.query]);
+
+	const handleCardPress = (id: string) => {
+		router.push(`/properties/${id}`)
+		console.log("CARD PRESSED:", id)
+	};
 
 	return (
 		<SafeAreaView className="h-full bg-white">
@@ -88,13 +98,15 @@ export default function Home() {
 
 			{/* MAIN */}
 			<FlatList
-				data={[1, 2, 3, 4, 5, 6]}
-				renderItem={({ item }) => <Card />}
+				data={properties}
+				renderItem={({ item }) => (
+					<Card item={item} onPress={() => handleCardPress(item.$id)} />
+				)}
 				showsVerticalScrollIndicator={false}
 				contentContainerClassName="pb-32"
 				columnWrapperClassName="flex gap-3 px-5 pb-3"
 				numColumns={2}
-				keyExtractor={(item) => item.toString()}
+				keyExtractor={(item) => item.$id}
 				ListHeaderComponent={
 					<View className="px-5 pb-5">
 						{/* FEATURED */}
@@ -111,13 +123,18 @@ export default function Home() {
 							</View>
 
 							<FlatList
-								data={[7, 8, 9, 10, 11, 12]}
-								renderItem={({ item }) => <FeaturedCard />}
+								data={latestProperties}
+								renderItem={({ item }) => (
+									<FeaturedCard
+										item={item}
+										onPress={() => handleCardPress(item.$id)}
+									/>
+								)}
 								showsHorizontalScrollIndicator={false}
 								contentContainerClassName="flex gap-3"
 								horizontal
 								bounces={false}
-								keyExtractor={(item) => item.toString()}
+								keyExtractor={(item) => item.$id}
 							/>
 						</View>
 
