@@ -1,7 +1,14 @@
 import icons from '@/constants/icons';
 import images from '@/constants/images';
-import { SafeAreaView, Text, View, Image } from 'react-native';
+import {
+	SafeAreaView,
+	Text,
+	View,
+	Image,
+	TouchableOpacity,
+} from 'react-native';
 import Search from '@/components/Search';
+import { FeaturedCard, Card } from '@/components/Cards';
 
 export default function Home() {
 	return (
@@ -28,7 +35,47 @@ export default function Home() {
 					</View>
 					<Image source={icons.bell} className="size-6" />
 				</View>
+
+				{/* SEARCH */}
 				<Search />
+
+				{/* FEATURED */}
+				<View className="my-5">
+					<View className="flex flex-row items-center justify-between">
+						<Text className="text-xl font-rubik-bold text-black-300">
+							Featured
+						</Text>
+						<TouchableOpacity>
+							<Text className="text-base font-rubik-bold text-primary-300">
+								See all
+							</Text>
+						</TouchableOpacity>
+					</View>
+
+					<View className='mt-5 flex flex-row gap-5'>
+						<FeaturedCard onPress={() => {}}/>
+						<FeaturedCard onPress={() => {}}/>
+					</View>
+				</View>
+				
+				{/* OUR RECOMMANDATION */}
+				<View className="my-5">
+					<View className="flex flex-row items-center justify-between">
+						<Text className="text-xl font-rubik-bold text-black-300">
+							Our Recommandation
+						</Text>
+						<TouchableOpacity>
+							<Text className="text-base font-rubik-bold text-primary-300">
+								See all
+							</Text>
+						</TouchableOpacity>
+					</View>
+
+					<View className='mt-5 flex flex-row gap-5'>
+						<Card />
+						<Card />
+					</View>
+				</View>
 			</View>
 		</SafeAreaView>
 	);
