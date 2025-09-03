@@ -16,8 +16,8 @@ import { getTimeGreeting } from '@/tools';
 
 export default function Home() {
 	const { user } = useGlobalContext();
-	const greating = getTimeGreeting();
-	
+	const greeting = getTimeGreeting();
+
 	return (
 		<SafeAreaView className="h-full bg-white">
 			{/* HEADER */}
@@ -33,7 +33,7 @@ export default function Home() {
 
 						<View className="flex flex-col items-start justify-center ml-2">
 							<Text className="text-xs font-rubik text-black-100">
-								{greating}
+								{greeting}
 							</Text>
 							<Text className="text-base font-rubik-medium text-black-300">
 								{user?.name}
