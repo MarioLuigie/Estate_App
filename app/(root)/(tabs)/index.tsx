@@ -7,26 +7,36 @@ import {
 	Image,
 	TouchableOpacity,
 	FlatList,
+	Button,
+	Alert,
 } from 'react-native';
 import Search from '@/components/shared/Search';
 import { FeaturedCard, Card } from '@/components/shared/Cards';
 import Filters from '@/components/shared/Filters';
 import { useGlobalContext } from '@/lib/global-provider';
 import { getTimeGreeting } from '@/tools';
+import seed from '@/lib/seed';
 
 export default function Home() {
 	const { user } = useGlobalContext();
 	const greeting = getTimeGreeting();
 
+	const isSeedButtonHidden: boolean = true;
+
 	return (
 		<SafeAreaView className="h-full bg-white">
+			{!isSeedButtonHidden && (
+				<View className="mt-8">
+					<Button title="Seed" onPress={seed} />
+				</View>
+			)}
 			{/* HEADER */}
-			<View className="px-5">
-				<View className="flex flex-row items-center justify-between mt-16">
+			<View className="px-5 mt-16">
+				<View className="flex flex-row items-center justify-between">
 					<View className="flex flex-row items-center">
 						<View>
 							<Image
-								source={{ uri: user?.avatar}}
+								source={{ uri: user?.avatar }}
 								className="size-12 rounded-full"
 							/>
 						</View>
@@ -74,10 +84,10 @@ export default function Home() {
 							</View>
 
 							<FlatList
-								data={[1, 2, 3, 4, 5, 6]}
+								data={[7, 8, 9, 10, 11, 12]}
 								renderItem={({ item }) => <FeaturedCard />}
 								showsHorizontalScrollIndicator={false}
-								contentContainerClassName='flex gap-3'
+								contentContainerClassName="flex gap-3"
 								horizontal
 								bounces={false}
 								keyExtractor={(item) => item.toString()}
