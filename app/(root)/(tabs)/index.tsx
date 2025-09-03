@@ -26,7 +26,7 @@ export default function Home() {
 					<View className="flex flex-row items-center">
 						<View>
 							<Image
-								source={images.avatar}
+								source={{ uri: user?.avatar}}
 								className="size-12 rounded-full"
 							/>
 						</View>
