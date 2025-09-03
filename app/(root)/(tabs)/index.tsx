@@ -1,5 +1,4 @@
 import icons from '@/constants/icons';
-import images from '@/constants/images';
 import {
 	SafeAreaView,
 	Text,
@@ -8,7 +7,6 @@ import {
 	TouchableOpacity,
 	FlatList,
 	Button,
-	Alert,
 } from 'react-native';
 import Search from '@/components/shared/Search';
 import { FeaturedCard, Card } from '@/components/shared/Cards';
@@ -16,12 +14,41 @@ import Filters from '@/components/shared/Filters';
 import { useGlobalContext } from '@/lib/global-provider';
 import { getTimeGreeting } from '@/tools';
 import seed from '@/lib/seed';
+import { useLocalSearchParams } from 'expo-router';
+import { useAppwrite } from '@/hooks/useAppwrite';
+import { getLatestProperties, getProperties } from '@/lib/appwrite';
+import { useEffect } from 'react';
 
 export default function Home() {
 	const { user } = useGlobalContext();
 	const greeting = getTimeGreeting();
 
 	const isSeedButtonHidden: boolean = true;
+
+	const params = useLocalSearchParams<{ query?: string; filter?: string }>();
+
+	const { loading: latestPropertiesLoading, data: latestProperties } =
+		useAppwrite({
+			fn: getLatestProperties,
+		});
+
+	const {
+		loading: propertiesLoading,
+		data: properties,
+		refetch,
+	} = useAppwrite({
+		fn: getProperties,
+		params: {
+			filter: params.filter!,
+			query: params.query!,
+			limit: 6,
+		},
+		skip: true,
+	});
+
+	useEffect(() => {
+		refetch();
+	}, [params.filter, params.query, refetch]);
 
 	return (
 		<SafeAreaView className="h-full bg-white">
