@@ -20,6 +20,7 @@ import { useAppwrite } from '@/hooks/useAppwrite';
 import { getLatestProperties, getProperties } from '@/lib/appwrite';
 import { useEffect } from 'react';
 import NoResults from '@/components/shared/NoReults';
+import EmptyState from '@/components/shared/EmptyState';
 
 export default function Home() {
 	const { user } = useGlobalContext();
@@ -93,7 +94,7 @@ export default function Home() {
 			</View>
 
 			{/* SEARCH */}
-			<View className="px-5 mb-4">
+			<View className="px-5 my-4">
 				<Search />
 			</View>
 
@@ -108,16 +109,7 @@ export default function Home() {
 				columnWrapperClassName="flex gap-3 px-5 pb-3"
 				numColumns={2}
 				keyExtractor={(item) => item.$id}
-				ListEmptyComponent={
-					propertiesLoading ? (
-						<ActivityIndicator
-							size="large"
-							className="text-primary-300 mt-5"
-						/>
-					) : (
-						<NoResults />
-					)
-				}
+				ListEmptyComponent={<EmptyState isLoading={propertiesLoading} />}
 				ListHeaderComponent={
 					<View className="px-5 pb-5">
 						{/* FEATURED */}
@@ -147,14 +139,7 @@ export default function Home() {
 								bounces={false}
 								keyExtractor={(item) => item.$id}
 								ListEmptyComponent={
-									latestPropertiesLoading ? (
-										<ActivityIndicator
-											size="large"
-											className="text-primary-300 mt-5"
-										/>
-									) : (
-										<NoResults />
-									)
+									<EmptyState isLoading={latestPropertiesLoading} />
 								}
 							/>
 						</View>

@@ -31,6 +31,12 @@ module.exports = {
           300: "#191D31",
         },
         danger: "#F75555",
+        mygrey: {
+          DEFAULT: "#9CA3AF", 
+          100: "#F3F4F6",    
+          200: "#E5E7EB",     
+          300: "#D1D5DB",     
+        }
       },
     },
   },
