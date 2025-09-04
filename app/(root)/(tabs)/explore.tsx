@@ -43,7 +43,6 @@ export default function Explore() {
 
 	const handleCardPress = (id: string) => {
 		router.push(`/properties/${id}`);
-		console.log('CARD PRESSED:', id);
 	};
 
 	return (
