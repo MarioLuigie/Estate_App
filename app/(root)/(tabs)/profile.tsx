@@ -63,17 +63,14 @@ export default function Profile() {
 
 	return (
 		<SafeAreaView className="h-full bg-white">
-			<ScrollView
-				showsVerticalScrollIndicator={false}
-				contentContainerClassName="pb-32 px-7"
-			>
+			<View className="px-5 mb-4">
 				<View className="flex flex-row items-center justify-between mt-16">
 					<Text className="text-xl font-rubik-bold">Profile</Text>
 					<Image source={icons.bell} className="size-7" />
 				</View>
 
-				<View className="flex flex-row justify-center mt-5">
-					<View className="flex flex-col items-center relative mt-5">
+				<View className="flex flex-row justify-center">
+					<View className="flex flex-col items-center relative">
 						<Image
 							source={{ uri: user?.avatar }}
 							// source={images.avatar}
@@ -88,7 +85,12 @@ export default function Profile() {
 						</Text>
 					</View>
 				</View>
+			</View>
 
+			<ScrollView
+				showsVerticalScrollIndicator={false}
+				contentContainerClassName="pb-36 px-7"
+			>
 				<View className="flex flex-col mt-10">
 					<SettingsItem icon={icons.calendar} title="My Bookings" />
 					<SettingsItem icon={icons.wallet} title="Payments" />
