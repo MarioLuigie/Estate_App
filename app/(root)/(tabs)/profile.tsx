@@ -63,6 +63,7 @@ export default function Profile() {
 
 	return (
 		<SafeAreaView className="h-full bg-white">
+			{/* PROFILE INFO */}
 			<View className="px-5 mb-4">
 				<View className="flex flex-row items-center justify-between mt-16">
 					<Text className="text-xl font-rubik-bold">Profile</Text>
@@ -73,7 +74,6 @@ export default function Profile() {
 					<View className="flex flex-col items-center relative">
 						<Image
 							source={{ uri: user?.avatar }}
-							// source={images.avatar}
 							className="size-44 relative rounded-full"
 						/>
 						<TouchableOpacity className="absolute bottom-11 right-2">
@@ -87,6 +87,7 @@ export default function Profile() {
 				</View>
 			</View>
 
+			{/**BUTTONS LIST */}
 			<ScrollView
 				showsVerticalScrollIndicator={false}
 				contentContainerClassName="pb-36 px-7"
@@ -101,7 +102,8 @@ export default function Profile() {
 						<SettingsItem key={index} {...item} />
 					))}
 				</View>
-
+				
+				{/**LOGOUT */}
 				<View className="flex flex-col border-t mt-5 pt-5 border-primary-200">
 					<SettingsItem
 						icon={icons.logout}
