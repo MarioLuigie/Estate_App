@@ -87,7 +87,7 @@ export default function Profile() {
 				</View>
 			</View>
 
-			{/**BUTTONS LIST */}
+			{/* BUTTONS LIST */}
 			<ScrollView
 				showsVerticalScrollIndicator={false}
 				contentContainerClassName="pb-36 px-7"
@@ -103,7 +103,7 @@ export default function Profile() {
 					))}
 				</View>
 				
-				{/**LOGOUT */}
+				{/* LOGOUT */}
 				<View className="flex flex-col border-t mt-5 pt-5 border-primary-200">
 					<SettingsItem
 						icon={icons.logout}

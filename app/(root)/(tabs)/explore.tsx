@@ -52,22 +52,22 @@ export default function Explore() {
 			<View className="px-5 my-4">
 				<Search />
 			</View>
+
+			{/* FILTERS */}
 			<View className="px-5 mb-4">
 				<Filters />
 			</View>
 
+			{/* FOUNDED PROPERTIES */}
 			<View className="px-5">
-				{/* OUR RECOMMANDATION */}
-				<View>
-					<View className="flex flex-row items-center justify-between mb-4">
-						<Text className="text-xl font-rubik-medium text-black-300">
-							Found {properties?.length} Properties
-						</Text>
-					</View>
+				<View className="flex flex-row items-center justify-between mb-4">
+					<Text className="text-xl font-rubik-medium text-black-300">
+						Found {properties?.length} Properties
+					</Text>
 				</View>
 			</View>
 
-			{/* MAIN */}
+			{/* PROPERTIES LIST */}
 			<FlatList
 				data={properties}
 				renderItem={({ item }) => (
