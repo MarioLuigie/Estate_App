@@ -20,7 +20,7 @@ import { getLatestProperties, getProperties } from '@/lib/appwrite';
 import { useEffect } from 'react';
 import EmptyState from '@/components/shared/EmptyState';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { TABS_HEIGHT } from '@/constants/layout';
+import { TABS_HEIGHT, REC_PROPERTIES_LIMIT } from '@/constants/layout';
 
 export default function Home() {
 	const { user } = useGlobalContext();
@@ -45,7 +45,7 @@ export default function Home() {
 		params: {
 			filter: params.filter!,
 			query: params.query!,
-			limit: 6,
+			limit: REC_PROPERTIES_LIMIT,
 		},
 		skip: true,
 	});
@@ -54,13 +54,12 @@ export default function Home() {
 		refetch({
 			filter: params.filter!,
 			query: params.query!,
-			limit: 6,
+			limit: REC_PROPERTIES_LIMIT,
 		});
 	}, [params.filter, params.query]);
 
 	const handleCardPress = (id: string) => {
 		router.push(`/properties/${id}`);
-		console.log('CARD PRESSED:', id);
 	};
 
 	return (
