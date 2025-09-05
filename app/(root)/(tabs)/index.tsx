@@ -7,7 +7,6 @@ import {
 	TouchableOpacity,
 	FlatList,
 	Button,
-	ActivityIndicator,
 } from 'react-native';
 import Search from '@/components/shared/Search';
 import { FeaturedCard, Card } from '@/components/shared/Cards';
@@ -19,11 +18,12 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useAppwrite } from '@/hooks/useAppwrite';
 import { getLatestProperties, getProperties } from '@/lib/appwrite';
 import { useEffect } from 'react';
-import NoResults from '@/components/shared/NoReults';
 import EmptyState from '@/components/shared/EmptyState';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function Home() {
 	const { user } = useGlobalContext();
+	const insets = useSafeAreaInsets();
 	const greeting = getTimeGreeting();
 
 	const isSeedButtonHidden: boolean = true;
@@ -65,12 +65,12 @@ export default function Home() {
 	return (
 		<SafeAreaView className="h-full bg-white">
 			{!isSeedButtonHidden && (
-				<View className="mt-8">
+				<View style={{paddingTop: insets.top}}>
 					<Button title="Seed" onPress={seed} />
 				</View>
 			)}
 			{/* HEADER */}
-			<View className="px-5 mt-16">
+			<View className="px-5" style={{marginTop: insets.top + 16}}>
 				<View className="flex flex-row items-center justify-between">
 					<View className="flex flex-row items-center">
 						<View>

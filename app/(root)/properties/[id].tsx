@@ -7,6 +7,7 @@ import {
 	View,
 	Dimensions,
 	Platform,
+	SafeAreaView,
 } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
@@ -18,9 +19,11 @@ import { facilities } from '@/constants/data';
 import { useAppwrite } from '@/hooks/useAppwrite';
 import { getAgentById, getPropertyById } from '@/lib/appwrite';
 import { useEffect, useState } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function Property() {
 	const { id } = useLocalSearchParams<{ id?: string }>();
+	const insets = useSafeAreaInsets();
 
 	const windowHeight = Dimensions.get('window').height;
 
@@ -44,10 +47,10 @@ export default function Property() {
 	}, [property?.agent]);
 
 	return (
-		<View>
+		<SafeAreaView>
 			<ScrollView
 				showsVerticalScrollIndicator={false}
-				contentContainerClassName="pb-32 bg-white"
+				contentContainerClassName="pb-48 bg-white"
 			>
 				<View
 					className="relative w-full"
@@ -63,10 +66,12 @@ export default function Property() {
 						className="absolute top-0 w-full z-40"
 					/>
 
+					{/* BACK NAVIGATION */}
 					<View
-						className="z-50 absolute inset-x-7"
+						className="z-50 absolute inset-x-5"
 						style={{
-							top: Platform.OS === 'ios' ? 70 : 20,
+							// top: Platform.OS === 'ios' ? 70 : 20,
+							top: insets.top + 16,
 						}}
 					>
 						<View className="flex flex-row items-center w-full justify-between">
@@ -277,7 +282,11 @@ export default function Property() {
 				</View>
 			</ScrollView>
 
-			<View className="absolute bg-white bottom-0 w-full rounded-t-2xl border-t border-r border-l border-primary-200 p-7">
+			{/* BOOK NOW SECTION */}
+			<View
+				className="absolute bg-white bottom-0 w-full rounded-t-2xl border-t border-r border-l border-primary-200 px-7 py-7"
+				style={{ paddingBottom: insets.bottom + 10 }}
+			>
 				<View className="flex flex-row items-center justify-between gap-10">
 					<View className="flex flex-col items-start">
 						<Text className="text-black-200 text-xs font-rubik-medium">
@@ -298,6 +307,6 @@ export default function Property() {
 					</TouchableOpacity>
 				</View>
 			</View>
-		</View>
+		</SafeAreaView>
 	);
 }

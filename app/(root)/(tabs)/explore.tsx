@@ -15,11 +15,14 @@ import { getProperties } from '@/lib/appwrite';
 import { useEffect } from 'react';
 import icons from '@/constants/icons';
 import EmptyState from '@/components/shared/EmptyState';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function Explore() {
 	const propertiesNumb = 20;
 
 	const params = useLocalSearchParams<{ query?: string; filter?: string }>();
+	 const insets = useSafeAreaInsets();
+	
 
 	const {
 		loading: propertiesLoading,
@@ -47,16 +50,12 @@ export default function Explore() {
 		router.push(`/properties/${id}`);
 	};
 
-	const handleBack = () => {
-		router.back();
-	};
-
 	return (
 		<SafeAreaView className="h-full bg-white">
 			{/* BACK NAVIGATION */}
-			<View className="px-5 mt-16 mb-4 flex flex-row items-center justify-between">
+			<View className="px-5 mb-4 flex flex-row items-center justify-between" style={{marginTop: insets.top + 16}}>
 				<TouchableOpacity
-					onPress={handleBack}
+					onPress={() => router.back()}
 					className="flex flex-row items-center justify-center size-11 rounded-full bg-mygrey-200"
 				>
 					<Image source={icons.backArrow} className="size-6" />
