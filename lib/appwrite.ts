@@ -134,7 +134,7 @@ export async function getCurrentUser() {
 
 export async function getLatestProperties(limit: number | string = 5) {
 	try {
-		 const parsedLimit = Number(limit) || 5; // fallback jeśli undefined albo NaN
+		const parsedLimit = Number(limit) || 5; // fallback jeśli undefined albo NaN
 
 		const result = await databases.listDocuments(
 			config.databaseId!,
@@ -190,11 +190,14 @@ export async function getProperties({
 
 export async function getPropertyById({ id }: { id: string }) {
 	try {
-		const result = databases.getDocument(
+		const result = await databases.getDocument(
 			config.databaseId!,
 			config.propertiesCollectionId!,
-			// "68b87a490032efa65fc9",
-			id
+			id,
+			[
+				Query.select(['*', 'gallery.*', 'reviews.*']),
+			], // '*' = wszystkie własne pola rekordu
+				// 'gallery.*', 'reviews.*', 'agent.*' = pełne obiekty relacji
 		);
 
 		return result;
@@ -206,7 +209,7 @@ export async function getPropertyById({ id }: { id: string }) {
 
 export async function getAgentById({ id }: { id: string }) {
 	try {
-		const result = databases.getDocument(
+		const result = await databases.getDocument(
 			config.databaseId!,
 			config.agentsCollectionId!,
 			id

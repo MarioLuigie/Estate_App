@@ -6,7 +6,6 @@ import {
 	TouchableOpacity,
 	View,
 	Dimensions,
-	Platform,
 	SafeAreaView,
 } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -36,6 +35,8 @@ export default function Property() {
 
 	const [agent, setAgent] = useState<any>(null);
 	const [agentLoading, setAgentLoading] = useState(false);
+	const [gallery, setGallery] = useState<any[]>([]);
+	// const [galleryLoading, setGalleryLoading] = useState(false);
 
 	useEffect(() => {
 		if (!property?.agent) return;
@@ -61,6 +62,7 @@ export default function Property() {
 						className="size-full"
 						resizeMode="cover"
 					/>
+
 					<Image
 						source={images.whiteGradient}
 						className="absolute top-0 w-full z-40"
@@ -94,6 +96,7 @@ export default function Property() {
 					</View>
 				</View>
 
+				{/* PROPERTY INFO SECTION */}
 				<View className="px-5 mt-7 flex gap-2">
 					<Text className="text-2xl font-rubik-extrabold">
 						{property?.name}
@@ -165,6 +168,7 @@ export default function Property() {
 						</View>
 					</View>
 
+					{/* OVERVIEW SECTION */}
 					<View className="mt-7">
 						<Text className="text-black-300 text-xl font-rubik-bold">
 							Overview
@@ -174,6 +178,7 @@ export default function Property() {
 						</Text>
 					</View>
 
+					{/* FACILITIES SECTION */}
 					<View className="mt-7">
 						<Text className="text-black-300 text-xl font-rubik-bold">
 							Facilities
@@ -217,8 +222,9 @@ export default function Property() {
 						)}
 					</View>
 
+					{/* GALLERY SECTION */}
 					{property?.gallery?.length > 0 && (
-						<View className="mt-7 bg-red-300">
+						<View className="mt-7">
 							<Text className="text-black-300 text-xl font-rubik-bold">
 								Gallery
 							</Text>
@@ -231,14 +237,15 @@ export default function Property() {
 								renderItem={({ item }) => (
 									<Image
 										source={{ uri: item.image }}
-										className="size-40 rounded-xl"
+										className="size-56 rounded-xl"
 									/>
 								)}
 								contentContainerClassName="flex gap-4 mt-3"
 							/>
 						</View>
 					)}
-
+					
+					{/* LOCATION SECTION */}
 					<View className="mt-7">
 						<Text className="text-black-300 text-xl font-rubik-bold">
 							Location
@@ -256,6 +263,7 @@ export default function Property() {
 						/>
 					</View>
 
+					{/* REVIEWS SECTION */}
 					{property?.reviews?.length > 0 && (
 						<View className="mt-7">
 							<View className="flex flex-row items-center justify-between">
