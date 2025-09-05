@@ -132,12 +132,14 @@ export async function getCurrentUser() {
 	}
 }
 
-export async function getLatestProperties() {
+export async function getLatestProperties(limit: number | string = 5) {
 	try {
+		 const parsedLimit = Number(limit) || 5; // fallback jeśli undefined albo NaN
+
 		const result = await databases.listDocuments(
 			config.databaseId!,
 			config.propertiesCollectionId!,
-			[Query.orderAsc('$createdAt'), Query.limit(5)]
+			[Query.orderAsc('$createdAt'), Query.limit(Number(parsedLimit))]
 		);
 
 		return result.documents;

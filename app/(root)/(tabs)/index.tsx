@@ -33,7 +33,7 @@ export default function Home() {
 
 	const { loading: latestPropertiesLoading, data: latestProperties } =
 		useAppwrite({
-			fn: getLatestProperties,
+			fn: () => getLatestProperties(),
 		});
 
 	const {
