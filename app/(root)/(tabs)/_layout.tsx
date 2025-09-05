@@ -2,6 +2,7 @@ import { Tabs } from "expo-router";
 import { Image, ImageSourcePropType, Text, View } from "react-native";
 
 import icons from "@/constants/icons";
+import { TABS_HEIGHT } from '@/constants/layout';
 
 const TabIcon = ({
   focused,
@@ -41,7 +42,7 @@ export default function TabsLayout() {
           position: "absolute",
           borderTopColor: "#0061FF1A",
           borderTopWidth: 1,
-          minHeight: 105,
+          minHeight: TABS_HEIGHT,
         },
       }}
     >

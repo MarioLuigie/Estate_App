@@ -16,6 +16,7 @@ import { useEffect } from 'react';
 import icons from '@/constants/icons';
 import EmptyState from '@/components/shared/EmptyState';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { TABS_HEIGHT } from '@/constants/layout';
 
 export default function Explore() {
 	const propertiesNumb = 20;
@@ -92,7 +93,7 @@ export default function Explore() {
 					<Card item={item} onPress={() => handleCardPress(item.$id)} />
 				)}
 				showsVerticalScrollIndicator={false}
-				contentContainerClassName="pb-32"
+				contentContainerStyle={{paddingBottom: TABS_HEIGHT}}
 				columnWrapperClassName="flex gap-3 px-5 pb-3"
 				numColumns={2}
 				keyExtractor={(item) => item.$id}

@@ -20,6 +20,7 @@ import { getLatestProperties, getProperties } from '@/lib/appwrite';
 import { useEffect } from 'react';
 import EmptyState from '@/components/shared/EmptyState';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { TABS_HEIGHT } from '@/constants/layout';
 
 export default function Home() {
 	const { user } = useGlobalContext();
@@ -105,7 +106,7 @@ export default function Home() {
 					<Card item={item} onPress={() => handleCardPress(item.$id)} />
 				)}
 				showsVerticalScrollIndicator={false}
-				contentContainerClassName="pb-32"
+				contentContainerStyle={{ paddingBottom: TABS_HEIGHT}}
 				columnWrapperClassName="flex gap-3 px-5 pb-3"
 				numColumns={2}
 				keyExtractor={(item) => item.$id}

@@ -15,6 +15,7 @@ import { useGlobalContext } from '@/lib/global-provider';
 import icons from '@/constants/icons';
 // import images from "@/constants/images";
 import { settings } from '@/constants/data';
+import { TABS_HEIGHT } from '@/constants/layout';
 
 interface SettingsItemProp {
 	icon: ImageSourcePropType;
@@ -90,21 +91,22 @@ export default function Profile() {
 			{/* BUTTONS LIST */}
 			<ScrollView
 				showsVerticalScrollIndicator={false}
-				contentContainerClassName="pb-36 px-7"
+				contentContainerClassName="px-7"
+				contentContainerStyle={{paddingBottom: TABS_HEIGHT}}
 			>
 				<View className="flex flex-col mt-10">
 					<SettingsItem icon={icons.calendar} title="My Bookings" />
 					<SettingsItem icon={icons.wallet} title="Payments" />
 				</View>
 
-				<View className="flex flex-col mt-5 border-t pt-5 border-primary-200">
+				<View className="flex flex-col my-5 border-t pt-5 border-primary-200">
 					{settings.slice(2).map((item, index) => (
 						<SettingsItem key={index} {...item} />
 					))}
 				</View>
 				
 				{/* LOGOUT */}
-				<View className="flex flex-col border-t mt-5 pt-5 border-primary-200">
+				<View className="flex flex-col border-t py-5 border-primary-200">
 					<SettingsItem
 						icon={icons.logout}
 						title="Logout"
