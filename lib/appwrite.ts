@@ -191,6 +191,22 @@ export async function getPropertyById({ id }: { id: string }) {
 		const result = databases.getDocument(
 			config.databaseId!,
 			config.propertiesCollectionId!,
+			// "68b87a490032efa65fc9",
+			id
+		);
+
+		return result;
+	} catch (error) {
+		console.error(error);
+		return null;
+	}
+}
+
+export async function getAgentById({ id }: { id: string }) {
+	try {
+		const result = databases.getDocument(
+			config.databaseId!,
+			config.agentsCollectionId!,
 			id
 		);
 
