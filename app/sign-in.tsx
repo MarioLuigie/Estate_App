@@ -8,20 +8,27 @@ import {
 	TouchableOpacity,
 	View,
 	Alert,
+	Dimensions,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {
+	SafeAreaView,
+	useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 import { login } from '@/lib/appwrite';
 import { useGlobalContext } from '@/lib/global-provider';
 import { Redirect } from 'expo-router';
 
 export default function SignIn() {
 	const { isLoggedIn, loading, refetch } = useGlobalContext();
+	const insets = useSafeAreaInsets();
+
+	const windowWidth = Dimensions.get('window').width;
 
 	if (!loading && isLoggedIn) return <Redirect href="/" />;
 
 	const handleLogin = async () => {
 		const result = await login();
-		
+
 		if (result) {
 			console.log('Login success');
 			refetch();
@@ -33,13 +40,19 @@ export default function SignIn() {
 	return (
 		<SafeAreaView className="bg-white h-full">
 			<ScrollView
+				showsVerticalScrollIndicator={false}
 				contentContainerStyle={{
-					height: '100%',
+					flexGrow: 1,
+					paddingTop: 14,
+					paddingBottom: insets.bottom,
 				}}
 			>
 				<Image
 					source={images.onboarding}
-					className="w-full h-4/6"
+					style={{
+						width: windowWidth,
+						height: windowWidth * 1.2,
+					}}
 					resizeMode="contain"
 				/>
 
