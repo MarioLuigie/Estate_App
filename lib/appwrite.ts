@@ -9,6 +9,7 @@ import {
 	Storage,
 } from 'react-native-appwrite';
 import * as Linking from 'expo-linking';
+import Constants from 'expo-constants';
 import { openAuthSessionAsync } from 'expo-web-browser';
 import { arrayBufferToBase64 } from '@/tools';
 
@@ -39,7 +40,12 @@ export const storage = new Storage(client);
 
 export async function login() {
 	try {
-		const redirectUri = Linking.createURL('/'); // returned exp://192.168.0.17:8081/--/
+		// const redirectUri = Linking.createURL('/'); // returned exp://192.168.0.17:8081/--/
+
+		const redirectUri =
+			Constants.executionEnvironment === 'storeClient'
+				? Linking.createURL('/') // Expo Go
+				: 'estate:///'; // Dev Build / standalone
 
 		console.log(redirectUri);
 
@@ -194,10 +200,8 @@ export async function getPropertyById({ id }: { id: string }) {
 			config.databaseId!,
 			config.propertiesCollectionId!,
 			id,
-			[
-				Query.select(['*', 'gallery.*', 'reviews.*']),
-			], // '*' = wszystkie własne pola rekordu
-				// 'gallery.*', 'reviews.*', 'agent.*' = pełne obiekty relacji
+			[Query.select(['*', 'gallery.*', 'reviews.*'])] // '*' = wszystkie własne pola rekordu
+			// 'gallery.*', 'reviews.*', 'agent.*' = pełne obiekty relacji
 		);
 
 		return result;
