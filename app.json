@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "estate",
+    "scheme": "appwrite-callback-68b6a5500015c485cb55",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": false,
     "ios": {

@@ -12,6 +12,10 @@ import * as Linking from 'expo-linking';
 import Constants from 'expo-constants';
 import { openAuthSessionAsync } from 'expo-web-browser';
 import { arrayBufferToBase64 } from '@/tools';
+import * as WebBrowser from "expo-web-browser";
+import { makeRedirectUri } from "expo-auth-session";
+
+
 
 export const config = {
 	platform: 'com.mlotocki.estate',
@@ -86,7 +90,7 @@ export async function login() {
 
 		return true;
 	} catch (error) {
-		console.error(error);
+		console.error("OAuth login error", error);
 		return false;
 	}
 }
