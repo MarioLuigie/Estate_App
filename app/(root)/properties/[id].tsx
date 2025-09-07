@@ -35,8 +35,6 @@ export default function Property() {
 
 	const [agent, setAgent] = useState<any>(null);
 	const [agentLoading, setAgentLoading] = useState(false);
-	const [gallery, setGallery] = useState<any[]>([]);
-	// const [galleryLoading, setGalleryLoading] = useState(false);
 
 	useEffect(() => {
 		if (!property?.agent) return;
@@ -70,16 +68,17 @@ export default function Property() {
 
 					{/* BACK NAVIGATION */}
 					<View
-						className="z-50 absolute inset-x-5"
+						className="z-50 absolute px-5 py-2 bg-white/60"
 						style={{
 							// top: Platform.OS === 'ios' ? 70 : 20,
 							top: insets.top + 16,
+							// bottom: 0,
 						}}
 					>
 						<View className="flex flex-row items-center w-full justify-between">
 							<TouchableOpacity
 								onPress={() => router.back()}
-								className="flex flex-row bg-primary-200 rounded-full size-11 items-center justify-center"
+								className="flex flex-row bg-primary-200 rounded-full size-11 items-center justify-center border-[2px] border-zinc-600"
 							>
 								<Image source={icons.backArrow} className="size-5" />
 							</TouchableOpacity>
