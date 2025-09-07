@@ -99,3 +99,77 @@ Make sure you have the following installed:
 ```bash
 git clone https://github.com/your-username/estate-app.git
 cd estate-app
+
+**Installation**
+
+Install the project dependencies using npm:
+
+```bash
+npm install
+```
+
+**Running the Project (Expo Go)**
+
+```bash
+npx expo start
+```
+
+- A QR Code will appear in the terminal or browser.
+
+- Open Expo Go on your Android device and scan the code.
+
+- The app will start running on your phone.
+
+**EAS Build (Android)**
+
+1. Log in to Expo:
+
+```bash
+npx expo login
+```
+
+2. Configure EAS:
+
+```bash
+npx eas build:configure
+```
+
+3. Build the app for Android:
+
+```bash
+npx eas build --platform android
+```
+
+4. After the process finishes, download the .apk or .aab file and install it on your phone, or publish it to Google Play.
+
+**Setup Environment Variables**
+
+Create a new file named `.env.local` in the main catalog and add the following content:
+
+```env
+# Appwrite
+EXPO_PUBLIC_APPWRITE_ENDPOINT=
+EXPO_PUBLIC_APPWRITE_PROJECT_ID=
+EXPO_PUBLIC_APPWRITE_DATABASE_ID=
+EXPO_PUBLIC_APPWRITE_GALLERIES_COLLECTION_ID=
+EXPO_PUBLIC_APPWRITE_REVIEWS_COLLECTION_ID=
+EXPO_PUBLIC_APPWRITE_AGENTS_COLLECTION_ID=
+EXPO_PUBLIC_APPWRITE_PROPERTIES_COLLECTION_ID=
+
+# Google maps
+GOOGLE_MAPS_API_KEY=
+
+Fill in the environmental variable values with your actual credentials.
+
+**Running the Project**
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000/) in your browser to view the project.
+
+## More
+For more information please contact [mk.lotocki@gmail.com](mailto:mk.lotocki@gmail.com).
+
+
