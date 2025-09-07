@@ -1,12 +1,12 @@
 import { ID } from 'react-native-appwrite';
-import { databases, config } from '@/lib/appwrite';
+import { databases, config, getAddressFromCoordinates } from '@/lib/appwrite';
 import {
 	agentImages,
 	galleryImages,
 	propertiesImages,
 	reviewImages,
 } from '@/lib/data';
-import { getRandomCoordinatesWorld } from '@/tools';
+import { getRandomCoordinatesNearMajorCities } from '@/tools';
 
 const COLLECTIONS = {
 	AGENT: config.agentsCollectionId,
@@ -152,7 +152,8 @@ async function seed() {
 							Math.floor(Math.random() * propertiesImages.length)
 						];
 
-			const coords = getRandomCoordinatesWorld();
+			const coords = getRandomCoordinatesNearMajorCities();
+			const address = await getAddressFromCoordinates(coords.latitude, coords.longitude)
       
 			const property = await databases.createDocument(
 				config.databaseId!,
@@ -164,7 +165,7 @@ async function seed() {
 						Math.floor(Math.random() * propertyTypes.length)
 					],
 					description: `This is the description for Property ${i}.`,
-					address: `123 Property Street, City ${i}`,
+					address: `${address?.street}, ${address?.city}, ${address?.country}`,
 					geolocation: `${coords.latitude}, ${coords.longitude}`,
 					latitude: coords.latitude,
 					longitude: coords.longitude,

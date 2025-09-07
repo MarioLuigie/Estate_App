@@ -7,6 +7,7 @@ import {
 	View,
 	Dimensions,
 	SafeAreaView,
+	ActivityIndicator,
 } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
@@ -19,6 +20,9 @@ import { useAppwrite } from '@/hooks/useAppwrite';
 import { getAgentById, getPropertyById } from '@/lib/appwrite';
 import { useEffect, useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import MapView, { Callout, Marker } from 'react-native-maps';
+import { colors } from '@/lib/colorsJS';
+import PropertyMarker from '@/components/shared/PropertyMarker';
 
 export default function Property() {
 	const { id } = useLocalSearchParams<{ id?: string }>();
@@ -44,6 +48,9 @@ export default function Property() {
 			.then((res) => setAgent(res))
 			.finally(() => setAgentLoading(false));
 	}, [property?.agent]);
+
+	console.log('Property latitude:', property?.latitude);
+	console.log('Property longitude:', property?.longitude);
 
 	return (
 		<SafeAreaView>
@@ -243,7 +250,7 @@ export default function Property() {
 							/>
 						</View>
 					)}
-					
+
 					{/* LOCATION SECTION */}
 					<View className="mt-7">
 						<Text className="text-black-300 text-xl font-rubik-bold">
@@ -251,16 +258,33 @@ export default function Property() {
 						</Text>
 						<View className="flex flex-row items-center justify-start mt-4 gap-2">
 							<Image source={icons.location} className="w-7 h-7" />
-							<Text className="text-black-200 text-sm font-rubik-medium">
+							<Text className="text-black-200 text-sm font-rubik-medium pr-5">
 								{property?.address}
 							</Text>
 						</View>
-
-						<Image
-							source={images.map}
-							className="h-52 w-full mt-5 rounded-xl"
-						/>
 					</View>
+
+					{property?.latitude != null && property?.longitude != null ? (
+						<View style={{ borderRadius: 12, overflow: 'hidden' }}>
+							<MapView
+								style={{ width: '100%', height: 300, borderRadius: 60 }}
+								initialRegion={{
+									latitude: property.latitude,
+									longitude: property.longitude,
+									latitudeDelta: 0.1,
+									longitudeDelta: 0.1,
+								}}
+							>
+								<PropertyMarker property={property} />
+							</MapView>
+						</View>
+					) : (
+						<ActivityIndicator
+							size="large"
+							color="#007aff"
+							style={{ height: 300 }}
+						/>
+					)}
 
 					{/* REVIEWS SECTION */}
 					{property?.reviews?.length > 0 && (

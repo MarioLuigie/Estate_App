@@ -1,6 +1,7 @@
 import { Card } from '@/components/shared/Cards';
 import EmptyState from '@/components/shared/EmptyState';
 import Filters from '@/components/shared/Filters';
+import PropertyMarker from '@/components/shared/PropertyMarker';
 import Search from '@/components/shared/Search';
 import icons from '@/constants/icons';
 import { TABS_HEIGHT } from '@/constants/layout';
@@ -24,7 +25,7 @@ export default function Explore() {
 
 	const params = useLocalSearchParams<{ query?: string; filter?: string }>();
 	const insets = useSafeAreaInsets();
-	const [showMap, setShowMap] = useState<boolean>(true);
+	const [showMap, setShowMap] = useState<boolean>(!true);
 
 	const {
 		loading: propertiesLoading,
@@ -87,6 +88,19 @@ export default function Explore() {
 					<Text className="text-xl font-rubik-medium text-black-300">
 						Found {properties?.length} Properties
 					</Text>
+					{!showMap ? (
+						<TouchableOpacity onPress={() => setShowMap(true)}>
+							<Text className="text-base font-rubik-bold text-primary-300">
+								See map
+							</Text>
+						</TouchableOpacity>
+					) : (
+						<TouchableOpacity onPress={() => setShowMap(false)}>
+							<Text className="text-base font-rubik-bold text-primary-300">
+								See list
+							</Text>
+						</TouchableOpacity>
+					)}
 				</View>
 			</View>
 
@@ -94,13 +108,9 @@ export default function Explore() {
 			{showMap ? (
 				<MapView style={{ flex: 1 }}>
 					{properties?.map((p) => (
-						<Marker
+						<PropertyMarker
+							property={p}
 							key={p.$id}
-							coordinate={{
-								latitude: p.geolocation?.latitude || 52.2297,
-								longitude: p.geolocation?.longitude || 21.0122,
-							}}
-							title={p.name}
 							onPress={() => handleCardPress(p.$id)}
 						/>
 					))}

@@ -27,7 +27,7 @@ export default function Home() {
 	const insets = useSafeAreaInsets();
 	const greeting = getTimeGreeting();
 
-	const isSeedButtonHidden: boolean = !true;
+	const isSeedButtonHidden: boolean = true;
 
 	const params = useLocalSearchParams<{ query?: string; filter?: string }>();
 

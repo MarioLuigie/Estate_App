@@ -446,3 +446,85 @@ export async function getAgentById({ id }: { id: string }) {
 		return null;
 	}
 }
+
+export async function getAddressFromCoordinates(lat: number, lng: number) {
+  try {
+    const apiKey = "AIzaSyDm7UNWbqaG0jwow5FoZKCELwq7e9jxi8E";
+
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}`;
+    console.log("GOOGLE MAPS API KEY:", apiKey);
+
+    const response = await fetch(url);
+    const data = await response.json();
+
+    console.log("GOOGLE MAPS data:", data);
+    if (data.status !== 'OK' || !data.results.length) {
+      console.warn("Google Maps returned no results");
+      return null;
+    }
+
+    const result = data.results[0];
+    const addressComponents = result.address_components;
+
+    console.log("GOOGLE MAPS data result:", result);
+
+    const street = addressComponents.find((c: any) => c.types.includes('route'))?.long_name;
+    const buildingNumber = addressComponents.find((c: any) => c.types.includes('street_number'))?.long_name;
+    const city = addressComponents.find((c: any) => c.types.includes('locality'))?.long_name;
+    const country = addressComponents.find((c: any) => c.types.includes('country'))?.long_name;
+
+    return {
+      street: buildingNumber && street ? `${buildingNumber} ${street}` : street || 'Unknown Street',
+      city: city || 'Unknown City',
+      country: country || 'Unknown Country',
+    };
+  } catch (err) {
+    console.error("Error in getAddressFromCoordinates:", err);
+    return null;
+  }
+}
+
+
+// export async function getAddressFromCoordinates(lat: number, lng: number) {
+// 	// const apiKey = process.env.GOOGLE_MAPS_API_KEY; 
+// 	const apiKey = "AIzaSyDm7UNWbqaG0jwow5FoZKCELwq7e9jxi8E"; 
+
+// 	const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}`;
+
+// 	console.log("GOOGLE MAPS API KEY:", apiKey)
+
+// 	const response = await fetch(url);
+// 	const data = await response.json();
+
+// 	if (data.status !== 'OK' || !data.results.length) {
+// 		return null;
+// 	}
+
+// 	const result = data.results[0];
+// 	const addressComponents = result.address_components;
+
+// 	console.log("GOOGLE MAPS data:", data)
+// 	console.log("GOOGLE MAPS data result:", result)
+
+// 	const street = addressComponents.find((c: any) =>
+// 		c.types.includes('route')
+// 	)?.long_name;
+// 	const buildingNumber = addressComponents.find((c: any) =>
+// 		c.types.includes('street_number')
+// 	)?.long_name;
+// 	const city = addressComponents.find((c: any) =>
+// 		c.types.includes('locality')
+// 	)?.long_name;
+// 	const country = addressComponents.find((c: any) =>
+// 		c.types.includes('country')
+// 	)?.long_name;
+
+// 	return {
+// 		street:
+// 			buildingNumber && street
+// 				? `${buildingNumber} ${street}`
+// 				: street || 'Unknown Street',
+// 		city: city || 'Unknown City',
+// 		country: country || 'Unknown Country',
+// 	};
+// }
