@@ -1,23 +1,23 @@
-import {
-	SafeAreaView,
-	Text,
-	View,
-	FlatList,
-	TouchableOpacity,
-	Image,
-} from 'react-native';
-import Search from '@/components/shared/Search';
 import { Card } from '@/components/shared/Cards';
+import EmptyState from '@/components/shared/EmptyState';
 import Filters from '@/components/shared/Filters';
-import { router, useLocalSearchParams } from 'expo-router';
+import Search from '@/components/shared/Search';
+import icons from '@/constants/icons';
+import { TABS_HEIGHT } from '@/constants/layout';
 import { useAppwrite } from '@/hooks/useAppwrite';
 import { getProperties } from '@/lib/appwrite';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
-import icons from '@/constants/icons';
-import EmptyState from '@/components/shared/EmptyState';
+import {
+	FlatList,
+	Image,
+	SafeAreaView,
+	Text,
+	TouchableOpacity,
+	View,
+} from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { TABS_HEIGHT } from '@/constants/layout';
-import MapView, { Marker } from "react-native-maps";
 
 export default function Explore() {
 	const propertiesNumb = 20;
@@ -97,8 +97,8 @@ export default function Explore() {
 						<Marker
 							key={p.$id}
 							coordinate={{
-								latitude: p.location?.latitude || 52.2297,
-								longitude: p.location?.longitude || 21.0122,
+								latitude: p.geolocation?.latitude || 52.2297,
+								longitude: p.geolocation?.longitude || 21.0122,
 							}}
 							title={p.name}
 							onPress={() => handleCardPress(p.$id)}

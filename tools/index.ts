@@ -35,3 +35,20 @@ export const getTimeGreeting = (): string => {
   }
 };
 
+export function getRandomCoordinatesWorld() {
+  const latitude = Number((Math.random() * 180 - 90).toFixed(6));   // -90 .. 90
+  const longitude = Number((Math.random() * 360 - 180).toFixed(6)); // -180 .. 180
+  return { latitude, longitude };
+}
+
+export function getRandomCoordinatesInPoland() {
+  const minLat = 49.0, maxLat = 54.8;
+  const minLng = 14.1, maxLng = 24.1;
+
+  const latitude = Number((Math.random() * (maxLat - minLat) + minLat).toFixed(6));
+  const longitude = Number((Math.random() * (maxLng - minLng) + minLng).toFixed(6));
+
+  return { latitude, longitude };
+}
+
+
