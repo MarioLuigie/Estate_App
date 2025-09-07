@@ -63,9 +63,9 @@ This project is built using modern mobile development technologies to ensure per
 
 ## Planned Extensions
 
-- 🌍 **Multi-language Support** – e.g., English and Polish.  
-- 🔒 **Enhanced Security** – two-factor authentication.  
-- 📊 **Property Owner Dashboard** – add and manage property listings.  
+- **Multi-language Support** – e.g., English and Polish.  
+- **Enhanced Security** – two-factor authentication.  
+- **Property Owner Dashboard** – add and manage property listings.  
 
 ---
 
