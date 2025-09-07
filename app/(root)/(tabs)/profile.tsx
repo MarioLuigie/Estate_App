@@ -96,11 +96,12 @@ export default function Profile() {
 			>
 				<View className="flex flex-col mt-10">
 					<SettingsItem icon={icons.calendar} title="My Bookings" />
+					<SettingsItem icon={icons.calendar} title="My Properties" />
 					<SettingsItem icon={icons.wallet} title="Payments" />
 				</View>
 
 				<View className="flex flex-col my-5 border-t pt-5 border-primary-200">
-					{settings.slice(2).map((item, index) => (
+					{settings.slice(3).map((item, index) => (
 						<SettingsItem key={index} {...item} />
 					))}
 				</View>
