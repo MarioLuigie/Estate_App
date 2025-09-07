@@ -1,12 +1,12 @@
-import { ID } from 'react-native-appwrite';
-import { databases, config, getAddressFromCoordinates } from '@/lib/appwrite';
+import { config, databases, getAddressFromCoordinates } from '@/lib/appwrite';
 import {
 	agentImages,
 	galleryImages,
 	propertiesImages,
 	reviewImages,
 } from '@/lib/data';
-import { getRandomCoordinatesNearMajorCities } from '@/tools';
+import { getRandomCoordinatesNearMajorCities } from '@/lib/tools';
+import { ID } from 'react-native-appwrite';
 
 const COLLECTIONS = {
 	AGENT: config.agentsCollectionId,
@@ -153,8 +153,11 @@ async function seed() {
 						];
 
 			const coords = getRandomCoordinatesNearMajorCities();
-			const address = await getAddressFromCoordinates(coords.latitude, coords.longitude)
-      
+			const address = await getAddressFromCoordinates(
+				coords.latitude,
+				coords.longitude
+			);
+
 			const property = await databases.createDocument(
 				config.databaseId!,
 				COLLECTIONS.PROPERTY!,

@@ -1,14 +1,14 @@
-import icons from '@/constants/icons';
-import images from '@/constants/images';
+import icons from '@/lib/constants/icons';
+import images from '@/lib/constants/images';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
-import { Models } from "react-native-appwrite";
+import { Models } from 'react-native-appwrite';
 
 export interface Property extends Models.Document {
-  image: string;
-  name: string;
-  address: string;
-  price: number;
-  rating: number;
+	image: string;
+	name: string;
+	address: string;
+	price: number;
+	rating: number;
 }
 
 interface Props {
@@ -16,30 +16,29 @@ interface Props {
 	onPress?: () => void;
 }
 
-export function FeaturedCard({item, onPress }: Props) {
-
+export function FeaturedCard({ item, onPress }: Props) {
 	const { name, price, rating, address, image } = item as unknown as Property;
 	return (
 		<TouchableOpacity
 			onPress={onPress}
 			className="flex flex-col items-start w-60 h-80 relative"
 		>
-      {/* BG IMAGE */}
-			<Image source={{ uri: image}} className="size-full rounded-lg" />
+			{/* BG IMAGE */}
+			<Image source={{ uri: image }} className="size-full rounded-lg" />
 			<Image
 				source={images.cardGradient}
 				className="size-full rounded-2xl absolute bottom-0"
 			/>
 
-      {/* RANGE STARS */}
+			{/* RANGE STARS */}
 			<View className="flex flex-row items-center bg-white/90 px-3 py-1.5 rounded-full absolute top-5 right-5">
 				<Image source={icons.star} className="size-3.5" />
 				<Text className="text-xs font-rubik-bold text-primary-300 ml-1">
 					{rating}
 				</Text>
 			</View>
-      
-      {/* INFOS */}
+
+			{/* INFOS */}
 			<View className="flex flex-col items-start absolute bottom-5 inset-x-5">
 				<Text
 					className="text-xl font-rubik-extrabold text-white"
@@ -70,7 +69,7 @@ export function Card({ item, onPress }: Props) {
 			className="flex-1 w-full min-h-70 py-4 px-4 rounded-lg bg-white border border-zinc-300 relative"
 			onPress={onPress}
 		>
-      {/* RANGE STARS */}
+			{/* RANGE STARS */}
 			<View className="flex flex-row items-center absolute px-2 top-5 right-5 bg-white/90 p-1 rounded-full z-50">
 				<Image source={icons.star} className="size-2.5" />
 				<Text className="text-xs font-rubik-bold text-primary-300 ml-0.5">
@@ -78,10 +77,10 @@ export function Card({ item, onPress }: Props) {
 				</Text>
 			</View>
 
-      {/* BG IMAGE */}
-			<Image source={{ uri: image}} className="w-full h-40 rounded-lg" />
+			{/* BG IMAGE */}
+			<Image source={{ uri: image }} className="w-full h-40 rounded-lg" />
 
-      {/* INFOS */}
+			{/* INFOS */}
 			<View className="flex flex-col mt-2">
 				<Text className="text-base font-rubik-bold text-black-300">
 					{name}

@@ -1,22 +1,22 @@
-import icons from '@/constants/icons';
-import images from '@/constants/images';
+import { login } from '@/lib/appwrite';
+import icons from '@/lib/constants/icons';
+import images from '@/lib/constants/images';
+import { useGlobalContext } from '@/lib/global-provider';
+import { Redirect } from 'expo-router';
 import React from 'react';
 import {
+	Alert,
+	Dimensions,
 	Image,
 	ScrollView,
 	Text,
 	TouchableOpacity,
 	View,
-	Alert,
-	Dimensions,
 } from 'react-native';
 import {
 	SafeAreaView,
 	useSafeAreaInsets,
 } from 'react-native-safe-area-context';
-import { login } from '@/lib/appwrite';
-import { useGlobalContext } from '@/lib/global-provider';
-import { Redirect } from 'expo-router';
 
 export default function SignIn() {
 	const { isLoggedIn, loading, refetch } = useGlobalContext();

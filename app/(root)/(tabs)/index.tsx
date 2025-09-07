@@ -1,26 +1,26 @@
-import icons from '@/constants/icons';
+import { Card, FeaturedCard } from '@/components/shared/Cards';
+import EmptyState from '@/components/shared/EmptyState';
+import Filters from '@/components/shared/Filters';
+import Search from '@/components/shared/Search';
+import { getLatestProperties, getProperties } from '@/lib/appwrite';
+import icons from '@/lib/constants/icons';
+import { REC_PROPERTIES_LIMIT, TABS_HEIGHT } from '@/lib/constants/layout';
+import { useGlobalContext } from '@/lib/global-provider';
+import { useAppwrite } from '@/lib/hooks/useAppwrite';
+import seed from '@/lib/seed';
+import { getTimeGreeting } from '@/lib/tools';
+import { router, useLocalSearchParams } from 'expo-router';
+import { useEffect } from 'react';
 import {
+	Button,
+	FlatList,
+	Image,
 	SafeAreaView,
 	Text,
-	View,
-	Image,
 	TouchableOpacity,
-	FlatList,
-	Button,
+	View,
 } from 'react-native';
-import Search from '@/components/shared/Search';
-import { FeaturedCard, Card } from '@/components/shared/Cards';
-import Filters from '@/components/shared/Filters';
-import { useGlobalContext } from '@/lib/global-provider';
-import { getTimeGreeting } from '@/tools';
-import seed from '@/lib/seed';
-import { router, useLocalSearchParams } from 'expo-router';
-import { useAppwrite } from '@/hooks/useAppwrite';
-import { getLatestProperties, getProperties } from '@/lib/appwrite';
-import { useEffect } from 'react';
-import EmptyState from '@/components/shared/EmptyState';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { TABS_HEIGHT, REC_PROPERTIES_LIMIT } from '@/constants/layout';
 
 export default function Home() {
 	const { user } = useGlobalContext();
@@ -65,12 +65,12 @@ export default function Home() {
 	return (
 		<SafeAreaView className="h-full bg-white">
 			{!isSeedButtonHidden && (
-				<View style={{paddingTop: insets.top}}>
+				<View style={{ paddingTop: insets.top }}>
 					<Button title="Seed" onPress={seed} />
 				</View>
 			)}
 			{/* HEADER */}
-			<View className="px-5" style={{marginTop: insets.top + 16}}>
+			<View className="px-5" style={{ marginTop: insets.top + 16 }}>
 				<View className="flex flex-row items-center justify-between">
 					<View className="flex flex-row items-center">
 						<View>
@@ -105,7 +105,7 @@ export default function Home() {
 					<Card item={item} onPress={() => handleCardPress(item.$id)} />
 				)}
 				showsVerticalScrollIndicator={false}
-				contentContainerStyle={{ paddingBottom: TABS_HEIGHT}}
+				contentContainerStyle={{ paddingBottom: TABS_HEIGHT }}
 				columnWrapperClassName="flex gap-3 px-5 pb-3"
 				numColumns={2}
 				keyExtractor={(item) => item.$id}

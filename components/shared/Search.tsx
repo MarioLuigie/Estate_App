@@ -1,7 +1,7 @@
-import icons from '@/constants/icons';
+import icons from '@/lib/constants/icons';
 import { router, useLocalSearchParams, usePathname } from 'expo-router';
 import React, { useState } from 'react';
-import { View, Image, TextInput, TouchableOpacity } from 'react-native';
+import { Image, TextInput, TouchableOpacity, View } from 'react-native';
 import { useDebouncedCallback } from 'use-debounce';
 
 export default function Search() {
@@ -16,7 +16,7 @@ export default function Search() {
 
 	const handleSearch = (text: string) => {
 		setSearch(text);
-    debounceSearch(text);
+		debounceSearch(text);
 	};
 
 	return (

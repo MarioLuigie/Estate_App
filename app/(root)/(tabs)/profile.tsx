@@ -12,10 +12,10 @@ import {
 import { logout } from '@/lib/appwrite';
 import { useGlobalContext } from '@/lib/global-provider';
 
-import icons from '@/constants/icons';
+import icons from '@/lib/constants/icons';
 // import images from "@/constants/images";
-import { settings } from '@/constants/data';
-import { TABS_HEIGHT } from '@/constants/layout';
+import { settings } from '@/lib/constants/data';
+import { TABS_HEIGHT } from '@/lib/constants/layout';
 
 interface SettingsItemProp {
 	icon: ImageSourcePropType;
@@ -92,7 +92,7 @@ export default function Profile() {
 			<ScrollView
 				showsVerticalScrollIndicator={false}
 				contentContainerClassName="px-7"
-				contentContainerStyle={{paddingBottom: TABS_HEIGHT}}
+				contentContainerStyle={{ paddingBottom: TABS_HEIGHT }}
 			>
 				<View className="flex flex-col mt-10">
 					<SettingsItem icon={icons.calendar} title="My Bookings" />
@@ -104,7 +104,7 @@ export default function Profile() {
 						<SettingsItem key={index} {...item} />
 					))}
 				</View>
-				
+
 				{/* LOGOUT */}
 				<View className="flex flex-col border-t py-5 border-primary-200">
 					<SettingsItem

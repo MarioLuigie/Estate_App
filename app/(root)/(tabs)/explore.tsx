@@ -3,10 +3,10 @@ import EmptyState from '@/components/shared/EmptyState';
 import Filters from '@/components/shared/Filters';
 import PropertyMarker from '@/components/shared/PropertyMarker';
 import Search from '@/components/shared/Search';
-import icons from '@/constants/icons';
-import { TABS_HEIGHT } from '@/constants/layout';
-import { useAppwrite } from '@/hooks/useAppwrite';
 import { getProperties } from '@/lib/appwrite';
+import icons from '@/lib/constants/icons';
+import { TABS_HEIGHT } from '@/lib/constants/layout';
+import { useAppwrite } from '@/lib/hooks/useAppwrite';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import {
@@ -17,7 +17,7 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import MapView from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function Explore() {
@@ -47,6 +47,7 @@ export default function Explore() {
 			query: params.query!,
 			limit: propertiesNumb,
 		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [params.filter, params.query]);
 
 	const handleCardPress = (id: string) => {
@@ -91,13 +92,13 @@ export default function Explore() {
 					{!showMap ? (
 						<TouchableOpacity onPress={() => setShowMap(true)}>
 							<Text className="text-base font-rubik-bold text-primary-300">
-								See map
+								See Map
 							</Text>
 						</TouchableOpacity>
 					) : (
 						<TouchableOpacity onPress={() => setShowMap(false)}>
 							<Text className="text-base font-rubik-bold text-primary-300">
-								See list
+								See List
 							</Text>
 						</TouchableOpacity>
 					)}

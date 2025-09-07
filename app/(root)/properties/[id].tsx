@@ -1,28 +1,27 @@
+import { router, useLocalSearchParams } from 'expo-router';
 import {
+	ActivityIndicator,
+	Dimensions,
 	FlatList,
 	Image,
+	SafeAreaView,
 	ScrollView,
 	Text,
 	TouchableOpacity,
 	View,
-	Dimensions,
-	SafeAreaView,
-	ActivityIndicator,
 } from 'react-native';
-import { router, useLocalSearchParams } from 'expo-router';
 
-import icons from '@/constants/icons';
-import images from '@/constants/images';
 import Comment from '@/components/content/Comment';
-import { facilities } from '@/constants/data';
+import { facilities } from '@/lib/constants/data';
+import icons from '@/lib/constants/icons';
+import images from '@/lib/constants/images';
 
-import { useAppwrite } from '@/hooks/useAppwrite';
-import { getAgentById, getPropertyById } from '@/lib/appwrite';
-import { useEffect, useState } from 'react';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import MapView, { Callout, Marker } from 'react-native-maps';
-import { colors } from '@/lib/colorsJS';
 import PropertyMarker from '@/components/shared/PropertyMarker';
+import { getAgentById, getPropertyById } from '@/lib/appwrite';
+import { useAppwrite } from '@/lib/hooks/useAppwrite';
+import { useEffect, useState } from 'react';
+import MapView from 'react-native-maps';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function Property() {
 	const { id } = useLocalSearchParams<{ id?: string }>();

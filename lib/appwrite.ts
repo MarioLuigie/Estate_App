@@ -1,19 +1,16 @@
+import { arrayBufferToBase64 } from '@/lib/tools';
+import { makeRedirectUri } from 'expo-auth-session';
+import Constants from 'expo-constants';
+import * as WebBrowser from 'expo-web-browser';
 import {
-	Client,
 	Account,
-	ID,
+	Avatars,
+	Client,
 	Databases,
 	OAuthProvider,
-	Avatars,
 	Query,
 	Storage,
 } from 'react-native-appwrite';
-// import * as Linking from 'expo-linking';
-import Constants from 'expo-constants';
-// import { openAuthSessionAsync } from 'expo-web-browser';
-import { arrayBufferToBase64 } from '@/tools';
-import * as WebBrowser from 'expo-web-browser';
-import { makeRedirectUri } from 'expo-auth-session';
 
 export const config = {
 	platform: 'com.mlotocki.estate',
@@ -27,13 +24,8 @@ export const config = {
 	propertiesCollectionId:
 		process.env.EXPO_PUBLIC_APPWRITE_PROPERTIES_COLLECTION_ID,
 	bucketId: process.env.EXPO_PUBLIC_APPWRITE_BUCKET_ID,
+	googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
 };
-
-// export const client = new Client();
-// client
-// 	.setEndpoint(config.endpoint!)
-// 	.setProject(config.projectId!)
-// 	.setPlatform(config.platform!);
 
 export const client = new Client()
 	.setEndpoint(
@@ -102,204 +94,6 @@ export async function login() {
 		return false;
 	}
 }
-
-// export async function login() {
-//   try {
-//     // Pobieramy projectId z app.json
-//     const projectId = Constants.expoConfig?.extra?.auth?.appwriteProjectId || 'YOUR_PROJECT_ID';
-
-//     // Schemat dla Dev Build / Standalone
-//     const scheme = `appwrite-callback-${projectId}`;
-
-//     // Tworzymy poprawny redirect URI w zależności od środowiska
-//     const redirectUri =
-//       Constants.executionEnvironment === 'storeClient'
-//         ? makeRedirectUri({ scheme })  // Dev Build / standalone
-//         : makeRedirectUri({ preferLocalhost: true }); // Expo Go
-
-//     console.log('Redirect URI użyty do OAuth:', redirectUri);
-//     console.log('FUNCTION_1:', redirectUri);
-
-//     // Generujemy link OAuth w Appwrite
-//     const oauthUrl = account.createOAuth2Token({
-//       provider: OAuthProvider.Google,
-//       success: redirectUri,
-//       failure: redirectUri,
-//     });
-
-//     if (!oauthUrl) throw new Error('Nie udało się wygenerować oauthUrl');
-
-//     // Otwieramy przeglądarkę / WebBrowser
-//     const result = await WebBrowser.openAuthSessionAsync(oauthUrl.toString(), scheme);
-
-//     if (result.type !== 'success') throw new Error('OAuth login anulowany');
-
-//     // Pobieramy secret i userId z redirecta
-//     const url = new URL(result.url);
-//     const secret = url.searchParams.get('secret');
-//     const userId = url.searchParams.get('userId');
-
-//     if (!secret || !userId) throw new Error('Brak secret albo userId');
-
-//     // Tworzymy sesję Appwrite
-//     await account.createSession({ userId, secret });
-
-//     console.log('Login zakończony sukcesem');
-//     return true;
-//   } catch (error) {
-//     console.error('OAuth login error', error);
-//     return false;
-//   }
-// }
-
-// EXPO  go DZIALA
-// export async function login() {
-//   try {
-//     // Tworzymy poprawny redirect URI
-//     const projectId = Constants.expoConfig?.extra?.auth?.appwriteProjectId || config.projectId;
-//     const scheme = `appwrite-callback-${projectId}`;
-
-//     // makeRedirectUri tworzy URI zgodne z Expo Go / Dev Build / Standalone
-//     const redirectUri = makeRedirectUri({
-//       scheme,
-//       preferLocalhost: true, // potrzebne dla dev server
-//     });
-
-//     console.log('Redirect URI użyty do OAuth:', redirectUri);
-//     console.log('FUNCTION_2:', redirectUri);
-
-//     // Generujemy link OAuth
-//     const oauthUrl = account.createOAuth2Token({
-//       provider: OAuthProvider.Google,
-//       success: redirectUri,
-//       failure: redirectUri,
-//     });
-
-//     if (!oauthUrl) throw new Error('Nie udało się wygenerować oauthUrl');
-
-//     // Otwieramy sesję w przeglądarce
-//     const result = await WebBrowser.openAuthSessionAsync(oauthUrl.toString(), `${scheme}://`);
-
-//     if (result.type !== 'success') throw new Error('OAuth login anulowany');
-
-//     // Pobieramy secret i userId z redirecta
-//     const url = new URL(result.url);
-//     const secret = url.searchParams.get('secret');
-//     const userId = url.searchParams.get('userId');
-
-//     if (!secret || !userId) throw new Error('Brak secret albo userId');
-
-//     // Tworzymy sesję Appwrite
-//     await account.createSession({ userId, secret });
-
-//     return true;
-//   } catch (error) {
-//     console.error('OAuth login error', error);
-//     return false;
-//   }
-// }
-
-// export async function login() {
-// 	try {
-// 		// Project ID z Appwrite (ten sam co w app.json -> extra.eas.projectId)
-// 		const projectId =
-// 			Constants.expoConfig?.extra?.eas?.projectId || "aef3a0fb-3c0a-4f80-a3e3-d7ec8cb8a5b3";
-// 		const scheme = `appwrite-callback-${projectId}`;
-
-// 		// generujemy poprawny redirect URI (działa w Expo Go i Dev Build)
-// 		const redirectUri = makeRedirectUri({
-// 			scheme,
-// 			preferLocalhost: true,
-// 		});
-
-// 		console.log('Redirect URI użyty do OAuth:', redirectUri);
-// 		console.log('Function_3', redirectUri);
-
-// 		// pobieramy link do logowania
-// 		const oauthUrl = account.createOAuth2Token({
-// 			provider: OAuthProvider.Google,
-// 			success: redirectUri,
-// 			failure: redirectUri,
-// 		});
-
-// 		if (!oauthUrl) throw new Error('Nie udało się wygenerować oauthUrl');
-
-// 		// odpalamy sesję w przeglądarce
-// 		const result = await WebBrowser.openAuthSessionAsync(
-// 			oauthUrl.toString(),
-// 			redirectUri
-// 		);
-
-// 		if (result.type !== 'success') throw new Error('OAuth login anulowany');
-
-// 		const url = new URL(result.url);
-// 		const secret = url.searchParams.get('secret');
-// 		const userId = url.searchParams.get('userId');
-
-// 		if (!secret || !userId) throw new Error('Brak secret albo userId');
-
-// 		const session = await account.createSession({ userId, secret });
-// 		if (!session) throw new Error('Nie udało się utworzyć sesji');
-
-// 		return true;
-// 	} catch (error) {
-// 		console.error('OAuth login error', error);
-// 		return false;
-// 	}
-// }
-
-// export async function login() {
-// 	try {
-// 		// const redirectUri = Linking.createURL('/'); // returned exp://192.168.0.17:8081/--/
-
-// 		const redirectUri =
-// 			Constants.executionEnvironment === 'storeClient'
-// 				? Linking.createURL('/') // Expo Go
-// 				: `appwrite-callback-${config.projectId}`; // Dev Build / standalone
-
-// 		console.log(redirectUri);
-
-// 		// const response = await account.createOAuth2Token(
-// 		// 	OAuthProvider.Google,
-// 		// 	redirectUri
-// 		// );
-// 		const oauthUrl = account.createOAuth2Token({
-// 			provider: OAuthProvider.Google,
-// 			success: redirectUri,
-// 			failure: redirectUri,
-// 		});
-// 		// if (!response) throw new Error('Create OAuth2 token failed');
-// 		if (!oauthUrl) throw new Error('Create OAuth2 token failed');
-
-// 		// const browserResult = await openAuthSessionAsync(
-// 		// 	response.toString(),
-// 		// 	redirectUri
-// 		// );
-// 		const browserResult = await openAuthSessionAsync(
-// 			oauthUrl.toString(),
-// 			redirectUri
-// 		);
-// 		if (browserResult.type !== 'success')
-// 			throw new Error('Create OAuth2 token failed');
-
-// 		const url = new URL(browserResult.url);
-// 		const secret = url.searchParams.get('secret')?.toString();
-// 		const userId = url.searchParams.get('userId')?.toString();
-// 		if (!secret || !userId) throw new Error('Create OAuth2 token failed');
-
-// 		// const session = await account.createSession(userId, secret);
-// 		const session = await account.createSession({
-// 			userId,
-// 			secret,
-// 		});
-// 		if (!session) throw new Error('Failed to create session');
-
-// 		return true;
-// 	} catch (error) {
-// 		console.error("OAuth login error", error);
-// 		return false;
-// 	}
-// }
 
 export async function logout() {
 	try {
@@ -448,83 +242,49 @@ export async function getAgentById({ id }: { id: string }) {
 }
 
 export async function getAddressFromCoordinates(lat: number, lng: number) {
-  try {
-    const apiKey = "AIzaSyDm7UNWbqaG0jwow5FoZKCELwq7e9jxi8E";
+	try {
+		const apiKey = config.googleMapsApiKey;
 
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}`;
-    console.log("GOOGLE MAPS API KEY:", apiKey);
+		const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}`;
+		console.log('GOOGLE MAPS API KEY:', apiKey);
 
-    const response = await fetch(url);
-    const data = await response.json();
+		const response = await fetch(url);
+		const data = await response.json();
 
-    console.log("GOOGLE MAPS data:", data);
-    if (data.status !== 'OK' || !data.results.length) {
-      console.warn("Google Maps returned no results");
-      return null;
-    }
+		console.log('GOOGLE MAPS data:', data);
+		if (data.status !== 'OK' || !data.results.length) {
+			console.warn('Google Maps returned no results');
+			return null;
+		}
 
-    const result = data.results[0];
-    const addressComponents = result.address_components;
+		const result = data.results[0];
+		const addressComponents = result.address_components;
 
-    console.log("GOOGLE MAPS data result:", result);
+		console.log('GOOGLE MAPS data result:', result);
 
-    const street = addressComponents.find((c: any) => c.types.includes('route'))?.long_name;
-    const buildingNumber = addressComponents.find((c: any) => c.types.includes('street_number'))?.long_name;
-    const city = addressComponents.find((c: any) => c.types.includes('locality'))?.long_name;
-    const country = addressComponents.find((c: any) => c.types.includes('country'))?.long_name;
+		const street = addressComponents.find((c: any) =>
+			c.types.includes('route')
+		)?.long_name;
+		const buildingNumber = addressComponents.find((c: any) =>
+			c.types.includes('street_number')
+		)?.long_name;
+		const city = addressComponents.find((c: any) =>
+			c.types.includes('locality')
+		)?.long_name;
+		const country = addressComponents.find((c: any) =>
+			c.types.includes('country')
+		)?.long_name;
 
-    return {
-      street: buildingNumber && street ? `${buildingNumber} ${street}` : street || 'Unknown Street',
-      city: city || 'Unknown City',
-      country: country || 'Unknown Country',
-    };
-  } catch (err) {
-    console.error("Error in getAddressFromCoordinates:", err);
-    return null;
-  }
+		return {
+			street:
+				buildingNumber && street
+					? `${buildingNumber} ${street}`
+					: street || 'Unknown Street',
+			city: city || 'Unknown City',
+			country: country || 'Unknown Country',
+		};
+	} catch (err) {
+		console.error('Error in getAddressFromCoordinates:', err);
+		return null;
+	}
 }
-
-
-// export async function getAddressFromCoordinates(lat: number, lng: number) {
-// 	// const apiKey = process.env.GOOGLE_MAPS_API_KEY; 
-// 	const apiKey = "AIzaSyDm7UNWbqaG0jwow5FoZKCELwq7e9jxi8E"; 
-
-// 	const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}`;
-
-// 	console.log("GOOGLE MAPS API KEY:", apiKey)
-
-// 	const response = await fetch(url);
-// 	const data = await response.json();
-
-// 	if (data.status !== 'OK' || !data.results.length) {
-// 		return null;
-// 	}
-
-// 	const result = data.results[0];
-// 	const addressComponents = result.address_components;
-
-// 	console.log("GOOGLE MAPS data:", data)
-// 	console.log("GOOGLE MAPS data result:", result)
-
-// 	const street = addressComponents.find((c: any) =>
-// 		c.types.includes('route')
-// 	)?.long_name;
-// 	const buildingNumber = addressComponents.find((c: any) =>
-// 		c.types.includes('street_number')
-// 	)?.long_name;
-// 	const city = addressComponents.find((c: any) =>
-// 		c.types.includes('locality')
-// 	)?.long_name;
-// 	const country = addressComponents.find((c: any) =>
-// 		c.types.includes('country')
-// 	)?.long_name;
-
-// 	return {
-// 		street:
-// 			buildingNumber && street
-// 				? `${buildingNumber} ${street}`
-// 				: street || 'Unknown Street',
-// 		city: city || 'Unknown City',
-// 		country: country || 'Unknown Country',
-// 	};
-// }
