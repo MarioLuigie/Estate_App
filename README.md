@@ -134,10 +134,10 @@ npx expo login
 npx eas build:configure
 ```
 
-3. Build the app for Android:
+3. Build the app for Android and test in dev:
 
 ```bash
-npx eas build --platform android
+npx eas build --platform android --profile development
 ```
 
 4. After the process finishes, download the .apk or .aab file and install it on your phone, or publish it to Google Play.
