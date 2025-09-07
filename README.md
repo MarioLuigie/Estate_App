@@ -1,11 +1,11 @@
-# Estate - Real Estate Mobile Application
+# Estate - Estate Mobile Application
 
 ![Application intro](https://raw.githubusercontent.com/MarioLuigie/Estate_App/main/assets/images/japan.png)
 
 
 ## Introduction
 
-**Estate** – Mobile Real Estate App for **Android**, built with **React Native** and **Expo**.  
+**Estate** – Mobile Estate App for **Android**, built with **React Native** and **Expo**.  
 The application allows users to browse properties, view details, manage profiles, log in via **Google Authentication**, and explore property locations using **Google Maps**.  
 
 The project is prepared for development with **Expo Go** and production builds with **EAS Build**.  
