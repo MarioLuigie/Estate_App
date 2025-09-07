@@ -25,6 +25,8 @@ This project is built using modern mobile development technologies to ensure per
 - **[Zod](https://zod.dev/)**: Schema-based validation for forms and data.  
 - **Authentication with Google**: Secure and seamless sign-in with Google accounts.  
 - **Custom Data Fetching (inspired by TanStack useQuery)**: Efficient and centralized API calls.  
+- **[Appwrite](https://appwrite.io/)**: Back office served by Appwrite platform.  
+
 
 ---
 
