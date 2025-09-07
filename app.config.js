@@ -1,11 +1,13 @@
-{
+import 'dotenv/config'; 
+
+export default {
 	"expo": {
 		"name": "estate_app",
 		"slug": "estate_app",
 		"version": "1.0.0",
 		"orientation": "portrait",
 		"icon": "./assets/images/icon.png",
-		"scheme": "appwrite-callback-68b6a5500015c485cb55",
+		"scheme": `appwrite-callback-${process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID}`,
 		"userInterfaceStyle": "automatic",
 		"newArchEnabled": false,
 		"ios": {
@@ -20,7 +22,7 @@
 			"edgeToEdgeEnabled": true,
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyDm7UNWbqaG0jwow5FoZKCELwq7e9jxi8E"
+          "apiKey": process.env.GOOGLE_MAPS_API_KEY
         }
       }
 		},
@@ -64,8 +66,8 @@
 				"projectId": "aef3a0fb-3c0a-4f80-a3e3-d7ec8cb8a5b3"
 			},
 			"auth": {
-				"appwriteProjectId": "68b6a5500015c485cb55",
-				"redirectScheme": "appwrite-callback-68b6a5500015c485cb55"
+				"appwriteProjectId": process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID,
+				"redirectScheme": `appwrite-callback-${process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID}`
 			}
 		}
 	}
