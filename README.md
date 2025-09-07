@@ -168,6 +168,6 @@ npx expo start
 ```
 
 ## More
-For more information please contact [mk.lotocki@gmail.com](mailto:mk.lotocki@gmail.com).
+For more information please contact [mk.lotocki@gmail.com](mailto:mk.lotocki@gmail.com), Mariusz Łotocki
 
 
