@@ -164,10 +164,8 @@ Fill in the environmental variable values with your actual credentials.
 **Running the Project**
 
 ```bash
-npm run dev
+npx expo start
 ```
-
-Open [http://localhost:3000](http://localhost:3000/) in your browser to view the project.
 
 ## More
 For more information please contact [mk.lotocki@gmail.com](mailto:mk.lotocki@gmail.com).
