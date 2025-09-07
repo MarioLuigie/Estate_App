@@ -1,6 +1,6 @@
 # 🏡 Estate - Real Estate Mobile Application
 
-[![Estate intro](https://raw.githubusercontent.com/your-username/estate-app/main/assets/readme-intro.jpg)](https://github.com/your-username/estate-app)
+[![Application intro](https://raw.githubusercontent.com/MarioLuigie/RAM_store/main/public/assets/images/readme-intro.jpg)](https://ram-store.vercel.app/)
 
 ## Introduction
 
