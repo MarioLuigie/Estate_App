@@ -12,7 +12,7 @@ import Filters from '@/components/shared/Filters';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useAppwrite } from '@/hooks/useAppwrite';
 import { getProperties } from '@/lib/appwrite';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import icons from '@/constants/icons';
 import EmptyState from '@/components/shared/EmptyState';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -22,8 +22,8 @@ export default function Explore() {
 	const propertiesNumb = 20;
 
 	const params = useLocalSearchParams<{ query?: string; filter?: string }>();
-	 const insets = useSafeAreaInsets();
-	
+	const insets = useSafeAreaInsets();
+	const [showMap, setShowMap] = useState<boolean>(!true);
 
 	const {
 		loading: propertiesLoading,
@@ -54,7 +54,10 @@ export default function Explore() {
 	return (
 		<SafeAreaView className="h-full bg-white">
 			{/* BACK NAVIGATION */}
-			<View className="px-5 mb-4 flex flex-row items-center justify-between" style={{marginTop: insets.top + 16}}>
+			<View
+				className="px-5 mb-4 flex flex-row items-center justify-between"
+				style={{ marginTop: insets.top + 16 }}
+			>
 				<TouchableOpacity
 					onPress={() => router.back()}
 					className="flex flex-row items-center justify-center size-11 rounded-full bg-mygrey-200"
@@ -87,18 +90,23 @@ export default function Explore() {
 			</View>
 
 			{/* PROPERTIES LIST */}
-			<FlatList
-				data={properties}
-				renderItem={({ item }) => (
-					<Card item={item} onPress={() => handleCardPress(item.$id)} />
-				)}
-				showsVerticalScrollIndicator={false}
-				contentContainerStyle={{paddingBottom: TABS_HEIGHT}}
-				columnWrapperClassName="flex gap-3 px-5 pb-3"
-				numColumns={2}
-				keyExtractor={(item) => item.$id}
-				ListEmptyComponent={<EmptyState isLoading={propertiesLoading} />}
-			/>
+
+			{showMap ? (
+				<View></View>
+			) : (
+				<FlatList
+					data={properties}
+					renderItem={({ item }) => (
+						<Card item={item} onPress={() => handleCardPress(item.$id)} />
+					)}
+					showsVerticalScrollIndicator={false}
+					contentContainerStyle={{ paddingBottom: TABS_HEIGHT }}
+					columnWrapperClassName="flex gap-3 px-5 pb-3"
+					numColumns={2}
+					keyExtractor={(item) => item.$id}
+					ListEmptyComponent={<EmptyState isLoading={propertiesLoading} />}
+				/>
+			)}
 		</SafeAreaView>
 	);
 }
