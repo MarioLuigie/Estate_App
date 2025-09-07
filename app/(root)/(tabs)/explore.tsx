@@ -17,13 +17,14 @@ import icons from '@/constants/icons';
 import EmptyState from '@/components/shared/EmptyState';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TABS_HEIGHT } from '@/constants/layout';
+import MapView, { Marker } from "react-native-maps";
 
 export default function Explore() {
 	const propertiesNumb = 20;
 
 	const params = useLocalSearchParams<{ query?: string; filter?: string }>();
 	const insets = useSafeAreaInsets();
-	const [showMap, setShowMap] = useState<boolean>(!true);
+	const [showMap, setShowMap] = useState<boolean>(true);
 
 	const {
 		loading: propertiesLoading,
@@ -90,9 +91,20 @@ export default function Explore() {
 			</View>
 
 			{/* PROPERTIES LIST */}
-
 			{showMap ? (
-				<View></View>
+				<MapView style={{ flex: 1 }}>
+					{properties?.map((p) => (
+						<Marker
+							key={p.$id}
+							coordinate={{
+								latitude: p.location?.latitude || 52.2297,
+								longitude: p.location?.longitude || 21.0122,
+							}}
+							title={p.name}
+							onPress={() => handleCardPress(p.$id)}
+						/>
+					))}
+				</MapView>
 			) : (
 				<FlatList
 					data={properties}
