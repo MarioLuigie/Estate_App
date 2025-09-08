@@ -3,6 +3,7 @@ import EmptyState from '@/components/shared/EmptyState';
 import Filters from '@/components/shared/Filters';
 import PropertyMarker from '@/components/shared/PropertyMarker';
 import Search from '@/components/shared/Search';
+import ToggleButtons from '@/components/shared/ToggleButtons';
 import { getProperties } from '@/lib/appwrite';
 import icons from '@/lib/constants/icons';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
@@ -104,28 +105,7 @@ export default function Explore() {
 					)}
 				</View> */}
 
-				<View className="flex flex-row bg-mygrey-200 rounded-xl p-1">
-					<TouchableOpacity
-						onPress={() => setShowMap(false)}
-						className={`flex-1 py-2 rounded-xl ${!showMap ? 'bg-primary-300' : ''}`}
-					>
-						<Text
-							className={`text-center ${!showMap ? 'text-white' : 'text-black-300'}`}
-						>
-							List
-						</Text>
-					</TouchableOpacity>
-					<TouchableOpacity
-						onPress={() => setShowMap(true)}
-						className={`flex-1 py-2 rounded-xl ${showMap ? 'bg-primary-300' : ''}`}
-					>
-						<Text
-							className={`text-center ${showMap ? 'text-white' : 'text-black-300'}`}
-						>
-							Map
-						</Text>
-					</TouchableOpacity>
-				</View>
+				<ToggleButtons value={showMap} onChange={setShowMap} />
 
 				<Text className="text-xl font-rubik-medium text-black-300 mt-4 mb-2">
 					Found {properties?.length} Properties
