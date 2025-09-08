@@ -9,11 +9,12 @@ import PropertyCard from '@/components/content/PropertyCard';
 import EmptyState from '@/components/shared/EmptyState';
 import { useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ROUTES } from '@/lib/constants/paths';
 
 export default function MyPropertiesScreen() {
 	const { user } = useGlobalContext();
 	const [isGrid, setIsGrid] = useState<boolean>(false);
-    const insets = useSafeAreaInsets();
+	const insets = useSafeAreaInsets();
 
 	const { data: properties, loading: propertiesLoading } = useAppwrite({
 		fn: getMyProperties,
@@ -49,7 +50,12 @@ export default function MyPropertiesScreen() {
 				key={isGrid ? 'grid' : 'list'}
 				data={properties}
 				renderItem={({ item }) => (
-					<PropertyCard property={item} onPress={() => {}} />
+					<PropertyCard
+						property={item}
+						onPress={() => {
+							router.push(`${ROUTES.PROPERTIES}/${item?.$id}`);
+						}}
+					/>
 				)}
 				{...(isGrid && {
 					numColumns: 2,

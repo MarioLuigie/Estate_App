@@ -1,4 +1,4 @@
-import { router, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import {
 	ActivityIndicator,
 	Dimensions,
@@ -52,7 +52,7 @@ export default function Property() {
 
 	console.log('Property latitude:', property?.latitude);
 	console.log('Property longitude:', property?.longitude);
-
+	
 	return (
 		<SafeAreaView>
 			<ScrollView

@@ -14,6 +14,7 @@ export default function NavigateBack({
 	title,
 	children,
 }: NavigateBackProps) {
+
 	return (
 		<View className="flex-row items-center justify-between w-full">
 			<TouchableOpacity
