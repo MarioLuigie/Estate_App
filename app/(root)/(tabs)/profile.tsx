@@ -11,9 +11,7 @@ import {
 
 import { logout } from '@/lib/appwrite';
 import { useGlobalContext } from '@/lib/global-provider';
-
 import icons from '@/lib/constants/icons';
-// import images from "@/constants/images";
 import { settings } from '@/lib/constants/data';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
 import { router } from 'expo-router';

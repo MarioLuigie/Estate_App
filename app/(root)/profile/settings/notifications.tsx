@@ -1,18 +1,17 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { ScrollView, Text } from 'react-native';
 
 export default function NotificationsSettings() {
   return (
-    <View style={styles.container} className='h-full'>
-      <Text>NOTIFICATIONS SETTINGS</Text>
-    </View>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ paddingBottom: 48 }}
+      className="flex-1"
+    >
+      <Text className="text-9xl">TEST NOTIFICATIONS SETTINGS</Text>
+      <Text className="text-9xl">TEST NOTIFICATIONS SETTINGS</Text>
+      <Text className="text-9xl">TEST NOTIFICATIONS SETTINGS</Text>
+    </ScrollView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});

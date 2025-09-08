@@ -27,7 +27,7 @@ export default function Home() {
 	const insets = useSafeAreaInsets();
 	const greeting = getTimeGreeting();
 
-	const isSeedButtonHidden: boolean = true;
+	const isSeedButtonHidden: boolean = !true;
 
 	const params = useLocalSearchParams<{ query?: string; filter?: string }>();
 
@@ -56,6 +56,7 @@ export default function Home() {
 			query: params.query!,
 			limit: REC_PROPERTIES_LIMIT,
 		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [params.filter, params.query]);
 
 	const handleCardPress = (id: string) => {

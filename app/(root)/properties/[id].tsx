@@ -23,6 +23,7 @@ import { useEffect, useState } from 'react';
 import MapView from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ROUTES } from '@/lib/constants/paths';
+import NavigateBack from '@/components/shared/NavigateBack';
 
 export default function Property() {
 	const { id } = useLocalSearchParams<{ id?: string }>();
@@ -77,19 +78,10 @@ export default function Property() {
 					<View
 						className="z-50 absolute px-5 py-2 bg-white/60"
 						style={{
-							// top: Platform.OS === 'ios' ? 70 : 20,
 							top: insets.top + 16,
-							// bottom: 0,
 						}}
 					>
-						<View className="flex flex-row items-center w-full justify-between">
-							<TouchableOpacity
-								onPress={() => router.push(ROUTES.EXPLORE)}
-								className="flex flex-row bg-primary-200 rounded-full size-11 items-center justify-center border-[2px] border-zinc-600"
-							>
-								<Image source={icons.backArrow} className="size-5" />
-							</TouchableOpacity>
-
+						<NavigateBack path={ROUTES.EXPLORE}>
 							<View className="flex flex-row items-center gap-3">
 								<Image
 									source={icons.heart}
@@ -98,7 +90,7 @@ export default function Property() {
 								/>
 								<Image source={icons.send} className="size-7" />
 							</View>
-						</View>
+						</NavigateBack>
 					</View>
 				</View>
 
