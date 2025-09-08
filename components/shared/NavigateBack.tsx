@@ -5,10 +5,15 @@ import { View, Text, TouchableOpacity, Image } from 'react-native';
 
 type NavigateBackProps = {
 	path: any;
-	title: string | string[];
+	title?: string | string[];
+	children?: React.ReactNode;
 };
 
-export default function NavigateBack({ path, title }: NavigateBackProps) {
+export default function NavigateBack({
+	path,
+	title,
+	children,
+}: NavigateBackProps) {
 	return (
 		<View className="flex-row items-center justify-between w-full">
 			<TouchableOpacity
@@ -17,7 +22,8 @@ export default function NavigateBack({ path, title }: NavigateBackProps) {
 			>
 				<Image source={icons.backArrow} className="size-5" />
 			</TouchableOpacity>
-			<Text className="text-xl font-rubik-bold">{title}</Text>
+			{title && <Text className="text-xl font-rubik-bold">{title}</Text>}
+			{children && <>{children}</>}
 		</View>
 	);
 }
