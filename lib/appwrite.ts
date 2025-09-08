@@ -12,19 +12,34 @@ import {
 	Storage,
 } from 'react-native-appwrite';
 
+// export const config = {
+// 	platform: 'com.mlotocki.estate',
+// 	endpoint: process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT,
+// 	projectId: process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID,
+// 	databaseId: process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID,
+// 	galleriesCollectionId:
+// 		process.env.EXPO_PUBLIC_APPWRITE_GALLERIES_COLLECTION_ID,
+// 	reviewsCollectionId: process.env.EXPO_PUBLIC_APPWRITE_REVIEWS_COLLECTION_ID,
+// 	agentsCollectionId: process.env.EXPO_PUBLIC_APPWRITE_AGENTS_COLLECTION_ID,
+// 	propertiesCollectionId:
+// 		process.env.EXPO_PUBLIC_APPWRITE_PROPERTIES_COLLECTION_ID,
+// 	bucketId: process.env.EXPO_PUBLIC_APPWRITE_BUCKET_ID,
+// 	googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
+// };
+
 export const config = {
 	platform: 'com.mlotocki.estate',
-	endpoint: process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT,
-	projectId: process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID,
-	databaseId: process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID,
+	endpoint: Constants.expoConfig?.extra?.auth?.appwriteEndpoint,
+	projectId: Constants.expoConfig?.extra?.auth?.appwriteProjectId,
+	databaseId: Constants.expoConfig?.extra?.auth?.appwriteDatabaseId,
 	galleriesCollectionId:
-		process.env.EXPO_PUBLIC_APPWRITE_GALLERIES_COLLECTION_ID,
-	reviewsCollectionId: process.env.EXPO_PUBLIC_APPWRITE_REVIEWS_COLLECTION_ID,
-	agentsCollectionId: process.env.EXPO_PUBLIC_APPWRITE_AGENTS_COLLECTION_ID,
+		Constants.expoConfig?.extra?.auth?.galleriesCollectionId,
+	reviewsCollectionId: Constants.expoConfig?.extra?.auth?.reviewsCollectionId,
+	agentsCollectionId: Constants.expoConfig?.extra?.auth?.agentsCollectionId,
 	propertiesCollectionId:
-		process.env.EXPO_PUBLIC_APPWRITE_PROPERTIES_COLLECTION_ID,
-	bucketId: process.env.EXPO_PUBLIC_APPWRITE_BUCKET_ID,
-	googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
+		Constants.expoConfig?.extra?.auth?.propertiesCollectionId,
+	bucketId: Constants.expoConfig?.extra?.auth?.bucketId,
+	googleMapsApiKey: Constants.expoConfig?.extra?.auth?.googleMapsApiKey,
 };
 
 export const client = new Client()
@@ -252,6 +267,7 @@ export async function getAddressFromCoordinates(lat: number, lng: number) {
 		const data = await response.json();
 
 		console.log('GOOGLE MAPS data:', data);
+
 		if (data.status !== 'OK' || !data.results.length) {
 			console.warn('Google Maps returned no results');
 			return null;
@@ -288,3 +304,26 @@ export async function getAddressFromCoordinates(lat: number, lng: number) {
 		return null;
 	}
 }
+
+export async function getMyProperties({ userId }: { userId: string }) {
+	try {
+		const result = await databases.listDocuments(
+			config.databaseId!,
+			config.propertiesCollectionId!,
+			[Query.equal('ownerId', userId)]
+		);
+		return result.documents;
+	} catch (err) {
+		console.error('Error in getMyProperties:', err);
+		return null;
+	}
+}
+
+// export async function getMyBookings({ userId }: { userId: string }) {
+//   const result = await databases.listDocuments(
+//     config.databaseId!,
+//     COLLECTIONS.BOOKINGS!,
+//     [Query.equal('userId', userId)]
+//   );
+//   return result.documents;
+// }
