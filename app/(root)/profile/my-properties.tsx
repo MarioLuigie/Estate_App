@@ -1,14 +1,22 @@
-import { Text, FlatList, TouchableOpacity, View, ScrollView } from 'react-native';
+import {
+	Text,
+	FlatList,
+	TouchableOpacity,
+	View,
+	ScrollView,
+} from 'react-native';
 // import PropertyCard from "@/components/content/PropertyCard";
 import { router } from 'expo-router';
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function MyPropertiesScreen() {
 	return (
 		<View className="flex-1 bg-white px-5 py-4">
 			<TouchableOpacity
-				className="bg-primary-300 py-2 px-4 rounded-lg mb-4"
+				className="bg-primary-300 py-2 px-4 rounded-lg mb-4 flex flex-row items-center justify-center"
 				onPress={() => router.push('/properties/add')}
 			>
+				<MaterialIcons name="add" size={24} color="white" />
 				<Text className="text-white font-bold text-center">
 					Add New Property
 				</Text>
