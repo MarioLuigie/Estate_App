@@ -66,7 +66,7 @@ export function Card({ item, onPress }: Props) {
 
 	return (
 		<TouchableOpacity
-			className="flex-1 w-full min-h-70 py-4 px-4 rounded-lg bg-white border border-zinc-300 relative"
+			className="flex-1 w-full min-h-70 py-4 px-4 rounded-lg bg-white border border-zinc-300 relative shadow-md"
 			onPress={onPress}
 		>
 			{/* RANGE STARS */}

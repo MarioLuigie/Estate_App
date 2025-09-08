@@ -1,15 +1,27 @@
-import {
-	Text,
-	FlatList,
-	TouchableOpacity,
-	View,
-	ScrollView,
-} from 'react-native';
+import { Text, FlatList, TouchableOpacity, View } from 'react-native';
 // import PropertyCard from "@/components/content/PropertyCard";
 import { router } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useAppwrite } from '@/lib/hooks/useAppwrite';
+import { getMyProperties } from '@/lib/appwrite';
+import { useGlobalContext } from '@/lib/global-provider';
+import PropertyCard from '@/components/content/PropertyCard';
+import EmptyState from '@/components/shared/EmptyState';
+import { useState } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function MyPropertiesScreen() {
+	const { user } = useGlobalContext();
+	const [isGrid, setIsGrid] = useState<boolean>(false);
+    const insets = useSafeAreaInsets();
+
+	const { data: properties, loading: propertiesLoading } = useAppwrite({
+		fn: getMyProperties,
+		params: { userId: user?.$id! },
+	});
+
+	console.log('MY PROPERTIES:', properties?.length);
+
 	return (
 		<View className="flex-1 bg-white px-5 py-4">
 			<TouchableOpacity
@@ -22,22 +34,34 @@ export default function MyPropertiesScreen() {
 				</Text>
 			</TouchableOpacity>
 
-			<ScrollView
-				showsVerticalScrollIndicator={false}
-				contentContainerStyle={{ paddingBottom: 48 }}
-				className="flex-1"
+			<TouchableOpacity
+				className="flex flex-row justify-end my-2"
+				onPress={() => setIsGrid((pref) => !pref)}
 			>
-				<Text className="text-9xl">MY BOOKINGS SCREEN</Text>
-				<Text className="text-9xl">MY BOOKINGS SCREEN</Text>
-				<Text className="text-9xl">MY BOOKINGS SCREEN</Text>
-				<Text className="text-9xl">MY BOOKINGS SCREEN</Text>
-			</ScrollView>
+				<MaterialIcons
+					name={isGrid ? 'view-column' : 'view-list'}
+					size={36}
+					color="#BDBDBD"
+				/>
+			</TouchableOpacity>
 
-			{/* <FlatList
-        data={properties}
-        renderItem={({ item }) => <PropertyCard item={item} />}
-        keyExtractor={(item) => item.$id}
-      /> */}
+			<FlatList
+				key={isGrid ? 'grid' : 'list'}
+				data={properties}
+				renderItem={({ item }) => (
+					<PropertyCard property={item} onPress={() => {}} />
+				)}
+				{...(isGrid && {
+					numColumns: 2,
+					columnWrapperClassName: 'flex gap-3',
+				})}
+				contentContainerStyle={{
+					paddingBottom: insets.bottom,
+				}}
+				showsVerticalScrollIndicator={false}
+				keyExtractor={(item) => item.$id}
+				ListEmptyComponent={<EmptyState isLoading={propertiesLoading} />}
+			/>
 		</View>
 	);
 }
