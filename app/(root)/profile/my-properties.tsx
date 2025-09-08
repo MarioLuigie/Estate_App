@@ -27,7 +27,7 @@ export default function MyPropertiesScreen() {
 		<View className="flex-1 bg-white px-5 py-4">
 			<TouchableOpacity
 				className="bg-primary-300 py-2 px-4 rounded-lg mb-4 flex flex-row items-center justify-center"
-				onPress={() => router.push('/properties/add')}
+				onPress={() => router.push('/properties/add/add-property')}
 			>
 				<MaterialIcons name="add" size={24} color="white" />
 				<Text className="text-white font-bold text-center">

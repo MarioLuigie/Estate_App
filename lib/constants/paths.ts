@@ -3,6 +3,7 @@ export const ROUTES = {
   SIGN_IN: '/sign-in' as const,
   PROFILE: '/profile' as const,
   PROPERTIES: '/properties' as const,
+  PROPERTIES_ADD: '/properties/add' as const,
   PROFILE_MY_BOOKINGS: '/profile/my-bookings' as const,
   PROFILE_MY_PROPERTIES: '/profile/my-properties' as const,
   PROFILE_SETTINGS_PROFILE: '/profile/settings/profile' as const,

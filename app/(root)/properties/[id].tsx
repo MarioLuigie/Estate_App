@@ -52,7 +52,7 @@ export default function Property() {
 
 	console.log('Property latitude:', property?.latitude);
 	console.log('Property longitude:', property?.longitude);
-	
+
 	return (
 		<SafeAreaView>
 			<ScrollView

@@ -1,6 +1,6 @@
 import { ActionTypes } from '@/lib/constants/enums';
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 
 type PropertyFormProps = {
 	actionType: ActionTypes;
@@ -10,11 +10,11 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 	return (
 		<>
 			{actionType === ActionTypes.CREATE ? (
-				<View style={styles.container}>
+				<View>
 					<Text>PROPERTY FORM CREATE</Text>
 				</View>
 			) : (
-				<View style={styles.container}>
+				<View>
 					<Text>PROPERTY FORM UPDATE</Text>
 				</View>
 			)}
@@ -22,10 +22,4 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 	);
 }
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-});
+

@@ -1,6 +1,7 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import icons from '@/lib/constants/icons';
+import { router } from 'expo-router';
 // import { Property } from '@/lib/types/appwrite-types';
 
 interface PropertyCardProps {
@@ -15,10 +16,11 @@ export default function PropertyCard({ property, onPress }: PropertyCardProps) {
 			onPress={onPress}
 			activeOpacity={0.8}
 		>
+			{/* EDIT PROPERTY ICON */}
 			<TouchableOpacity
 				className="absolute z-50 top-4 right-4"
 				onPress={() => {
-					console.log('EDIT:', property?.$id);
+					router.push(`/properties/update/${property?.$id}`);
 				}}
 			>
 				<MaterialIcons name="edit" size={28} color="white" />
