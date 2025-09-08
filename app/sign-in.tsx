@@ -17,6 +17,7 @@ import {
 	SafeAreaView,
 	useSafeAreaInsets,
 } from 'react-native-safe-area-context';
+import { ROUTES } from '@/lib/constants/paths';
 
 export default function SignIn() {
 	const { isLoggedIn, loading, refetch } = useGlobalContext();
@@ -24,7 +25,7 @@ export default function SignIn() {
 
 	const windowWidth = Dimensions.get('window').width;
 
-	if (!loading && isLoggedIn) return <Redirect href="/" />;
+	if (!loading && isLoggedIn) return <Redirect href={ROUTES.HOME} />;
 
 	const handleLogin = async () => {
 		const result = await login();
