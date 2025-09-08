@@ -1,3 +1,4 @@
+import Avatar from '@/components/shared/Avatar';
 import { Card, FeaturedCard } from '@/components/shared/Cards';
 import EmptyState from '@/components/shared/EmptyState';
 import Filters from '@/components/shared/Filters';
@@ -74,13 +75,7 @@ export default function Home() {
 			<View className="px-5" style={{ marginTop: insets.top + 16 }}>
 				<View className="flex flex-row items-center justify-between">
 					<View className="flex flex-row items-center">
-						<View>
-							<Image
-								source={{ uri: user?.avatar }}
-								className="size-12 rounded-full"
-							/>
-						</View>
-
+						<Avatar avatar={user?.avatar} />
 						<View className="flex flex-col items-start justify-center ml-2">
 							<Text className="text-xs font-rubik text-black-100">
 								{greeting}

@@ -25,6 +25,7 @@ export default function PropertyCard({ property, onPress }: PropertyCardProps) {
 			>
 				<MaterialIcons name="edit" size={28} color="white" />
 			</TouchableOpacity>
+      
 			{/* Obraz główny */}
 			{property?.image && (
 				<Image
