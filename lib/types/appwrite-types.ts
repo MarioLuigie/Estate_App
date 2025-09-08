@@ -6,4 +6,7 @@ export interface Property extends Models.Document {
   address: string;
   price: number;
   rating: number;
+  bedrooms: number;
+  bathrooms: number;
+  area: number;
 }

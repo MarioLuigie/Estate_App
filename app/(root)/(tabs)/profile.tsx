@@ -16,6 +16,8 @@ import icons from '@/lib/constants/icons';
 // import images from "@/constants/images";
 import { settings } from '@/lib/constants/data';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
+import { router } from 'expo-router';
+import { ROUTES } from '@/lib/constants/paths';
 
 interface SettingsItemProp {
 	icon: ImageSourcePropType;
@@ -95,8 +97,8 @@ export default function Profile() {
 				contentContainerStyle={{ paddingBottom: TABS_HEIGHT }}
 			>
 				<View className="flex flex-col mt-10">
-					<SettingsItem icon={icons.calendar} title="My Bookings" />
-					<SettingsItem icon={icons.calendar} title="My Properties" />
+					<SettingsItem icon={icons.calendar} title="My Bookings" onPress={() => router.push({ pathname: ROUTES.MY_BOOKINGS, params: { title: 'My Bookings' }})}/>
+					<SettingsItem icon={icons.calendar} title="My Properties" onPress={() => router.push({ pathname: ROUTES.MY_PROPERTIES, params: { title: 'My Properties' }})}/>
 					<SettingsItem icon={icons.wallet} title="Payments" />
 				</View>
 
