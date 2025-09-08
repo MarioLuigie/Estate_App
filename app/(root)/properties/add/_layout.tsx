@@ -4,7 +4,7 @@ import { SafeAreaView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import NavigateBack from '@/components/shared/NavigateBack';
 
-export default function MyProfileLayout() {
+export default function AddPropertyLayout() {
 	const insets = useSafeAreaInsets();
 	const params = useLocalSearchParams();
 
