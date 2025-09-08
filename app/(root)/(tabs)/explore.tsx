@@ -85,7 +85,7 @@ export default function Explore() {
 
 			{/* FOUNDED PROPERTIES */}
 			<View className="px-5">
-				<View className="flex flex-row items-center justify-between mb-4">
+				{/* <View className="flex flex-row items-center justify-between mb-4">
 					<Text className="text-xl font-rubik-medium text-black-300">
 						Found {properties?.length} Properties
 					</Text>
@@ -102,7 +102,34 @@ export default function Explore() {
 							</Text>
 						</TouchableOpacity>
 					)}
+				</View> */}
+
+				<View className="flex flex-row bg-mygrey-200 rounded-xl p-1">
+					<TouchableOpacity
+						onPress={() => setShowMap(false)}
+						className={`flex-1 py-2 rounded-xl ${!showMap ? 'bg-primary-300' : ''}`}
+					>
+						<Text
+							className={`text-center ${!showMap ? 'text-white' : 'text-black-300'}`}
+						>
+							List
+						</Text>
+					</TouchableOpacity>
+					<TouchableOpacity
+						onPress={() => setShowMap(true)}
+						className={`flex-1 py-2 rounded-xl ${showMap ? 'bg-primary-300' : ''}`}
+					>
+						<Text
+							className={`text-center ${showMap ? 'text-white' : 'text-black-300'}`}
+						>
+							Map
+						</Text>
+					</TouchableOpacity>
 				</View>
+
+				<Text className="text-xl font-rubik-medium text-black-300 mt-4 mb-2">
+					Found {properties?.length} Properties
+				</Text>
 			</View>
 
 			{/* PROPERTIES LIST */}
