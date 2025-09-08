@@ -1,5 +1,6 @@
 import icons from './icons';
 import images from './images';
+import { ROUTES } from './paths';
 
 export const cards = [
 	{
@@ -71,38 +72,43 @@ export const settings = [
 	{
 		title: 'My Bookings',
 		icon: icons.calendar,
+		path: ROUTES.PROFILE_MY_BOOKINGS,
 	},
 	{
 		title: 'My Properties',
 		icon: icons.wallet,
-	},
-	{
-		title: 'Payments',
-		icon: icons.wallet,
+		path: ROUTES.PROFILE_MY_PROPERTIES,
+
 	},
 	{
 		title: 'Profile',
 		icon: icons.person,
+		path: ROUTES.PROFILE_SETTINGS_PROFILE,
+
 	},
 	{
 		title: 'Notifications',
 		icon: icons.bell,
+		path: ROUTES.PROFILE_SETTINGS_NOTIFICATIONS,
+
+	},
+	{
+		title: 'Payments',
+		icon: icons.wallet,
+		path: ROUTES.PROFILE_SETTINGS_PAYMENTS,
+
 	},
 	{
 		title: 'Security',
 		icon: icons.shield,
-	},
-	{
-		title: 'Language',
-		icon: icons.language,
+		path: ROUTES.PROFILE_SETTINGS_SECURITY,
+
 	},
 	{
 		title: 'Help Center',
 		icon: icons.info,
-	},
-	{
-		title: 'Invite Friends',
-		icon: icons.people,
+		path: ROUTES.PROFILE_SETTINGS_HELP_CENTER,
+
 	},
 ];
 

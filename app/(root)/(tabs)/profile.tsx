@@ -97,14 +97,13 @@ export default function Profile() {
 				contentContainerStyle={{ paddingBottom: TABS_HEIGHT }}
 			>
 				<View className="flex flex-col mt-10">
-					<SettingsItem icon={icons.calendar} title="My Bookings" onPress={() => router.push({ pathname: ROUTES.MY_BOOKINGS, params: { title: 'My Bookings' }})}/>
-					<SettingsItem icon={icons.calendar} title="My Properties" onPress={() => router.push({ pathname: ROUTES.MY_PROPERTIES, params: { title: 'My Properties' }})}/>
-					<SettingsItem icon={icons.wallet} title="Payments" />
+					<SettingsItem icon={icons.calendar} title="My Bookings" onPress={() => router.push({ pathname: ROUTES.PROFILE_MY_BOOKINGS, params: { title: 'My Bookings' }})}/>
+					<SettingsItem icon={icons.calendar} title="My Properties" onPress={() => router.push({ pathname: ROUTES.PROFILE_MY_PROPERTIES, params: { title: 'My Properties' }})}/>
 				</View>
 
 				<View className="flex flex-col my-5 border-t pt-5 border-primary-200">
-					{settings.slice(3).map((item, index) => (
-						<SettingsItem key={index} {...item} />
+					{settings.slice(2).map((item, index) => (
+						<SettingsItem key={index} title={item.title} icon={item.icon} onPress={() => router.push({ pathname: item.path, params: { title: item.title}})}/>
 					))}
 				</View>
 
