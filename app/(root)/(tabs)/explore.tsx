@@ -86,25 +86,6 @@ export default function Explore() {
 
 			{/* FOUNDED PROPERTIES */}
 			<View className="px-5">
-				{/* <View className="flex flex-row items-center justify-between mb-4">
-					<Text className="text-xl font-rubik-medium text-black-300">
-						Found {properties?.length} Properties
-					</Text>
-					{!showMap ? (
-						<TouchableOpacity onPress={() => setShowMap(true)}>
-							<Text className="text-base font-rubik-bold text-primary-300">
-								See Map
-							</Text>
-						</TouchableOpacity>
-					) : (
-						<TouchableOpacity onPress={() => setShowMap(false)}>
-							<Text className="text-base font-rubik-bold text-primary-300">
-								See List
-							</Text>
-						</TouchableOpacity>
-					)}
-				</View> */}
-
 				<ToggleButtons value={showMap} onChange={setShowMap} />
 
 				<Text className="text-xl font-rubik-medium text-black-300 mt-4 mb-2">
