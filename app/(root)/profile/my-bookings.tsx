@@ -8,7 +8,7 @@ export default function MyBookingsScreen() {
 				className="bg-primary-300 py-2 px-4 rounded-lg mb-4"
 				onPress={() => router.push('/explore')}
 			>
-				<Text className="text-white font-bold text-center">Book more</Text>
+				<Text className="text-white font-bold text-center">Find Property</Text>
 			</TouchableOpacity>
 
 			<ScrollView
