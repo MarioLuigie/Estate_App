@@ -182,6 +182,7 @@ async function seed() {
 					agent: assignedAgent.$id,
 					reviews: assignedReviews.map((review) => review.$id),
 					gallery: assignedGalleries.map((gallery) => gallery.$id),
+					ownerId: i % 2 === 0 ? "68b727a34ad1fcc0988b" : "68bdadd72812646318d7",
 				}
 			);
 
