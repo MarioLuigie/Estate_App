@@ -4,7 +4,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 
 type NavigateBackProps = {
-	path: any;
+	path?: any;
 	title?: string | string[];
 	children?: React.ReactNode;
 };
@@ -15,10 +15,12 @@ export default function NavigateBack({
 	children,
 }: NavigateBackProps) {
 
+	console.log("IS TITLE?:", title)
+
 	return (
 		<View className="flex-row items-center justify-between w-full">
 			<TouchableOpacity
-				onPress={() => router.push({ pathname: path })}
+				onPress={path ? () => router.push({ pathname: path }) : () => router.back()}
 				className="flex-row bg-primary-200 rounded-full size-11 items-center justify-center border-[2px] border-zinc-600"
 			>
 				<Image source={icons.backArrow} className="size-5" />

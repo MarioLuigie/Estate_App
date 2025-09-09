@@ -81,7 +81,7 @@ export default function Property() {
 							top: insets.top + 16,
 						}}
 					>
-						<NavigateBack path={ROUTES.EXPLORE}>
+						<NavigateBack>
 							<View className="flex flex-row items-center gap-3">
 								<Image
 									source={icons.heart}

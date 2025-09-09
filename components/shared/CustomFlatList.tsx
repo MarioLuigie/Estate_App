@@ -1,4 +1,4 @@
-import { FlatList, View, TouchableOpacity, Text } from 'react-native';
+import { FlatList, View, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useState } from 'react';
 import EmptyState from './EmptyState';
@@ -46,7 +46,7 @@ export function CustomFlatList({
 				keyExtractor={(item) => item.$id}
 				{...(isGrid && {
 					numColumns: cols,
-					columnWrapperClassName: 'flex gap-2',
+					columnWrapperClassName: 'flex gap-3',
 				})}
 				contentContainerStyle={{
 					paddingBottom: insets.bottom,

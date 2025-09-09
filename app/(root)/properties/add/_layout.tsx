@@ -15,7 +15,7 @@ export default function AddPropertyLayout() {
 				style={{ marginTop: insets.top + 16 }}
 			>
 				{/* BACK NAVIGATION */}
-				<NavigateBack title='Add New Property' path={ROUTES.PROFILE_MY_PROPERTIES} />
+				<NavigateBack title={'Add New Property'} />
 			</View>
 
 			{/* MAIN CONTENT */}
