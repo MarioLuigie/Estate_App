@@ -25,7 +25,7 @@ const TabIcon = ({
 				focused
 					? 'text-primary-300 font-rubik-medium'
 					: 'text-black-200 font-rubik'
-			} text-xs w-full text-center mt-1`}
+			} text-xs w-full text-center`}
 		>
 			{title}
 		</Text>
@@ -42,7 +42,7 @@ export default function TabsLayout() {
 					position: 'absolute',
 					borderTopColor: '#0061FF1A',
 					borderTopWidth: 1,
-					minHeight: TABS_HEIGHT,
+					height: TABS_HEIGHT,
 				},
 			}}
 		>

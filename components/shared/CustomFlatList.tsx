@@ -52,7 +52,6 @@ export function CustomFlatList({
 					paddingBottom: insets.bottom,
 					display: 'flex',
 					flexDirection: 'column',
-					gap: 6,
 				}}
 				ListEmptyComponent={<EmptyState isLoading={isLoading} />}
 				showsVerticalScrollIndicator={false}

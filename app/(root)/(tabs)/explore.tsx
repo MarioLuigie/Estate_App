@@ -96,7 +96,7 @@ export default function Explore() {
 
 			{/* PROPERTIES LIST */}
 			{showMap ? (
-				<MapView style={{ flex: 1 }}>
+				<MapView style={{ flex: 1, marginBottom: insets.bottom }}>
 					{properties?.map((p) => (
 						<PropertyMarker
 							property={p}

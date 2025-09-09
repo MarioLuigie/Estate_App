@@ -1,4 +1,4 @@
-import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import PropertyCard from '@/components/content/PropertyCard';
 import { getMyProperties } from '@/lib/appwrite';
 import { ROUTES } from '@/lib/constants/paths';
@@ -16,7 +16,7 @@ export default function MyPropertiesScreen() {
 		params: { userId: user?.$id! },
 	});
 	return (
-		<SafeAreaView className="flex-1 bg-white px-5 py-4">
+		<View className="flex-1 bg-white px-5 py-4">
 			<TouchableOpacity
 				className="bg-primary-300 py-2 px-4 rounded-lg mb-4 flex flex-row items-center justify-center"
 				onPress={() => router.push('/properties/add/add-property')}
@@ -40,6 +40,6 @@ export default function MyPropertiesScreen() {
 					/>
 				)}
 			/>
-		</SafeAreaView>
+		</View>
 	);
 }
