@@ -233,6 +233,7 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 						style={{
 							borderRadius: 12,
 							overflow: 'hidden',
+							marginBottom: 16,
 						}}
 					>
 						<MapView
