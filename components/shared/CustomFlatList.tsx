@@ -25,7 +25,7 @@ export function CustomFlatList({
 	return (
 		<View className="flex-1">
       
-			<View className='flex flex-row justify-between items-center'>
+			<View className='flex flex-row justify-between items-center py-2'>
         <FoundCounter data={data} listTitle='Properties'/>
 				{/* Toggle */}
 				<TouchableOpacity
