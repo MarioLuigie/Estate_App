@@ -19,7 +19,7 @@ export default function PropertyCard({
 
 	return (
 		<TouchableOpacity
-			className={`bg-white rounded-xl shadow-md overflow-hidden mb-4 border border-mygrey-300 relative ${isGrid ? 'flex-1 bg-red-300' : 'w-full bg-yellow-300'}`}
+			className={`bg-white rounded-xl shadow-md overflow-hidden mb-4 border border-mygrey-300 relative ${isGrid ? 'flex-1' : 'w-full'}`}
 			onPress={onPress}
 			activeOpacity={0.8}
 		>

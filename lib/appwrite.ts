@@ -296,7 +296,7 @@ export async function getMyProperties({ userId }: { userId: string }) {
 		const result = await databases.listDocuments(
 			config.databaseId!,
 			config.propertiesCollectionId!,
-			[Query.equal('ownerId', userId)]
+			[Query.equal('ownerId', userId), Query.orderDesc('$createdAt')]
 		);
 		return result.documents;
 	} catch (err) {
