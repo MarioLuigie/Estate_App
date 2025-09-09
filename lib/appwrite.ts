@@ -323,10 +323,10 @@ export async function createProperty(property: any) {
 			{
 				...property,
 				geolocation: `${property.latitude},${property.longitude}`,
-				gallery: ['68bf06b300189ebc3e67', '68bf06b20032dd9e2a78'],
-				reviews: ['68bf06b20022cf122942'],
-				image: 'https://com.com/123',
-				agent: '68bffa9d00095b6cf1be',
+				gallery: ['68bffaa0002e92475682', '68bffaa00006c19b27c9'],
+				reviews: ['68bffa9e002eb11fed4b'],
+				image: 'https://images.pexels.com/photos/11299672/pexels-photo-11299672.jpeg',
+				agent: '68bffa9c00383ccc7e82',
 			}
 		);
 
