@@ -323,8 +323,10 @@ export async function createProperty(property: any) {
 			{
 				...property,
 				geolocation: `${property.latitude},${property.longitude}`,
-				gallery: property.image || [],
-				reviews: [],
+				gallery: ['68bf06b300189ebc3e67', '68bf06b20032dd9e2a78'],
+				reviews: ['68bf06b20022cf122942'],
+				image: 'https://com.com/123',
+				agent: '68bffa9d00095b6cf1be',
 			}
 		);
 

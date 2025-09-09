@@ -15,6 +15,7 @@ import MapView, { Marker } from 'react-native-maps';
 import { createProperty } from '@/lib/appwrite';
 // import { COLLECTIONS, config } from "@/lib/constants/data";
 import { PropertyFormValues, PropertyFormSchema } from '@/lib/utils/validators';
+import { useGlobalContext } from '@/lib/global-provider';
 
 type PropertyFormProps = {
 	actionType: ActionTypes;
@@ -59,6 +60,8 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 	const facilitiesSelected = watch('facilities');
 	const rating = watch('rating');
 
+	const { user } = useGlobalContext();
+
 	// --- Upload zdjęcia ---
 	// const pickImage = async () => {
 	// 	const result = await ImagePicker.launchImageLibraryAsync({
@@ -85,8 +88,10 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 	const onSubmit = async (data: PropertyFormValues) => {
 		setSubmitting(true);
 		try {
+			if (!user) return;
+
 			console.log("DATA:", data)
-			const createdProperty = await createProperty({...data, image: 'https://com.com/123', ownerId: ''});
+			const createdProperty = await createProperty({...data, ownerId: user.$id});
 
 			console.log('Property added:', createdProperty);
 		} catch (err) {
