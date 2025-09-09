@@ -1,5 +1,5 @@
 import { ActionTypes } from '@/lib/constants/enums';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	View,
 	Text,
@@ -12,21 +12,21 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as ImagePicker from 'expo-image-picker';
 import MapView, { Marker } from 'react-native-maps';
-import { createProperty } from '@/lib/appwrite';
+import { createProperty, getAgents } from '@/lib/appwrite';
 // import { COLLECTIONS, config } from "@/lib/constants/data";
 import { PropertyFormValues, PropertyFormSchema } from '@/lib/utils/validators';
 import { useGlobalContext } from '@/lib/global-provider';
+import { PropertyDefaultValues, facilities } from '@/lib/constants/data';
+import Select, { SelectOption } from '@/components/shared/SelectItem';
 
 type PropertyFormProps = {
 	actionType: ActionTypes;
 };
 
-// --- Lista przykładowych facilities ---
-const FACILITIES = ['Wifi', 'Parking', 'Pool', 'Gym', 'Pet Friendly'];
-
 export default function PropertyForm({ actionType }: PropertyFormProps) {
 	const { user } = useGlobalContext();
-	
+		const [agents, setAgents] = useState<any[]>([]);
+
 	const {
 		control,
 		handleSubmit,
@@ -35,32 +35,25 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 		formState: { errors },
 	} = useForm<PropertyFormValues>({
 		resolver: zodResolver(PropertyFormSchema),
-		defaultValues: {
-			name: '',
-			type: '',
-			description: '',
-			address: '',
-			latitude: 37.78825,
-			longitude: -122.4324,
-			price: 1000,
-			area: 500,
-			bedrooms: 1,
-			bathrooms: 1,
-			rating: 3,
-			facilities: [],
-			image: '',
-			ownerId: '',
-			gallery: [],
-			reviews: [],
-			agent: '',
-			geolocation: '',
-		},
+		defaultValues: PropertyDefaultValues,
 	});
 
 	const [submitting, setSubmitting] = useState(false);
 	const images = watch('image');
 	const facilitiesSelected = watch('facilities');
 	const rating = watch('rating');
+
+	useEffect(() => {
+		getAgents()
+		.then(res => setAgents(res ?? []))
+	}, [])
+
+	const agentsOptions: SelectOption[] = agents.map((a) => ({
+		id: a.$id,
+		label: a.name,
+		subLabel: a.email,
+		avatar: a.avatar,
+	}));
 
 	// --- Upload zdjęcia ---
 	// const pickImage = async () => {
@@ -134,7 +127,7 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 										borderColor: 'gray',
 										paddingHorizontal: 12,
 										paddingVertical: 8,
-										borderRadius: 8,
+										borderRadius: 40,
 										marginVertical: 4,
 									}}
 									value={value}
@@ -147,6 +140,21 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 									</Text>
 								)}
 							</View>
+						)}
+					/>
+
+					{/* Agents */}
+					<Controller
+						control={control}
+						name="agent"
+						render={({ field }) => (
+							<Select
+								label="Agent"
+								placeholder="Select Agent"
+								options={agentsOptions}
+								value={field.value}
+								onChange={field.onChange}
+							/>
 						)}
 					/>
 
@@ -163,7 +171,7 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 										borderColor: 'gray',
 										paddingHorizontal: 12,
 										paddingVertical: 8,
-										borderRadius: 8,
+										borderRadius: 40,
 										marginVertical: 4,
 									}}
 									value={value}
@@ -299,22 +307,23 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 					)}
 
 					{/* Facilities */}
-					<Text className="mb-1 font-bold">Facilities</Text>
+					<Text className="mb-2 font-bold">Facilities</Text>
 					<View className="flex flex-row flex-wrap mb-3">
-						{FACILITIES.map((f) => (
+						{facilities.map((f) => (
 							<TouchableOpacity
-								key={f}
-								className={`px-3 py-1 border rounded mr-2 mb-2 ${
-									facilitiesSelected?.includes(f)
-										? 'bg-blue-500'
+								key={f.title}
+								className={`flex flex-row gap-2 items-center px-4 py-2 border border-mygrey-300 rounded-full mr-2 mb-4 ${
+									facilitiesSelected?.includes(f.title)
+										? 'bg-blue-400'
 										: 'bg-gray-200'
 								}`}
-								onPress={() => toggleFacility(f)}
+								onPress={() => toggleFacility(f.title)}
 							>
+								<Image source={f.icon} className="size-6" />
 								<Text
-									className={`${facilitiesSelected?.includes(f) ? 'text-white' : 'text-black'}`}
+									className={`${facilitiesSelected?.includes(f.title) ? 'text-white' : 'text-black'}`}
 								>
-									{f}
+									{f.title}
 								</Text>
 							</TouchableOpacity>
 						))}
@@ -346,7 +355,7 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 
 					{/* Submit */}
 					<TouchableOpacity
-						className="bg-primary-300 py-3 rounded-lg mt-4"
+						className="bg-primary-300 py-3 rounded-full my-4"
 						onPress={handleSubmit(onSubmit)}
 						disabled={submitting}
 					>

@@ -78,37 +78,31 @@ export const settings = [
 		title: 'My Properties',
 		icon: icons.wallet,
 		path: ROUTES.PROFILE_MY_PROPERTIES,
-
 	},
 	{
 		title: 'Profile',
 		icon: icons.person,
 		path: ROUTES.PROFILE_SETTINGS_PROFILE,
-
 	},
 	{
 		title: 'Notifications',
 		icon: icons.bell,
 		path: ROUTES.PROFILE_SETTINGS_NOTIFICATIONS,
-
 	},
 	{
 		title: 'Payments',
 		icon: icons.wallet,
 		path: ROUTES.PROFILE_SETTINGS_PAYMENTS,
-
 	},
 	{
 		title: 'Security',
 		icon: icons.shield,
 		path: ROUTES.PROFILE_SETTINGS_SECURITY,
-
 	},
 	{
 		title: 'Help Center',
 		icon: icons.info,
 		path: ROUTES.PROFILE_SETTINGS_HELP_CENTER,
-
 	},
 ];
 
@@ -173,3 +167,24 @@ export const gallery = [
 		image: images.japan,
 	},
 ];
+
+export const PropertyDefaultValues = {
+	name: '',
+	type: '',
+	description: '',
+	address: '',
+	latitude: 37.78825,
+	longitude: -122.4324,
+	price: 1000,
+	area: 500,
+	bedrooms: 1,
+	bathrooms: 1,
+	rating: 3,
+	facilities: [],
+	image: '',
+	ownerId: '',
+	gallery: [],
+	reviews: [],
+	agent: '',
+	geolocation: '',
+};

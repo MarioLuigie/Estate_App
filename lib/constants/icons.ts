@@ -15,6 +15,7 @@ import people from "@/assets/icons/people.png";
 import shield from "@/assets/icons/shield.png";
 import wallet from "@/assets/icons/wallet.png";
 import rightArrow from "@/assets/icons/right-arrow.png";
+import downArrow from "@/assets/icons/down-arrow.png";
 import send from "@/assets/icons/send.png";
 import bed from "@/assets/icons/bed.png";
 import bath from "@/assets/icons/bath.png";
@@ -50,6 +51,7 @@ export default {
   shield,
   wallet,
   rightArrow,
+  downArrow,
   send,
   bed,
   bath,

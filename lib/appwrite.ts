@@ -242,6 +242,21 @@ export async function getAgentById({ id }: { id: string }) {
 	}
 }
 
+export async function getAgents() {
+	try {
+		const result = await databases.listDocuments(
+			config.databaseId!,
+			config.agentsCollectionId!,
+		);
+
+		return result.documents;
+		
+	} catch (error) {
+		console.log("Not found agents", error);
+		return null;
+	}
+}
+
 export async function getAddressFromCoordinates(lat: number, lng: number) {
 	try {
 		const apiKey = config.googleMapsApiKey;
