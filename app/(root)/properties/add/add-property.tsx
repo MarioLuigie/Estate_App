@@ -1,7 +1,7 @@
 import PropertyForm from '@/components/forms/PropertyForm';
 import { ActionTypes } from '@/lib/constants/enums';
 import React from 'react';
-import { ScrollView, Text } from 'react-native';
+import { ScrollView } from 'react-native';
 
 export default function AddProperty() {
 	return (
@@ -10,8 +10,6 @@ export default function AddProperty() {
 			contentContainerStyle={{ paddingBottom: 48 }}
 			className="flex-1 px-5"
 		>
-			<Text>ADD PROPERTY</Text>
-
       <PropertyForm actionType={ActionTypes.CREATE}/>
 		</ScrollView>
 	);

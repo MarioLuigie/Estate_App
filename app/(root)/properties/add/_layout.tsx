@@ -1,4 +1,4 @@
-import { Slot, useLocalSearchParams } from 'expo-router';
+import { Slot } from 'expo-router';
 import { ROUTES } from '@/lib/constants/paths';
 import { SafeAreaView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -6,7 +6,6 @@ import NavigateBack from '@/components/shared/NavigateBack';
 
 export default function AddPropertyLayout() {
 	const insets = useSafeAreaInsets();
-	const params = useLocalSearchParams();
 
 	return (
 		<SafeAreaView className="flex-1 bg-white">
@@ -16,7 +15,7 @@ export default function AddPropertyLayout() {
 				style={{ marginTop: insets.top + 16 }}
 			>
 				{/* BACK NAVIGATION */}
-				<NavigateBack title={params.title} path={ROUTES.PROFILE_MY_PROPERTIES} />
+				<NavigateBack title='Add New Property' path={ROUTES.PROFILE_MY_PROPERTIES} />
 			</View>
 
 			{/* MAIN CONTENT */}
