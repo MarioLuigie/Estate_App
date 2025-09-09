@@ -22,7 +22,7 @@ import MapView from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function Explore() {
-	const propertiesNumb = 20;
+	const propertiesNumb = 30;
 
 	const params = useLocalSearchParams<{ query?: string; filter?: string }>();
 	const insets = useSafeAreaInsets();

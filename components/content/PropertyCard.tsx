@@ -7,12 +7,19 @@ import { router } from 'expo-router';
 interface PropertyCardProps {
 	property: any;
 	onPress: () => void;
+	isGrid?: boolean;
 }
 
-export default function PropertyCard({ property, onPress }: PropertyCardProps) {
+export default function PropertyCard({
+	property,
+	onPress,
+	isGrid,
+}: PropertyCardProps) {
+	console.log('IS GRID FROM PropertyCard:', isGrid);
+
 	return (
 		<TouchableOpacity
-			className="bg-white rounded-xl shadow-md overflow-hidden mb-4 w-full flex-1 border border-mygrey-300 relative"
+			className={`bg-white rounded-xl shadow-md overflow-hidden mb-4 border border-mygrey-300 relative ${isGrid ? 'flex-1 bg-red-300' : 'w-full bg-yellow-300'}`}
 			onPress={onPress}
 			activeOpacity={0.8}
 		>
@@ -25,7 +32,7 @@ export default function PropertyCard({ property, onPress }: PropertyCardProps) {
 			>
 				<MaterialIcons name="edit" size={28} color="white" />
 			</TouchableOpacity>
-      
+
 			{/* Obraz główny */}
 			{property?.image && (
 				<Image
