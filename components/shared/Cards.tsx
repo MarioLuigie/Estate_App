@@ -16,18 +16,27 @@ interface Props {
 	onPress?: () => void;
 }
 
+export default function ComponentName() {
+	return (
+		<View>
+			<Text>Hello React Native</Text>
+		</View>
+	);
+}
+
 export function FeaturedCard({ item, onPress }: Props) {
 	const { name, price, rating, address, image } = item as unknown as Property;
 	return (
 		<TouchableOpacity
 			onPress={onPress}
-			className="flex flex-col items-start w-60 h-80 relative"
+			className="flex flex-col items-start relative"
+			style={{width: 240, height: 260}}
 		>
 			{/* BG IMAGE */}
 			<Image source={{ uri: image }} className="size-full rounded-lg" />
 			<Image
 				source={images.cardGradient}
-				className="size-full rounded-2xl absolute bottom-0"
+				className="size-full rounded-lg absolute bottom-0"
 			/>
 
 			{/* RANGE STARS */}

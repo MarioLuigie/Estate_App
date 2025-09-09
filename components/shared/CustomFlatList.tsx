@@ -4,6 +4,7 @@ import { useState } from 'react';
 import EmptyState from './EmptyState';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import FoundCounter from '@/components/shared/FoundCounter';
+import { TABS_HEIGHT } from '@/lib/constants/layout';
 
 interface CustomListProps {
 	data: any[] | null;
@@ -49,7 +50,7 @@ export function CustomFlatList({
 					columnWrapperClassName: 'flex gap-3',
 				})}
 				contentContainerStyle={{
-					paddingBottom: insets.bottom,
+					paddingBottom: insets.bottom + TABS_HEIGHT,
 					display: 'flex',
 					flexDirection: 'column',
 				}}

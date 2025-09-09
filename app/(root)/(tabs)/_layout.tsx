@@ -3,6 +3,7 @@ import { Image, ImageSourcePropType, Text, View } from 'react-native';
 
 import icons from '@/lib/constants/icons';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const TabIcon = ({
 	focused,
@@ -33,6 +34,7 @@ const TabIcon = ({
 );
 
 export default function TabsLayout() {
+	const insets = useSafeAreaInsets()
 	return (
 		<Tabs
 			screenOptions={{
@@ -43,6 +45,7 @@ export default function TabsLayout() {
 					borderTopColor: '#0061FF1A',
 					borderTopWidth: 1,
 					height: TABS_HEIGHT,
+					bottom: insets.bottom
 				},
 			}}
 		>

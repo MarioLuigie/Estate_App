@@ -96,7 +96,7 @@ export default function Explore() {
 
 			{/* PROPERTIES LIST */}
 			{showMap ? (
-				<MapView style={{ flex: 1, marginBottom: insets.bottom }}>
+				<MapView style={{ flex: 1, paddingBottom: insets.bottom }}>
 					{properties?.map((p) => (
 						<PropertyMarker
 							property={p}
@@ -112,7 +112,7 @@ export default function Explore() {
 						<Card item={item} onPress={() => handleCardPress(item.$id)} />
 					)}
 					showsVerticalScrollIndicator={false}
-					contentContainerStyle={{ paddingBottom: TABS_HEIGHT }}
+					contentContainerStyle={{ paddingBottom: insets.bottom + TABS_HEIGHT }}
 					columnWrapperClassName="flex gap-3 px-5 pb-3"
 					numColumns={2}
 					keyExtractor={(item) => item.$id}

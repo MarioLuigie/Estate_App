@@ -101,7 +101,7 @@ export default function Home() {
 					<Card item={item} onPress={() => handleCardPress(item.$id)} />
 				)}
 				showsVerticalScrollIndicator={false}
-				contentContainerStyle={{ paddingBottom: TABS_HEIGHT }}
+				contentContainerStyle={{ paddingBottom: insets.bottom + TABS_HEIGHT }}
 				columnWrapperClassName="flex gap-3 px-5 pb-3"
 				numColumns={2}
 				keyExtractor={(item) => item.$id}
@@ -109,8 +109,8 @@ export default function Home() {
 				ListHeaderComponent={
 					<View className="px-5 pb-5">
 						{/* FEATURED */}
-						<View className="my-5 flex flex-col items-center">
-							<View className="w-full flex flex-row items-center justify-between mb-4">
+						<View className="my-5">
+							<View className="flex flex-row items-center justify-between mb-4">
 								<Text className="text-xl font-rubik-bold text-black-300">
 									Featured
 								</Text>
