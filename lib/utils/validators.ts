@@ -13,7 +13,7 @@ export const PropertyFormSchema = z.object({
   bathrooms: z.number().min(1),
   rating: z.number().min(1).max(5),
   facilities: z.array(z.string()).optional(),
-  images: z.array(z.string()).optional(),
+  image: z.string().optional(),
   ownerId: z.string(),
   geolocation: z.string(),
   gallery: z.array(z.string()).optional(),
