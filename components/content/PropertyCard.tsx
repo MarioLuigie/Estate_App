@@ -15,8 +15,6 @@ export default function PropertyCard({
 	onPress,
 	isGrid,
 }: PropertyCardProps) {
-	console.log('IS GRID FROM PropertyCard:', isGrid);
-
 	return (
 		<TouchableOpacity
 			className={`bg-white rounded-xl shadow-md overflow-hidden mb-4 border border-mygrey-300 relative ${isGrid ? 'flex-1' : 'w-full'}`}

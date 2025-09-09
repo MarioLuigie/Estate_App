@@ -15,9 +15,6 @@ export default function MyPropertiesScreen() {
 		fn: getMyProperties,
 		params: { userId: user?.$id! },
 	});
-
-	console.log('MY PROPERTIES:', properties?.length);
-
 	return (
 		<View className="flex-1 bg-white px-5 py-4">
 			<TouchableOpacity
@@ -30,7 +27,7 @@ export default function MyPropertiesScreen() {
 				</Text>
 			</TouchableOpacity>
 
-			<CustomFlatList 
+			<CustomFlatList
 				data={properties}
 				isLoading={propertiesLoading}
 				renderItem={(item, isGrid) => (
@@ -42,7 +39,6 @@ export default function MyPropertiesScreen() {
 						isGrid={isGrid}
 					/>
 				)}
-			
 			/>
 		</View>
 	);

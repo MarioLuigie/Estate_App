@@ -25,6 +25,8 @@ type PropertyFormProps = {
 const FACILITIES = ['Wifi', 'Parking', 'Pool', 'Gym', 'Pet Friendly'];
 
 export default function PropertyForm({ actionType }: PropertyFormProps) {
+	const { user } = useGlobalContext();
+	
 	const {
 		control,
 		handleSubmit,
@@ -60,8 +62,6 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 	const facilitiesSelected = watch('facilities');
 	const rating = watch('rating');
 
-	const { user } = useGlobalContext();
-
 	// --- Upload zdjęcia ---
 	// const pickImage = async () => {
 	// 	const result = await ImagePicker.launchImageLibraryAsync({
@@ -90,8 +90,11 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 		try {
 			if (!user) return;
 
-			console.log("DATA:", data)
-			const createdProperty = await createProperty({...data, ownerId: user.$id});
+			console.log('DATA:', data);
+			const createdProperty = await createProperty({
+				...data,
+				ownerId: user.$id,
+			});
 
 			console.log('Property added:', createdProperty);
 		} catch (err) {
@@ -118,7 +121,6 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 		<>
 			{actionType === ActionTypes.CREATE ? (
 				<View className="py-4 bg-white">
-
 					{/* Name */}
 					<Controller
 						control={control}

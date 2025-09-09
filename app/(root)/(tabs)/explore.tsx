@@ -1,6 +1,7 @@
 import { Card } from '@/components/shared/Cards';
 import EmptyState from '@/components/shared/EmptyState';
 import Filters from '@/components/shared/Filters';
+import FoundCounter from '@/components/shared/FoundCounter';
 import PropertyMarker from '@/components/shared/PropertyMarker';
 import Search from '@/components/shared/Search';
 import ToggleButtons from '@/components/shared/ToggleButtons';
@@ -84,13 +85,13 @@ export default function Explore() {
 				<Filters />
 			</View>
 
-			{/* FOUNDED PROPERTIES */}
-			<View className="px-5">
+			<View className="px-5 mt-2">
 				<ToggleButtons value={showMap} onChange={setShowMap} />
+			</View>
 
-				<Text className="text-xl font-rubik-medium text-black-300 mt-4 mb-2">
-					Found {properties?.length} Properties
-				</Text>
+			{/* FOUNDED PROPERTIES */}
+			<View className="px-5 mt-5 mb-3">
+				<FoundCounter data={properties} listTitle="Properties" />
 			</View>
 
 			{/* PROPERTIES LIST */}
