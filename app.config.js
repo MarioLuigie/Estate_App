@@ -14,15 +14,20 @@ export default {
 			"supportsTablet": true,
 			"infoPlist": {
 				"NSPhotoLibraryUsageDescription": "This app needs access to your photo library to upload images.",
-				"NSCameraUsageDescription": "This app needs access to your camera to take photos."
+				"NSCameraUsageDescription": "This app needs access to your camera to take photos.",
+				"NSAppTransportSecurity": {
+					"NSAllowsArbitraryLoads": true // pozwala na HTTP
+				}
 			}
 		},
 		"android": {
 			"permissions": [
 				"CAMERA",
 				"READ_EXTERNAL_STORAGE",
-				"WRITE_EXTERNAL_STORAGE"
+				"WRITE_EXTERNAL_STORAGE",
+				"INTERNET"
 			],
+			"usesCleartextTraffic": true, // pozwala na HTTP
 			"package": "com.mlotocki.estate",
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/images/icon.png",
@@ -58,17 +63,17 @@ export default {
 				}
 			],
 			[
-			"expo-font",
-			{
-				"fonts": [
-					"./assets/fonts/Rubik-Bold.ttf",
-					"./assets/fonts/Rubik-ExtraBold.ttf",
-					"./assets/fonts/Rubik-Light.ttf",
-					"./assets/fonts/Rubik-Medium.ttf",
-					"./assets/fonts/Rubik-Regular.ttf",
-					"./assets/fonts/Rubik-SemiBold.ttf"
-				]
-			}
+				"expo-font",
+				{
+					"fonts": [
+						"./assets/fonts/Rubik-Bold.ttf",
+						"./assets/fonts/Rubik-ExtraBold.ttf",
+						"./assets/fonts/Rubik-Light.ttf",
+						"./assets/fonts/Rubik-Medium.ttf",
+						"./assets/fonts/Rubik-Regular.ttf",
+						"./assets/fonts/Rubik-SemiBold.ttf"
+					]
+				}
 			],
 			"expo-maps"
 		],
