@@ -6,11 +6,11 @@ import {
 	TextInput,
 	TouchableOpacity,
 	Image,
-	FlatList,
+	// FlatList,
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as ImagePicker from 'expo-image-picker';
+// import * as ImagePicker from 'expo-image-picker';
 import MapView, { Marker } from 'react-native-maps';
 import {
 	createProperty,
@@ -27,20 +27,20 @@ type PropertyFormProps = {
 	actionType: ActionTypes;
 };
 
-type AddressType = {
-	street: string;
-	city: string;
-	country: string;
-};
+// type AddressType = {
+// 	street: string;
+// 	city: string;
+// 	country: string;
+// };
 
 export default function PropertyForm({ actionType }: PropertyFormProps) {
 	const { user } = useGlobalContext();
 	const [agents, setAgents] = useState<any[]>([]);
-	const [addressState, setAddressState] = useState<AddressType>({
-		street: '',
-		city: '',
-		country: '',
-	});
+	// const [addressState, setAddressState] = useState<AddressType>({
+	// 	street: '',
+	// 	city: '',
+	// 	country: '',
+	// });
 
 	const {
 		control,
@@ -55,14 +55,14 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 	});
 
 	const [submitting, setSubmitting] = useState(false);
-	const images = watch('image');
+	// const images = watch('image');
 	const facilitiesSelected = watch('facilities');
 	const typeSelected = watch('type');
-	const rating = watch('rating');
-	const coords = {
-		latitude: watch('latitude'),
-		longitude: watch('longitude'),
-	};
+	// const rating = watch('rating');
+	// const coords = {
+	// 	latitude: watch('latitude'),
+	// 	longitude: watch('longitude'),
+	// };
 
 	useEffect(() => {
 		getAgents().then((res) => setAgents(res ?? []));
@@ -152,7 +152,7 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 
 		const fullAddress = `${address?.street}, ${address?.city}, ${address?.country}`;
 
-		setAddressState(address!);
+		// setAddressState(address!);
 		setValue('address', fullAddress); // <-- to uzupełnia input w formularzu
 	};
 
@@ -411,7 +411,7 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 						<Text className="text-white text-center">Add Image</Text>
 					</TouchableOpacity> */}
 
-					<FlatList
+					{/* <FlatList
 						data={images}
 						horizontal
 						renderItem={({ item }) => (
@@ -425,7 +425,7 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 							</View>
 						)}
 						keyExtractor={(item, index) => item + index}
-					/>
+					/> */}
 
 					{/* Submit */}
 					<TouchableOpacity
