@@ -6,6 +6,9 @@ import {
 	TextInput,
 	TouchableOpacity,
 	Image,
+	Platform,
+	Alert,
+	Linking,
 	// FlatList,
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
@@ -33,6 +36,7 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 	const { user } = useGlobalContext();
 	const [agents, setAgents] = useState<any[]>([]);
 	const [isError, setIsError] = useState<boolean>(false);
+	const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
 
 	const {
 		control,
@@ -141,9 +145,42 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 
 	const pickImage = async () => {
 		try {
+			// Check for the permission
+			if (Platform.OS !== 'web') {
+				// Ask for the permission if it is mobile platform
+				console.log('PERMISSION STATUS:', status);
+
+				if (status?.status !== 'granted') {
+					const responsePermission = await requestPermission();
+
+					console.log('RESPONSE PERMISSION:', responsePermission);
+					if (responsePermission.status !== 'granted') {
+						Alert.alert(
+							'Permission not granted',
+							'You need to grant photo library permission to select an image',
+							[
+								{ text: 'Cancel' },
+								{
+									text: 'Open Settings',
+									onPress: () => {
+										if (Platform.OS === 'ios') {
+											Linking.openURL('app-settings:');
+										} else {
+											Linking.openSettings();
+										}
+									},
+								},
+							]
+						);
+						return;
+					}
+				}
+			}
+
 			const result = await ImagePicker.launchImageLibraryAsync({
 				mediaTypes: ['images'],
 				allowsMultipleSelection: false, // only one image
+				quality: 1,
 			});
 
 			if (result.canceled) return;
@@ -210,7 +247,7 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 					/>
 
 					{/* Upload Image */}
-					<View className='mb-3'>
+					<View className="mb-3">
 						<TouchableOpacity
 							className="bg-blue-500 p-6 rounded-3xl flex justify-center items-center"
 							onPress={pickImage}
@@ -219,7 +256,7 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 								source={icons.upload_w}
 								style={{
 									width: 90,
-									height: 90
+									height: 90,
 								}}
 							/>
 							<Text className="text-white text-center">
