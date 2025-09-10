@@ -42,7 +42,7 @@ export default function Select({
 			{label && <Text className="mb-1">{label}</Text>}
 
 			<TouchableOpacity
-				className="border border-gray-500 px-4 py-2.5 rounded flex-row items-center justify-between"
+				className="border border-gray-500 px-4 py-3.5 rounded flex-row items-center justify-between"
 				onPress={() => setOpen(true)}
 				style={{ borderRadius: 40 }}
 			>

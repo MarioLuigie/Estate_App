@@ -246,13 +246,12 @@ export async function getAgents() {
 	try {
 		const result = await databases.listDocuments(
 			config.databaseId!,
-			config.agentsCollectionId!,
+			config.agentsCollectionId!
 		);
 
 		return result.documents;
-		
 	} catch (error) {
-		console.log("Not found agents", error);
+		console.log('Not found agents', error);
 		return null;
 	}
 }
@@ -346,6 +345,60 @@ export async function createProperty(property: any) {
 
 		return result;
 	} catch (error) {
-		console.error("Property not created", error)
+		console.error('Property not created', error);
+	}
+}
+
+export async function addImageToStorage(file: {
+	uri: string;
+	name: string;
+	type: string;
+	size: number;
+}): Promise<{ fileId: string; url: string } | null> {
+	try {
+		console.log('ADD IMAGE TO STORAGE1:', file);
+
+		const fetchBlob = async (uri: string) => {
+			const response = await fetch(uri);
+			const blob = await response.blob();
+			return blob;
+		};
+
+		const blobFile = await fetchBlob(file.uri);
+
+		const isValidExt = (name: string) => {
+			const ext = name.split('.').pop()?.toLowerCase();
+			return ext === 'jpg' || ext === 'jpeg' || ext === 'png';
+		};
+
+		if (!isValidExt(file.name)) {
+			throw new Error('Unsupported file type. Only JPG and PNG allowed.');
+		}
+
+		const safeFile = {
+			uri: file.uri,
+			name: file.name,
+			type: file.type,
+			size: file.size,
+		}; // sdk file type matched
+
+		console.log('ADD IMAGE TO STORAGE2:', safeFile);
+
+		const uploaded = await storage.createFile({
+			bucketId: config.bucketId!,
+			fileId: ID.unique(),
+			file: safeFile,
+			permissions: ['read("any")'],
+		});
+
+		console.log('ADD IMAGE TO STORAGE3:', uploaded);
+
+		const fileId = uploaded.$id;
+		const url = `${config.endpoint!}/v1/storage/buckets/${config.bucketId}/files/${fileId}/view?project=${config.projectId}`;
+
+		return { fileId, url };
+	} catch (error) {
+		console.error('Image upload error:', error);
+		return null;
 	}
 }

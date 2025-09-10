@@ -10,18 +10,20 @@ import {
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-// import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from 'expo-image-picker';
 import MapView, { Marker } from 'react-native-maps';
 import {
 	createProperty,
 	getAddressFromCoordinates,
 	getAgents,
+	addImageToStorage,
 } from '@/lib/appwrite';
 // import { COLLECTIONS, config } from "@/lib/constants/data";
 import { PropertyFormValues, PropertyFormSchema } from '@/lib/utils/validators';
 import { useGlobalContext } from '@/lib/global-provider';
 import { PropertyDefaultValues, facilities, types } from '@/lib/constants/data';
 import Select, { SelectOption } from '@/components/shared/SelectItem';
+import icons from '@/lib/constants/icons';
 
 type PropertyFormProps = {
 	actionType: ActionTypes;
@@ -45,7 +47,7 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 	});
 
 	const [submitting, setSubmitting] = useState(false);
-	// const images = watch('image');
+	const image = watch('image');
 	const facilitiesSelected = watch('facilities');
 	const typeSelected = watch('type');
 	// const rating = watch('rating');
@@ -63,7 +65,7 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 				if (res?.length === 0) setIsError(true);
 			} catch (error) {
 				console.error('Failed to fetch agents:', error);
-				setIsError(true)
+				setIsError(true);
 				//add state for displaying issue on UI
 			}
 		};
@@ -77,28 +79,6 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 		subLabel: a.email,
 		avatar: a.avatar,
 	}));
-
-	// --- Upload zdjęcia ---
-	// const pickImage = async () => {
-	// 	const result = await ImagePicker.launchImageLibraryAsync({
-	// 		mediaTypes: ImagePicker.MediaTypeOptions.Images,
-	// 		allowsMultipleSelection: false,
-	// 	});
-
-	// 	if (!result.canceled) {
-	// 		try {
-	// 			const file = await fetch(result.uri).then((res) => res.blob());
-	// 			const uploaded = await storage.createFile(
-	// 				config.bucketId!,
-	// 				ID.unique(),
-	// 				file
-	// 			);
-	// 			setValue('images', [...images, uploaded.$id]);
-	// 		} catch (err) {
-	// 			console.error('Upload failed', err);
-	// 		}
-	// 	}
-	// };
 
 	// --- Submit ---
 	const onSubmit = async (data: PropertyFormValues) => {
@@ -159,6 +139,43 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 		setValue('address', fullAddress); // <-- to uzupełnia input w formularzu
 	};
 
+	const pickImage = async () => {
+		try {
+			const result = await ImagePicker.launchImageLibraryAsync({
+				mediaTypes: ['images'],
+				allowsMultipleSelection: false, // only one image
+			});
+
+			if (result.canceled) return;
+
+			const asset = result.assets[0];
+
+			const getFileExtension = (asset: any) => {
+				const name =
+					asset.fileName ?? asset.uri.split('/').pop() ?? 'photo.jpg';
+				const extMatch = name.match(/\.(\w+)$/);
+				return extMatch ? extMatch[1].toLowerCase() : 'jpg';
+			};
+
+			const ext = getFileExtension(asset);
+
+			const file = {
+				uri: asset.uri,
+				name: `photo-${Date.now()}.${ext}`,
+				type: asset.type ?? asset.mimeType ?? `image/${ext}`,
+				size: asset.fileSize ?? 0,
+			};
+
+			const uploaded = await addImageToStorage(file);
+
+			if (uploaded) {
+				setValue('image', uploaded.url); // set url in form
+			}
+		} catch (error) {
+			console.error('Image picker error:', error);
+		}
+	};
+
 	return (
 		<>
 			{actionType === ActionTypes.CREATE ? (
@@ -191,6 +208,38 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 							</View>
 						)}
 					/>
+
+					{/* Upload Image */}
+					<View className='mb-3'>
+						<TouchableOpacity
+							className="bg-blue-500 p-6 rounded-3xl flex justify-center items-center"
+							onPress={pickImage}
+						>
+							<Image
+								source={icons.upload_w}
+								style={{
+									width: 90,
+									height: 90
+								}}
+							/>
+							<Text className="text-white text-center">
+								Add Main Image
+							</Text>
+						</TouchableOpacity>
+						{image ? (
+							<View className="flex flex-row gap-2">
+								<Image
+									source={{ uri: image }}
+									style={{
+										width: 120,
+										height: 120,
+										borderRadius: 8,
+										marginBottom: 8,
+									}}
+								/>
+							</View>
+						) : null}
+					</View>
 
 					{/* Agents */}
 					<Controller
@@ -406,30 +455,6 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 							</TouchableOpacity>
 						))}
 					</View>
-
-					{/* Upload Images */}
-					{/* <TouchableOpacity
-						className="bg-blue-500 py-2 rounded mb-3"
-						onPress={pickImage}
-					>
-						<Text className="text-white text-center">Add Image</Text>
-					</TouchableOpacity> */}
-
-					{/* <FlatList
-						data={images}
-						horizontal
-						renderItem={({ item }) => (
-							<View className="mr-2">
-								<Image
-									source={{
-										uri: `https://cloud.appwrite.io/v1/storage/buckets/${config.bucketId}/files/${item}/view?project=${config.projectId}`,
-									}}
-									className="w-24 h-24 rounded"
-								/>
-							</View>
-						)}
-						keyExtractor={(item, index) => item + index}
-					/> */}
 
 					{/* Submit */}
 					<TouchableOpacity
