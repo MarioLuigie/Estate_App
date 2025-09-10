@@ -50,6 +50,9 @@ export default {
 				{
 					"android": {
 						"usesCleartextTraffic": true,
+					},
+					"ios": {
+						"useFrameworks": "static"
 					}
 				}
 			],
