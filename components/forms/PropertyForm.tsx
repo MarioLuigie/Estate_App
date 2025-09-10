@@ -12,26 +12,42 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as ImagePicker from 'expo-image-picker';
 import MapView, { Marker } from 'react-native-maps';
-import { createProperty, getAgents } from '@/lib/appwrite';
+import {
+	createProperty,
+	getAddressFromCoordinates,
+	getAgents,
+} from '@/lib/appwrite';
 // import { COLLECTIONS, config } from "@/lib/constants/data";
 import { PropertyFormValues, PropertyFormSchema } from '@/lib/utils/validators';
 import { useGlobalContext } from '@/lib/global-provider';
-import { PropertyDefaultValues, facilities } from '@/lib/constants/data';
+import { PropertyDefaultValues, facilities, types } from '@/lib/constants/data';
 import Select, { SelectOption } from '@/components/shared/SelectItem';
 
 type PropertyFormProps = {
 	actionType: ActionTypes;
 };
 
+type AddressType = {
+	street: string;
+	city: string;
+	country: string;
+};
+
 export default function PropertyForm({ actionType }: PropertyFormProps) {
 	const { user } = useGlobalContext();
-		const [agents, setAgents] = useState<any[]>([]);
+	const [agents, setAgents] = useState<any[]>([]);
+	const [addressState, setAddressState] = useState<AddressType>({
+		street: '',
+		city: '',
+		country: '',
+	});
 
 	const {
 		control,
 		handleSubmit,
 		setValue,
 		watch,
+		reset,
 		formState: { errors },
 	} = useForm<PropertyFormValues>({
 		resolver: zodResolver(PropertyFormSchema),
@@ -41,12 +57,16 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 	const [submitting, setSubmitting] = useState(false);
 	const images = watch('image');
 	const facilitiesSelected = watch('facilities');
+	const typeSelected = watch('type');
 	const rating = watch('rating');
+	const coords = {
+		latitude: watch('latitude'),
+		longitude: watch('longitude'),
+	};
 
 	useEffect(() => {
-		getAgents()
-		.then(res => setAgents(res ?? []))
-	}, [])
+		getAgents().then((res) => setAgents(res ?? []));
+	}, []);
 
 	const agentsOptions: SelectOption[] = agents.map((a) => ({
 		id: a.$id,
@@ -89,6 +109,8 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 				ownerId: user.$id,
 			});
 
+			if (createdProperty) reset();
+
 			console.log('Property added:', createdProperty);
 		} catch (err) {
 			console.error(err);
@@ -108,6 +130,30 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 		} else {
 			setValue('facilities', [...current, name]);
 		}
+	};
+
+	// --- Select type ---
+	const selectType = (type: string) => {
+		if (typeSelected === type) {
+			setValue('type', '');
+		}
+
+		setValue('type', type);
+	};
+
+	const addAddressAuto = async (coords: {
+		longitude: number;
+		latitude: number;
+	}) => {
+		const address = await getAddressFromCoordinates(
+			coords.latitude,
+			coords.longitude
+		);
+
+		const fullAddress = `${address?.street}, ${address?.city}, ${address?.country}`;
+
+		setAddressState(address!);
+		setValue('address', fullAddress); // <-- to uzupełnia input w formularzu
 	};
 
 	return (
@@ -166,6 +212,7 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 							<View className="mb-3">
 								<Text>Type</Text>
 								<TextInput
+									editable={false}
 									style={{
 										borderWidth: 1,
 										borderColor: 'gray',
@@ -173,6 +220,7 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 										paddingVertical: 8,
 										borderRadius: 40,
 										marginVertical: 4,
+										color: '#000',
 									}}
 									value={value}
 									onChangeText={onChange}
@@ -186,6 +234,28 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 							</View>
 						)}
 					/>
+
+					{/* Type */}
+					<Text className="mb-2 font-bold">Type</Text>
+					<View className="flex flex-row flex-wrap mb-3">
+						{types.map((t) => (
+							<TouchableOpacity
+								key={t.title}
+								className={`flex flex-row gap-2 items-center px-4 py-2 border border-mygrey-300 rounded-full mr-2 mb-4 ${
+									typeSelected === t.type
+										? 'bg-blue-400'
+										: 'bg-gray-200'
+								}`}
+								onPress={() => selectType(t.type)}
+							>
+								<Text
+									className={`${typeSelected === t.type ? 'text-white' : 'text-black'}`}
+								>
+									{t.title}
+								</Text>
+							</TouchableOpacity>
+						))}
+					</View>
 
 					{/* Description */}
 					<Controller
@@ -202,7 +272,7 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 										borderColor: 'gray',
 										paddingHorizontal: 12,
 										paddingVertical: 8,
-										borderRadius: 8,
+										borderRadius: 20,
 										marginVertical: 4,
 									}}
 									value={value}
@@ -218,6 +288,42 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 						)}
 					/>
 
+					{/* Map */}
+					<Text className="mb-2">Select Location</Text>
+					<View
+						style={{
+							borderRadius: 20,
+							overflow: 'hidden',
+							marginBottom: 16,
+							borderColor: 'grey',
+							borderWidth: 1,
+							borderStyle: 'solid',
+						}}
+					>
+						<MapView
+							style={{ height: 260, width: '100%' }}
+							initialRegion={{
+								latitude: watch('latitude'),
+								longitude: watch('longitude'),
+								latitudeDelta: 0.01,
+								longitudeDelta: 0.01,
+							}}
+							onPress={(e) => {
+								const coords = e.nativeEvent.coordinate;
+								setValue('latitude', coords.latitude);
+								setValue('longitude', coords.longitude);
+								addAddressAuto(coords).then();
+							}}
+						>
+							<Marker
+								coordinate={{
+									latitude: watch('latitude'),
+									longitude: watch('longitude'),
+								}}
+							/>
+						</MapView>
+					</View>
+
 					{/* Address */}
 					<Controller
 						control={control}
@@ -231,7 +337,7 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 										borderColor: 'gray',
 										paddingHorizontal: 12,
 										paddingVertical: 8,
-										borderRadius: 8,
+										borderRadius: 40,
 										marginVertical: 4,
 									}}
 									value={value}
@@ -241,38 +347,6 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 							</View>
 						)}
 					/>
-
-					{/* Map */}
-					<Text className="mb-2">Select Location</Text>
-					<View
-						style={{
-							borderRadius: 12,
-							overflow: 'hidden',
-							marginBottom: 16,
-						}}
-					>
-						<MapView
-							style={{ height: 200, width: '100%' }}
-							initialRegion={{
-								latitude: watch('latitude'),
-								longitude: watch('longitude'),
-								latitudeDelta: 0.01,
-								longitudeDelta: 0.01,
-							}}
-							onPress={(e) => {
-								const coords = e.nativeEvent.coordinate;
-								setValue('latitude', coords.latitude);
-								setValue('longitude', coords.longitude);
-							}}
-						>
-							<Marker
-								coordinate={{
-									latitude: watch('latitude'),
-									longitude: watch('longitude'),
-								}}
-							/>
-						</MapView>
-					</View>
 
 					{/* Price, Area, Bedrooms, Bathrooms */}
 					{['price', 'area', 'bedrooms', 'bathrooms', 'rating'].map(
@@ -313,15 +387,15 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 							<TouchableOpacity
 								key={f.title}
 								className={`flex flex-row gap-2 items-center px-4 py-2 border border-mygrey-300 rounded-full mr-2 mb-4 ${
-									facilitiesSelected?.includes(f.title)
+									facilitiesSelected?.includes(f.facility)
 										? 'bg-blue-400'
 										: 'bg-gray-200'
 								}`}
-								onPress={() => toggleFacility(f.title)}
+								onPress={() => toggleFacility(f.facility)}
 							>
 								<Image source={f.icon} className="size-6" />
 								<Text
-									className={`${facilitiesSelected?.includes(f.title) ? 'text-white' : 'text-black'}`}
+									className={`${facilitiesSelected?.includes(f.facility) ? 'text-white' : 'text-black'}`}
 								>
 									{f.title}
 								</Text>

@@ -262,12 +262,12 @@ export async function getAddressFromCoordinates(lat: number, lng: number) {
 		const apiKey = config.googleMapsApiKey;
 
 		const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}`;
-		console.log('GOOGLE MAPS API KEY:', apiKey);
+		// console.log('GOOGLE MAPS API KEY:', apiKey);
 
 		const response = await fetch(url);
 		const data = await response.json();
 
-		console.log('GOOGLE MAPS data:', data);
+		// console.log('GOOGLE MAPS data:', data);
 
 		if (data.status !== 'OK' || !data.results.length) {
 			console.warn('Google Maps returned no results');
@@ -277,7 +277,7 @@ export async function getAddressFromCoordinates(lat: number, lng: number) {
 		const result = data.results[0];
 		const addressComponents = result.address_components;
 
-		console.log('GOOGLE MAPS data result:', result);
+		// console.log('GOOGLE MAPS data result:', result);
 
 		const street = addressComponents.find((c: any) =>
 			c.types.includes('route')
@@ -341,7 +341,6 @@ export async function createProperty(property: any) {
 				gallery: ['68bffaa0002e92475682', '68bffaa00006c19b27c9'],
 				reviews: ['68bffa9e002eb11fed4b'],
 				image: 'https://images.pexels.com/photos/11299672/pexels-photo-11299672.jpeg',
-				agent: '68bffa9c00383ccc7e82',
 			}
 		);
 

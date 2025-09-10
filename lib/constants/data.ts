@@ -68,6 +68,17 @@ export const categories = [
 	{ title: 'Others', category: 'Other' },
 ];
 
+export const types = [
+	{ title: 'Houses', type: 'House' },
+	{ title: 'Condos', type: 'Condo' },
+	{ title: 'Duplexes', type: 'Duplex' },
+	{ title: 'Studios', type: 'Studio' },
+	{ title: 'Villas', type: 'Villa' },
+	{ title: 'Apartments', type: 'Apartment' },
+	{ title: 'Townhouses', type: 'Townhouse' },
+	{ title: 'Others', type: 'Other' },
+];
+
 export const settings = [
 	{
 		title: 'My Bookings',
@@ -110,34 +121,42 @@ export const facilities = [
 	{
 		title: 'Laundry',
 		icon: icons.laundry,
+		facility: 'Laundry',
 	},
 	{
-		title: 'Car Parking',
+		title: 'Parking',
 		icon: icons.carPark,
+		facility: 'Parking',
 	},
 	{
 		title: 'Sports Center',
 		icon: icons.run,
+		facility: 'Sports-center',
 	},
 	{
 		title: 'Cutlery',
 		icon: icons.cutlery,
+		facility: 'Cutlery',
 	},
 	{
 		title: 'Gym',
 		icon: icons.dumbell,
+		facility: 'Gim',
 	},
 	{
 		title: 'Swimming pool',
 		icon: icons.swim,
+		facility: 'Swimming-pool',
 	},
 	{
 		title: 'Wifi',
 		icon: icons.wifi,
+		facility: 'Wifi',
 	},
 	{
 		title: 'Pet Center',
 		icon: icons.dog,
+		facility: 'Pet-friendly',
 	},
 ];
 
