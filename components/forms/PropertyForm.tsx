@@ -27,20 +27,10 @@ type PropertyFormProps = {
 	actionType: ActionTypes;
 };
 
-// type AddressType = {
-// 	street: string;
-// 	city: string;
-// 	country: string;
-// };
-
 export default function PropertyForm({ actionType }: PropertyFormProps) {
 	const { user } = useGlobalContext();
 	const [agents, setAgents] = useState<any[]>([]);
-	// const [addressState, setAddressState] = useState<AddressType>({
-	// 	street: '',
-	// 	city: '',
-	// 	country: '',
-	// });
+	const [isError, setIsError] = useState<boolean>(false);
 
 	const {
 		control,
@@ -65,7 +55,20 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 	// };
 
 	useEffect(() => {
-		getAgents().then((res) => setAgents(res ?? []));
+		const fetchAgents = async () => {
+			try {
+				const res = await getAgents();
+				setAgents(res ?? []);
+
+				if (res?.length === 0) setIsError(true);
+			} catch (error) {
+				console.error('Failed to fetch agents:', error);
+				setIsError(true)
+				//add state for displaying issue on UI
+			}
+		};
+
+		fetchAgents();
 	}, []);
 
 	const agentsOptions: SelectOption[] = agents.map((a) => ({
@@ -200,6 +203,7 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 								options={agentsOptions}
 								value={field.value}
 								onChange={field.onChange}
+								isError={isError}
 							/>
 						)}
 					/>

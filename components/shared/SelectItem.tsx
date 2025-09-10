@@ -22,6 +22,7 @@ interface SelectProps {
 	onChange: (id: string) => void;
 	placeholder?: string;
 	label?: string;
+	isError: boolean;
 }
 
 export default function Select({
@@ -30,6 +31,7 @@ export default function Select({
 	onChange,
 	placeholder,
 	label,
+	isError,
 }: SelectProps) {
 	const [open, setOpen] = useState(false);
 
@@ -71,43 +73,49 @@ export default function Select({
 
 			<Modal visible={open} transparent animationType="slide">
 				<View className="flex-1 bg-black/40 justify-center">
-					<View className="bg-white mx-4 rounded-xl p-4 max-h-96">
-						<FlatList
-							data={options}
-							keyExtractor={(item) => item.id}
-							renderItem={({ item }) => (
-								<TouchableOpacity
-									className="flex-row items-center py-2 px-2"
-									onPress={() => {
-										onChange(item.id);
-										setOpen(false);
-									}}
-								>
-									{item.avatar ? (
-										<Image
-											source={{ uri: item.avatar }}
-											className="w-10 h-10 rounded-full mr-3"
-										/>
-									) : (
-										<Image
-											source={icons.person}
-											className="w-10 h-10 rounded-full mr-3"
-										/>
-									)}
-									<View>
-										<Text className="font-bold">{item.label}</Text>
-										{item.subLabel && (
-											<Text className="text-gray-500">
-												{item.subLabel}
-											</Text>
+					<View className="bg-white mx-4 rounded-xl p-4 pt-8 max-h-96">
+						{!isError ? (
+							<FlatList
+								data={options}
+								keyExtractor={(item) => item.id}
+								renderItem={({ item }) => (
+									<TouchableOpacity
+										className="flex-row items-center py-2 px-2"
+										onPress={() => {
+											onChange(item.id);
+											setOpen(false);
+										}}
+									>
+										{item.avatar ? (
+											<Image
+												source={{ uri: item.avatar }}
+												className="w-10 h-10 rounded-full mr-3"
+											/>
+										) : (
+											<Image
+												source={icons.person}
+												className="w-10 h-10 rounded-full mr-3"
+											/>
 										)}
-									</View>
-								</TouchableOpacity>
-							)}
-						/>
+										<View>
+											<Text className="font-bold">{item.label}</Text>
+											{item.subLabel && (
+												<Text className="text-gray-500">
+													{item.subLabel}
+												</Text>
+											)}
+										</View>
+									</TouchableOpacity>
+								)}
+							/>
+						) : (
+							<View className='flex flex-row justify-center items-center'>
+								<Text>Unfortunetly not found agents</Text>
+							</View>
+						)}
 
 						<TouchableOpacity
-							className="mt-4 bg-gray-200 py-2 rounded"
+							className="mt-7 bg-gray-200 py-2 rounded"
 							onPress={() => setOpen(false)}
 						>
 							<Text className="text-center">Cancel</Text>
