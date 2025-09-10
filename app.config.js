@@ -27,7 +27,6 @@ export default {
 				"WRITE_EXTERNAL_STORAGE",
 				"INTERNET"
 			],
-			"usesCleartextTraffic": true, // pozwala na HTTP
 			"package": "com.mlotocki.estate",
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/images/icon.png",
@@ -46,6 +45,14 @@ export default {
 			"favicon": "./assets/images/favicon.png"
 		},
 		"plugins": [
+			[
+				"expo-build-properties",
+				{
+					"android": {
+						"usesCleartextTraffic": true,
+					}
+				}
+			],
 			"expo-router",
 			[
 				"expo-splash-screen",

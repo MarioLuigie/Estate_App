@@ -356,17 +356,18 @@ export async function addImageToStorage(file: {
 	size: number;
 }): Promise<{ fileId: string; url: string } | null> {
 	try {
+		console.log("BUCKET ID:", config.bucketId);
 		console.log('ADD IMAGE TO STORAGE1:', file);
 
-		const fetchBlob = async (uri: string) => {
-			const response = await fetch(uri);
-			const blob = await response.blob();
-			return blob;
-		};
+		// const fetchBlob = async (uri: string) => {
+		// 	const response = await fetch(uri);
+		// 	const blob = await response.blob();
+		// 	return blob;
+		// };
 
-		const blobFile = await fetchBlob(file.uri);
+		// const blobFile = await fetchBlob(file.uri);
 
-		const isValidExt = (name: string) => {
+		const isValidExt = (name: string): boolean => {
 			const ext = name.split('.').pop()?.toLowerCase();
 			return ext === 'jpg' || ext === 'jpeg' || ext === 'png';
 		};
@@ -383,6 +384,8 @@ export async function addImageToStorage(file: {
 		}; // sdk file type matched
 
 		console.log('ADD IMAGE TO STORAGE2:', safeFile);
+		
+		console.log('IS VALID TEXT:', isValidExt(file.name));
 
 		const uploaded = await storage.createFile({
 			bucketId: config.bucketId!,
