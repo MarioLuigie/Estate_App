@@ -11,6 +11,7 @@ import {
 	OAuthProvider,
 	Permission,
 	Query,
+	Role,
 	Storage,
 } from 'react-native-appwrite';
 
@@ -201,7 +202,7 @@ export async function getProperties({
 		const result = await databases.listDocuments(
 			config.databaseId!,
 			config.propertiesCollectionId!,
-			buildQuery,
+			buildQuery
 		);
 
 		return result.documents;
@@ -329,19 +330,27 @@ export async function getMyProperties({ userId }: { userId: string }) {
 //   return result.documents;
 // }
 
-export async function createProperty(property: any) {
+export async function createProperty(data: any) {
 	try {
+		const currentUser = await account.get();
+
 		const result = await databases.createDocument(
 			config.databaseId!,
 			config.propertiesCollectionId!,
 			ID.unique(),
 			{
-				...property,
-				geolocation: `${property.latitude},${property.longitude}`,
+				...data,
+				geolocation: `${data.latitude},${data.longitude}`,
 				gallery: ['68bffaa10007aaf06a7b', '68bffaa00025cfaf074d'],
 				reviews: ['68bffa9e00262f951c8c'],
 				image: 'https://images.pexels.com/photos/11299672/pexels-photo-11299672.jpeg',
-			}
+				ownerId: currentUser.$id,
+			},
+			[
+				Permission.read(Role.users()),
+				Permission.update(Role.user(currentUser.$id)),
+				Permission.delete(Role.user(currentUser.$id)),
+			]
 		);
 
 		return result;
@@ -357,7 +366,7 @@ export async function addImageToStorage(file: {
 	size: number;
 }): Promise<{ fileId: string; url: string } | null> {
 	try {
-		console.log("BUCKET ID:", config.bucketId);
+		console.log('BUCKET ID:', config.bucketId);
 		console.log('ADD IMAGE TO STORAGE1:', file);
 
 		// const fetchBlob = async (uri: string) => {
@@ -385,7 +394,7 @@ export async function addImageToStorage(file: {
 		}; // sdk file type matched
 
 		console.log('ADD IMAGE TO STORAGE2:', safeFile);
-		
+
 		console.log('IS VALID TEXT:', isValidExt(file.name));
 
 		const uploaded = await storage.createFile({

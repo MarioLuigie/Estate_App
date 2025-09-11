@@ -186,7 +186,6 @@ async function seed() {
 				},
 				[
 					Permission.read(Role.users()),
-					Permission.create(Role.users()),
 					Permission.update(Role.user(i % 2 === 0 ? "68b727a34ad1fcc0988b" : "68bdadd72812646318d7")),
 					Permission.delete(Role.user(i % 2 === 0 ? "68b727a34ad1fcc0988b" : "68bdadd72812646318d7")),
 				]

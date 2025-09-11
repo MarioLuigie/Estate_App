@@ -198,10 +198,7 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 			if (!user) return;
 
 			console.log('DATA:', data);
-			const createdProperty = await createProperty({
-				...data,
-				ownerId: user.$id,
-			});
+			const createdProperty = await createProperty(data);
 
 			if (createdProperty) reset();
 

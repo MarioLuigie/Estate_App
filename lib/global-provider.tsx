@@ -11,6 +11,7 @@ interface GlobalContextType {
 }
 
 interface User {
+	id:string,
 	$id: string;
 	name: string;
 	email: string;
@@ -30,8 +31,10 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
 
 	const isLoggedIn = !!user; // !null -> true !true -> false
 
+	const mappedUser = user ? { ...user, id: user.$id } : null;
+
 	return (
-		<GlobalContext.Provider value={{ isLoggedIn, user, loading, refetch }}>
+		<GlobalContext.Provider value={{ isLoggedIn, user: mappedUser, loading, refetch }}>
 			{children}
 		</GlobalContext.Provider>
 	);
