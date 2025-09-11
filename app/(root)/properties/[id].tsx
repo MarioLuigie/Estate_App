@@ -24,6 +24,7 @@ import MapView from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ROUTES } from '@/lib/constants/paths';
 import NavigateBack from '@/components/shared/NavigateBack';
+import { customMapStyles } from '@/lib/colorsJS';
 
 export default function Property() {
 	const { id } = useLocalSearchParams<{ id?: string }>();
@@ -266,6 +267,7 @@ export default function Property() {
 									latitudeDelta: 0.1,
 									longitudeDelta: 0.1,
 								}}
+								customMapStyle={customMapStyles}
 							>
 								<PropertyMarker property={property} />
 							</MapView>
