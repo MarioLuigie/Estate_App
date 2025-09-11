@@ -84,28 +84,6 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 		avatar: a.avatar,
 	}));
 
-	// --- Submit ---
-	const onSubmit = async (data: PropertyFormValues) => {
-		setSubmitting(true);
-		try {
-			if (!user) return;
-
-			console.log('DATA:', data);
-			const createdProperty = await createProperty({
-				...data,
-				ownerId: user.$id,
-			});
-
-			if (createdProperty) reset();
-
-			console.log('Property added:', createdProperty);
-		} catch (err) {
-			console.error(err);
-		} finally {
-			setSubmitting(false);
-		}
-	};
-
 	// --- Toggle facility ---
 	const toggleFacility = (name: string) => {
 		const current = facilitiesSelected || [];
@@ -210,6 +188,28 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 			}
 		} catch (error) {
 			console.error('Image picker error:', error);
+		}
+	};
+
+		// --- Submit ---
+	const onSubmit = async (data: PropertyFormValues) => {
+		setSubmitting(true);
+		try {
+			if (!user) return;
+
+			console.log('DATA:', data);
+			const createdProperty = await createProperty({
+				...data,
+				ownerId: user.$id,
+			});
+
+			if (createdProperty) reset();
+
+			console.log('Property added:', createdProperty);
+		} catch (err) {
+			console.error(err);
+		} finally {
+			setSubmitting(false);
 		}
 	};
 

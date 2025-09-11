@@ -6,7 +6,7 @@ import {
 	reviewImages,
 } from '@/lib/data';
 import { getRandomCoordinatesNearMajorCities } from '@/lib/tools';
-import { ID } from 'react-native-appwrite';
+import { ID, Permission, Role, } from 'react-native-appwrite';
 
 const COLLECTIONS = {
 	AGENT: config.agentsCollectionId,
@@ -183,7 +183,13 @@ async function seed() {
 					reviews: assignedReviews.map((review) => review.$id),
 					gallery: assignedGalleries.map((gallery) => gallery.$id),
 					ownerId: i % 2 === 0 ? "68b727a34ad1fcc0988b" : "68bdadd72812646318d7",
-				}
+				},
+				[
+					Permission.read(Role.users()),
+					Permission.create(Role.users()),
+					Permission.update(Role.user(i % 2 === 0 ? "68b727a34ad1fcc0988b" : "68bdadd72812646318d7")),
+					Permission.delete(Role.user(i % 2 === 0 ? "68b727a34ad1fcc0988b" : "68bdadd72812646318d7")),
+				]
 			);
 
 			// const geolocation = {};

@@ -9,6 +9,7 @@ import {
 	Databases,
 	ID,
 	OAuthProvider,
+	Permission,
 	Query,
 	Storage,
 } from 'react-native-appwrite';
@@ -200,7 +201,7 @@ export async function getProperties({
 		const result = await databases.listDocuments(
 			config.databaseId!,
 			config.propertiesCollectionId!,
-			buildQuery
+			buildQuery,
 		);
 
 		return result.documents;
@@ -337,8 +338,8 @@ export async function createProperty(property: any) {
 			{
 				...property,
 				geolocation: `${property.latitude},${property.longitude}`,
-				gallery: ['68bffaa0002e92475682', '68bffaa00006c19b27c9'],
-				reviews: ['68bffa9e002eb11fed4b'],
+				gallery: ['68bffaa10007aaf06a7b', '68bffaa00025cfaf074d'],
+				reviews: ['68bffa9e00262f951c8c'],
 				image: 'https://images.pexels.com/photos/11299672/pexels-photo-11299672.jpeg',
 			}
 		);
