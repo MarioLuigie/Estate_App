@@ -37,6 +37,7 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 	const [agents, setAgents] = useState<any[]>([]);
 	const [isError, setIsError] = useState<boolean>(false);
 	const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
+	const [imageState, setImageState] = useState<string>('');
 
 	const {
 		control,
@@ -132,6 +133,7 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 					const responsePermission = await requestPermission();
 
 					console.log('RESPONSE PERMISSION:', responsePermission);
+
 					if (responsePermission.status !== 'granted') {
 						Alert.alert(
 							'Permission not granted',
@@ -161,37 +163,28 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 				quality: 1,
 			});
 
-			if (result.canceled) return;
+			if (!result.canceled) {
+				const image = result.assets[0];
 
-			const asset = result.assets[0];
+				const imageToUpload = {
+					uri: image.uri,
+					name: image.fileName,
+					type: image.mimeType,
+					size: image.fileSize,
+				};
 
-			const getFileExtension = (asset: any) => {
-				const name =
-					asset.fileName ?? asset.uri.split('/').pop() ?? 'photo.jpg';
-				const extMatch = name.match(/\.(\w+)$/);
-				return extMatch ? extMatch[1].toLowerCase() : 'jpg';
-			};
+				setImageState(image.uri);
+				setValue('image', JSON.stringify(imageToUpload)); // set url in form
 
-			const ext = getFileExtension(asset);
-
-			const file = {
-				uri: asset.uri,
-				name: `photo-${Date.now()}.${ext}`,
-				type: asset.type ?? asset.mimeType ?? `image/${ext}`,
-				size: asset.fileSize ?? 0,
-			};
-
-			const uploaded = await addImageToStorage(file);
-
-			if (uploaded) {
-				setValue('image', uploaded.url); // set url in form
+				console.log("IMAGE URI:", image.uri);
+				console.log("IMAGE:", image);
 			}
 		} catch (error) {
 			console.error('Image picker error:', error);
 		}
 	};
 
-		// --- Submit ---
+	// --- Submit ---
 	const onSubmit = async (data: PropertyFormValues) => {
 		setSubmitting(true);
 		try {
@@ -246,33 +239,31 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 					{/* Upload Image */}
 					<View className="mb-3">
 						<TouchableOpacity
-							className="bg-blue-500 p-6 rounded-3xl flex justify-center items-center"
+							className="bg-blue-500 border border-mygrey-300 rounded-3xl"
 							onPress={pickImage}
 						>
-							<Image
-								source={icons.upload_w}
-								style={{
-									width: 90,
-									height: 90,
-								}}
-							/>
-							<Text className="text-white text-center">
-								Add Main Image
-							</Text>
-						</TouchableOpacity>
-						{image ? (
-							<View className="flex flex-row gap-2">
-								<Image
-									source={{ uri: image }}
-									style={{
-										width: 120,
-										height: 120,
-										borderRadius: 8,
-										marginBottom: 8,
-									}}
-								/>
+							<View className="flex flex-row justify-center items-center gap-2 w-full h-[180px]">
+								{imageState ? (
+									<Image
+										source={{ uri: imageState }}
+										className="size-full rounded-3xl"
+									/>
+								) : (
+									<View>
+										<Image
+											source={icons.upload_w}
+											style={{
+												width: 90,
+												height: 90,
+											}}
+										/>
+										<Text className="text-white text-center">
+											Add Main Image
+										</Text>
+									</View>
+								)}
 							</View>
-						) : null}
+						</TouchableOpacity>
 					</View>
 
 					{/* Agents */}

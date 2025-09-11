@@ -333,6 +333,23 @@ export async function getMyProperties({ userId }: { userId: string }) {
 export async function createProperty(data: any) {
 	try {
 		const currentUser = await account.get();
+		const image = JSON.parse(data.image);
+
+		const getFileExtension = (image: any) => {
+			const name =
+				image.name ?? image.uri.split('/').pop() ?? 'photo.jpg';
+			const extMatch = name.match(/\.(\w+)$/);
+			return extMatch ? extMatch[1].toLowerCase() : 'jpg';
+		};
+
+		const ext = getFileExtension(image);
+
+		const imageToStorage = {
+			...image,
+			name: `photo-${Date.now()}.${ext}`,
+		};
+
+		const uploadedImage = await addImageToStorage(imageToStorage);
 
 		const result = await databases.createDocument(
 			config.databaseId!,
@@ -343,7 +360,7 @@ export async function createProperty(data: any) {
 				geolocation: `${data.latitude},${data.longitude}`,
 				gallery: ['68bffaa10007aaf06a7b', '68bffaa00025cfaf074d'],
 				reviews: ['68bffa9e00262f951c8c'],
-				image: 'https://images.pexels.com/photos/11299672/pexels-photo-11299672.jpeg',
+				image: uploadedImage?.url,
 				ownerId: currentUser.$id,
 			},
 			[
@@ -386,28 +403,17 @@ export async function addImageToStorage(file: {
 			throw new Error('Unsupported file type. Only JPG and PNG allowed.');
 		}
 
-		const safeFile = {
-			uri: file.uri,
-			name: file.name,
-			type: file.type,
-			size: file.size,
-		}; // sdk file type matched
-
-		console.log('ADD IMAGE TO STORAGE2:', safeFile);
-
-		console.log('IS VALID TEXT:', isValidExt(file.name));
-
 		const uploaded = await storage.createFile({
 			bucketId: config.bucketId!,
 			fileId: ID.unique(),
-			file: safeFile,
+			file,
 			permissions: ['read("any")'],
 		});
 
 		console.log('ADD IMAGE TO STORAGE3:', uploaded);
 
 		const fileId = uploaded.$id;
-		const url = `${config.endpoint!}/v1/storage/buckets/${config.bucketId}/files/${fileId}/view?project=${config.projectId}`;
+		const url = `${config.endpoint!}/storage/buckets/${config.bucketId}/files/${fileId}/view?project=${config.projectId}`;
 
 		return { fileId, url };
 	} catch (error) {

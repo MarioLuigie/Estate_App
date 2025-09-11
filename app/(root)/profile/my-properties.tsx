@@ -16,7 +16,7 @@ export default function MyPropertiesScreen() {
 		params: { userId: user?.$id! },
 	});
 
-	console.log("PERMISSIONS:", properties && properties[12].$permissions);
+	console.log("PERMISSIONS:", properties && properties[0].$permissions);
 
 	return (
 		<View className="flex-1 bg-white px-5 py-4">

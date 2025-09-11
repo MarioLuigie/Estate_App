@@ -141,7 +141,7 @@ export const facilities = [
 	{
 		title: 'Gym',
 		icon: icons.dumbell,
-		facility: 'Gim',
+		facility: 'Gym',
 	},
 	{
 		title: 'Swimming pool',
