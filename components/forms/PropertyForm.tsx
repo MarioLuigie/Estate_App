@@ -1,5 +1,5 @@
 import { ActionTypes } from '@/lib/constants/enums';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
 	View,
 	Text,
@@ -9,20 +9,17 @@ import {
 	Platform,
 	Alert,
 	Linking,
-	Button,
-	// FlatList,
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as ImagePicker from 'expo-image-picker';
-import MapView, { MapPressEvent, Marker } from 'react-native-maps';
+import MapView, { MapPressEvent, Marker, Region } from 'react-native-maps';
 import {
 	createProperty,
 	getAddressFromCoordinates,
 	getCoordinatesFromAddress,
 	getAgents,
 } from '@/lib/appwrite';
-// import { COLLECTIONS, config } from "@/lib/constants/data";
 import { PropertyFormValues, PropertyFormSchema } from '@/lib/utils/validators';
 import { useGlobalContext } from '@/lib/global-provider';
 import { PropertyDefaultValues, facilities, types } from '@/lib/constants/data';
@@ -39,6 +36,7 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 	const [isError, setIsError] = useState<boolean>(false);
 	const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
 	const [imageState, setImageState] = useState<string>('');
+	const mapRef = useRef<MapView>(null);
 
 	const {
 		control,
@@ -114,7 +112,17 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 			setValue('longitude', coords.longitude);
 			setValue('latitude', coords.latitude);
 
-			console.log("Place marked on map successfully")
+			const region: Region = {
+				latitude: coords.latitude,
+				longitude: coords.longitude,
+				latitudeDelta: 0.01, // zoom – im mniejsza delta, tym bliżej
+				longitudeDelta: 0.01,
+			};
+
+			mapRef?.current?.animateToRegion(region, 1000); // 1000ms animacji
+
+			console.log('Place marked on map successfully');
+			console.log('Map ref current', mapRef.current);
 		}
 	};
 
@@ -400,6 +408,7 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 						}}
 					>
 						<MapView
+							ref={mapRef}
 							style={{ height: 260, width: '100%' }}
 							initialRegion={{
 								latitude: watch('latitude'),
@@ -438,7 +447,10 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 									onChangeText={onChange}
 									placeholder="Number Street, City, Country"
 								/>
-								<TouchableOpacity className="bg-primary-300 py-3 rounded-full my-4" onPress={() => addMapMarkerAuto(value)}>
+								<TouchableOpacity
+									className="bg-primary-300 py-3 rounded-full my-4"
+									onPress={() => addMapMarkerAuto(value)}
+								>
 									<Text className="text-white font-bold text-center">
 										Locate entered address on map
 									</Text>
