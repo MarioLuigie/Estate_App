@@ -97,13 +97,17 @@ export default function Explore() {
 
 			{/* PROPERTIES LIST */}
 			{showMap ? (
-				<MapView 
-				style={{ flex: 1, paddingBottom: insets.bottom }}
-				customMapStyle={customMapStyles}
+				<MapView
+					style={{ flex: 1, paddingBottom: insets.bottom }}
+					customMapStyle={customMapStyles}
 				>
 					{properties?.map((p) => (
 						<PropertyMarker
-							property={p}
+							settings={{
+								latitude: p.latitude,
+								longitude: p.longitude,
+								image: p.image,
+							}}
 							key={p.$id}
 							onPress={() => handleCardPress(p.$id)}
 						/>
@@ -116,7 +120,9 @@ export default function Explore() {
 						<Card item={item} onPress={() => handleCardPress(item.$id)} />
 					)}
 					showsVerticalScrollIndicator={false}
-					contentContainerStyle={{ paddingBottom: insets.bottom + TABS_HEIGHT }}
+					contentContainerStyle={{
+						paddingBottom: insets.bottom + TABS_HEIGHT,
+					}}
 					columnWrapperClassName="flex gap-3 px-5 pb-3"
 					numColumns={2}
 					keyExtractor={(item) => item.$id}

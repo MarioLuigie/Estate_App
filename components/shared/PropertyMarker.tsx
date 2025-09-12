@@ -3,18 +3,18 @@ import { Marker } from 'react-native-maps';
 import { colors } from '@/lib/colorsJS';
 
 export default function PropertyMarker({
-	property,
+	settings,
 	onPress,
 	...props
 }: {
-	property: any;
+	settings: { latitude: number; longitude: number; image: string };
 	onPress?: () => void;
 }) {
 	return (
 		<Marker
 			coordinate={{
-				latitude: property?.latitude,
-				longitude: property?.longitude,
+				latitude: settings?.latitude,
+				longitude: settings?.longitude,
 			}}
 			tracksViewChanges={true}
 			onPress={onPress}
@@ -24,7 +24,7 @@ export default function PropertyMarker({
 			<View style={styles.markerContainer}>
 				<View style={styles.imageWrapper}>
 					<Image
-						source={{ uri: property.image }}
+						source={{ uri: settings.image }}
 						style={styles.markerImage}
 					/>
 				</View>

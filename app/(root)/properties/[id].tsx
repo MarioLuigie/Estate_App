@@ -269,7 +269,13 @@ export default function Property() {
 								}}
 								customMapStyle={customMapStyles}
 							>
-								<PropertyMarker property={property} />
+								<PropertyMarker
+									settings={{
+										latitude: property.latitude,
+										longitude: property.longitude,
+										image: property.image,
+									}}
+								/>
 							</MapView>
 						</View>
 					) : (

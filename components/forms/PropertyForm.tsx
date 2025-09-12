@@ -14,12 +14,12 @@ import {
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as ImagePicker from 'expo-image-picker';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { MapPressEvent, Marker } from 'react-native-maps';
 import {
 	createProperty,
 	getAddressFromCoordinates,
+	getCoordinatesFromAddress,
 	getAgents,
-	addImageToStorage,
 } from '@/lib/appwrite';
 // import { COLLECTIONS, config } from "@/lib/constants/data";
 import { PropertyFormValues, PropertyFormSchema } from '@/lib/utils/validators';
@@ -52,7 +52,6 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 	});
 
 	const [submitting, setSubmitting] = useState(false);
-	const image = watch('image');
 	const facilitiesSelected = watch('facilities');
 	const typeSelected = watch('type');
 	// const rating = watch('rating');
@@ -105,6 +104,15 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 		}
 
 		setValue('type', type);
+	};
+
+	const addMapMarkerAuto = async (address: string) => {
+		const coords = await getCoordinatesFromAddress(address);
+
+		if (coords) {
+			setValue('longitude', coords.longitude);
+			setValue('latitude', coords.latitude);
+		}
 	};
 
 	const addAddressAuto = async (coords: {
@@ -176,12 +184,19 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 				setImageState(image.uri);
 				setValue('image', JSON.stringify(imageToUpload)); // set url in form
 
-				console.log("IMAGE URI:", image.uri);
-				console.log("IMAGE:", image);
+				console.log('IMAGE URI:', image.uri);
+				console.log('IMAGE:', image);
 			}
 		} catch (error) {
 			console.error('Image picker error:', error);
 		}
+	};
+
+	const pickLocalization = (e: MapPressEvent) => {
+		const coords = e.nativeEvent.coordinate;
+		setValue('latitude', coords.latitude);
+		setValue('longitude', coords.longitude);
+		addAddressAuto(coords).then();
 	};
 
 	// --- Submit ---
@@ -193,7 +208,10 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 			console.log('DATA:', data);
 			const createdProperty = await createProperty(data);
 
-			if (createdProperty) reset();
+			if (createdProperty) {
+				reset();
+				setImageState('');
+			}
 
 			console.log('Property added:', createdProperty);
 		} catch (err) {
@@ -386,12 +404,7 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 								latitudeDelta: 0.01,
 								longitudeDelta: 0.01,
 							}}
-							onPress={(e) => {
-								const coords = e.nativeEvent.coordinate;
-								setValue('latitude', coords.latitude);
-								setValue('longitude', coords.longitude);
-								addAddressAuto(coords).then();
-							}}
+							onPress={pickLocalization}
 						>
 							<Marker
 								coordinate={{
@@ -420,7 +433,7 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 									}}
 									value={value}
 									onChangeText={onChange}
-									placeholder="Street, City, Country"
+									placeholder="Number Street, City, Country"
 								/>
 							</View>
 						)}
