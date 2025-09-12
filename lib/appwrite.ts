@@ -307,6 +307,34 @@ export async function getAddressFromCoordinates(lat: number, lng: number) {
 	}
 }
 
+export async function getCoordinatesFromAddress(address: string) {
+	try {
+		const apiKey = config.googleMapsApiKey;
+
+		const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+			address
+		)}&key=${apiKey}`;
+
+		const response = await fetch(url);
+		const data = await response.json();
+
+		if (data.status !== 'OK' || !data.results.length) {
+			console.warn('Google Maps returned no results');
+			return null;
+		}
+
+		const location = data.results[0].geometry.location;
+
+		return {
+			latitude: location.lat,
+			longitude: location.lng,
+		};
+	} catch (err) {
+		console.error('Error in getCoordinatesFromAddress:', err);
+		return null;
+	}
+}
+
 export async function getMyProperties({ userId }: { userId: string }) {
 	try {
 		const result = await databases.listDocuments(
@@ -336,8 +364,7 @@ export async function createProperty(data: any) {
 		const image = JSON.parse(data.image);
 
 		const getFileExtension = (image: any) => {
-			const name =
-				image.name ?? image.uri.split('/').pop() ?? 'photo.jpg';
+			const name = image.name ?? image.uri.split('/').pop() ?? 'photo.jpg';
 			const extMatch = name.match(/\.(\w+)$/);
 			return extMatch ? extMatch[1].toLowerCase() : 'jpg';
 		};
