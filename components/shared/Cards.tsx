@@ -26,7 +26,6 @@ export default function ComponentName() {
 
 export function FeaturedCard({ item, onPress }: Props) {
 	const { name, price, rating, address, image } = item as unknown as Property;
-	console.log("IMAGE ERROR", image)
 	return (
 		<TouchableOpacity
 			onPress={onPress}

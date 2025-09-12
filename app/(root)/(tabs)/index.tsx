@@ -11,11 +11,12 @@ import { useAppwrite } from '@/lib/hooks/useAppwrite';
 import seed from '@/lib/seed';
 import { getTimeGreeting } from '@/lib/tools';
 import { router, useLocalSearchParams } from 'expo-router';
-import { useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
 	Button,
 	FlatList,
 	Image,
+	RefreshControl,
 	SafeAreaView,
 	Text,
 	TouchableOpacity,
@@ -27,15 +28,19 @@ export default function Home() {
 	const { user } = useGlobalContext();
 	const insets = useSafeAreaInsets();
 	const greeting = getTimeGreeting();
+	const [refreshing, setRefreshing] = useState<boolean>(false);
 
 	const isSeedButtonHidden: boolean = true;
 
 	const params = useLocalSearchParams<{ query?: string; filter?: string }>();
 
-	const { loading: latestPropertiesLoading, data: latestProperties } =
-		useAppwrite({
-			fn: () => getLatestProperties(),
-		});
+	const {
+		loading: latestPropertiesLoading,
+		data: latestProperties,
+		refetch: refetchLatestProperties,
+	} = useAppwrite({
+		fn: () => getLatestProperties(),
+	});
 
 	const {
 		loading: propertiesLoading,
@@ -50,6 +55,18 @@ export default function Home() {
 		},
 		skip: true,
 	});
+
+	const onRefresh = useCallback(async () => {
+		setRefreshing(true);
+		await refetch({
+			filter: params.filter!,
+			query: params.query!,
+			limit: REC_PROPERTIES_LIMIT,
+		});
+
+		await refetchLatestProperties();
+		setRefreshing(false);
+	}, [params.filter, params.query, refetch, refetchLatestProperties]);
 
 	useEffect(() => {
 		refetch({
@@ -100,8 +117,13 @@ export default function Home() {
 				renderItem={({ item }) => (
 					<Card item={item} onPress={() => handleCardPress(item.$id)} />
 				)}
+				refreshControl={
+					<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+				}
 				showsVerticalScrollIndicator={false}
-				contentContainerStyle={{ paddingBottom: insets.bottom + TABS_HEIGHT }}
+				contentContainerStyle={{
+					paddingBottom: insets.bottom + TABS_HEIGHT,
+				}}
 				columnWrapperClassName="flex gap-3 px-5 pb-3"
 				numColumns={2}
 				keyExtractor={(item) => item.$id}
@@ -123,6 +145,12 @@ export default function Home() {
 
 							<FlatList
 								data={latestProperties}
+								refreshControl={
+									<RefreshControl
+										refreshing={refreshing}
+										onRefresh={onRefresh}
+									/>
+								}
 								renderItem={({ item }) => (
 									<FeaturedCard
 										item={item}
