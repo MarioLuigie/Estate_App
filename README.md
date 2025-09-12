@@ -1,6 +1,6 @@
 # Estate - Estate Mobile Application
 
-![Application intro](https://raw.githubusercontent.com/MarioLuigie/Estate_App/main/assets/images/japan1.png)
+![Application intro](https://raw.githubusercontent.com/MarioLuigie/Estate_App/main/assets/images/git-hub-board.jpg)
 
 
 ## Introduction
