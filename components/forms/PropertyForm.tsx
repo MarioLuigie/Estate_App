@@ -9,6 +9,7 @@ import {
 	Platform,
 	Alert,
 	Linking,
+	Button,
 	// FlatList,
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
@@ -112,6 +113,8 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 		if (coords) {
 			setValue('longitude', coords.longitude);
 			setValue('latitude', coords.latitude);
+
+			console.log("Place marked on map successfully")
 		}
 	};
 
@@ -435,6 +438,11 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 									onChangeText={onChange}
 									placeholder="Number Street, City, Country"
 								/>
+								<TouchableOpacity className="bg-primary-300 py-3 rounded-full my-4" onPress={() => addMapMarkerAuto(value)}>
+									<Text className="text-white font-bold text-center">
+										Locate entered address on map
+									</Text>
+								</TouchableOpacity>
 							</View>
 						)}
 					/>
