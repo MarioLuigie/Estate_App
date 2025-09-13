@@ -1,31 +1,31 @@
-import { ActionTypes } from '@/lib/constants/enums';
-import React, { useState, useEffect, useRef } from 'react';
-import {
-	View,
-	Text,
-	TextInput,
-	TouchableOpacity,
-	Image,
-	Platform,
-	Alert,
-	Linking,
-} from 'react-native';
-import { useForm, Controller } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as ImagePicker from 'expo-image-picker';
-import MapView, { MapPressEvent, Marker, Region } from 'react-native-maps';
+import Select, { SelectOption } from '@/components/shared/SelectItem';
 import {
 	createProperty,
 	getAddressFromCoordinates,
-	getCoordinatesFromAddress,
 	getAgents,
+	getCoordinatesFromAddress,
 } from '@/lib/appwrite';
-import { PropertyFormValues, PropertyFormSchema } from '@/lib/utils/validators';
-import { useGlobalContext } from '@/lib/global-provider';
-import { PropertyDefaultValues, facilities, types } from '@/lib/constants/data';
-import Select, { SelectOption } from '@/components/shared/SelectItem';
-import icons from '@/lib/constants/icons';
 import { customMapStyles } from '@/lib/colorsJS';
+import { PropertyDefaultValues, facilities, types } from '@/lib/constants/data';
+import { ActionTypes } from '@/lib/constants/enums';
+import icons from '@/lib/constants/icons';
+import { useGlobalContext } from '@/lib/global-provider';
+import { PropertyFormSchema, PropertyFormValues } from '@/lib/utils/validators';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as ImagePicker from 'expo-image-picker';
+import React, { useEffect, useRef, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import {
+	Alert,
+	Image,
+	Linking,
+	Platform,
+	Text,
+	TextInput,
+	TouchableOpacity,
+	View,
+} from 'react-native';
+import MapView, { MapPressEvent, Region } from 'react-native-maps';
 import PropertyMarker from '../shared/PropertyMarker';
 
 type PropertyFormProps = {
