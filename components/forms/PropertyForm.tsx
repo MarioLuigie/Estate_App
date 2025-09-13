@@ -425,6 +425,7 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 								settings={{
 									latitude: watch('latitude'),
 									longitude: watch('longitude'),
+									image: imageState,
 								}}
 							/>
 						</MapView>
