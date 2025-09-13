@@ -7,7 +7,7 @@ export default function PropertyMarker({
 	onPress,
 	...props
 }: {
-	settings: { latitude: number; longitude: number; image: string };
+	settings: { latitude: number; longitude: number; image?: string };
 	onPress?: () => void;
 }) {
 	return (
@@ -23,10 +23,14 @@ export default function PropertyMarker({
 			{/* Custom marker */}
 			<View style={styles.markerContainer}>
 				<View style={styles.imageWrapper}>
-					<Image
-						source={{ uri: settings.image }}
-						style={styles.markerImage}
-					/>
+					{settings.image ? (
+						<Image
+							source={{ uri: settings.image }}
+							style={styles.markerImage}
+						/>
+					) : (
+						<View className='w-[50px] h-[50px] bg-primary-300 rounded-full'></View>
+					)}
 				</View>
 
 				{/* Igła markera */}
@@ -47,12 +51,17 @@ const styles = StyleSheet.create({
 		overflow: 'hidden',
 		borderWidth: 3,
 		borderColor: colors.primary[300],
+		// backgroundColor: colors.primary[300],
 		backgroundColor: '#fff',
 		elevation: 5, // Android shadow
 		shadowColor: '#000', // iOS shadow
 		shadowOffset: { width: 0, height: 2 },
 		shadowOpacity: 0.3,
 		shadowRadius: 4,
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	markerImage: {
 		width: '100%',

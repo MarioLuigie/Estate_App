@@ -25,6 +25,8 @@ import { useGlobalContext } from '@/lib/global-provider';
 import { PropertyDefaultValues, facilities, types } from '@/lib/constants/data';
 import Select, { SelectOption } from '@/components/shared/SelectItem';
 import icons from '@/lib/constants/icons';
+import { customMapStyles } from '@/lib/colorsJS';
+import PropertyMarker from '../shared/PropertyMarker';
 
 type PropertyFormProps = {
 	actionType: ActionTypes;
@@ -409,6 +411,7 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 					>
 						<MapView
 							ref={mapRef}
+							customMapStyle={customMapStyles}
 							style={{ height: 260, width: '100%' }}
 							initialRegion={{
 								latitude: watch('latitude'),
@@ -418,8 +421,8 @@ export default function PropertyForm({ actionType }: PropertyFormProps) {
 							}}
 							onPress={pickLocalization}
 						>
-							<Marker
-								coordinate={{
+							<PropertyMarker
+								settings={{
 									latitude: watch('latitude'),
 									longitude: watch('longitude'),
 								}}
