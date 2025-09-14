@@ -1,3 +1,4 @@
+import { ActionTypes } from './enums';
 import icons from './icons';
 import images from './images';
 import { ROUTES } from './paths';
@@ -187,7 +188,7 @@ export const gallery = [
 	},
 ];
 
-export const PropertyDefaultValues = {
+export const PROPERTY_FORM_DEFAULT_VALUES = {
 	name: '',
 	type: '',
 	description: '',
@@ -207,3 +208,17 @@ export const PropertyDefaultValues = {
 	agent: '',
 	geolocation: '',
 };
+
+export function getPropertyFormDefaultValues(
+	actionType: ActionTypes,
+	property: any | null | undefined
+) {
+	if (actionType === ActionTypes.CREATE) {
+		return PROPERTY_FORM_DEFAULT_VALUES;
+	}
+
+	if (actionType === ActionTypes.UPDATE && property) {
+		return property;
+	}
+	return PROPERTY_FORM_DEFAULT_VALUES;
+}

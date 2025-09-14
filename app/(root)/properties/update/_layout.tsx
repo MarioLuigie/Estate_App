@@ -1,5 +1,4 @@
 import { Slot } from 'expo-router';
-import { ROUTES } from '@/lib/constants/paths';
 import { SafeAreaView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import NavigateBack from '@/components/shared/NavigateBack';

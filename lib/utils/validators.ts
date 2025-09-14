@@ -1,6 +1,7 @@
 import { z } from 'zod';
+import { ActionTypes } from '@/lib/constants/enums';
 
-export const PropertyFormSchema = z.object({
+export const CreatePropertyFormSchema = z.object({
 	name: z.string().min(3, 'Name must be at least 3 characters'),
 	type: z.string().min(1, 'Select only 1 type'),
 	description: z
@@ -23,4 +24,15 @@ export const PropertyFormSchema = z.object({
 	agent: z.string(),
 });
 
-export type PropertyFormValues = z.infer<typeof PropertyFormSchema>;
+export type PropertyFormValues = z.infer<typeof CreatePropertyFormSchema>;
+
+export const UpdatePropertyFormSchema = CreatePropertyFormSchema.extend({ $id: z.string().min(1, 'Id is required')}); 
+
+export function getPropertyFormSchema(actionType: ActionTypes) {
+	switch (actionType) {
+		case ActionTypes.CREATE:
+			return CreatePropertyFormSchema;
+		case ActionTypes.UPDATE:
+			return UpdatePropertyFormSchema;
+	}
+}

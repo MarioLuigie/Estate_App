@@ -1,4 +1,4 @@
-import { arrayBufferToBase64 } from '@/lib/tools';
+import { arrayBufferToBase64, prepareImageForStorage } from '@/lib/tools';
 import { makeRedirectUri } from 'expo-auth-session';
 import Constants from 'expo-constants';
 import * as WebBrowser from 'expo-web-browser';
@@ -361,22 +361,8 @@ export async function getMyProperties({ userId }: { userId: string }) {
 export async function createProperty(data: any) {
 	try {
 		const currentUser = await account.get();
-		const image = JSON.parse(data.image);
-
-		const getFileExtension = (image: any) => {
-			const name = image.name ?? image.uri.split('/').pop() ?? 'photo.jpg';
-			const extMatch = name.match(/\.(\w+)$/);
-			return extMatch ? extMatch[1].toLowerCase() : 'jpg';
-		};
-
-		const ext = getFileExtension(image);
-
-		const imageToStorage = {
-			...image,
-			name: `photo-${Date.now()}.${ext}`,
-		};
-
-		const uploadedImage = await addImageToStorage(imageToStorage);
+		const preparedImage = prepareImageForStorage(data);
+		const uploadedImage = await addImageToStorage(preparedImage);
 
 		const result = await databases.createDocument(
 			config.databaseId!,
@@ -400,6 +386,50 @@ export async function createProperty(data: any) {
 		return result;
 	} catch (error) {
 		console.error('Property not created', error);
+		return null;
+	}
+}
+
+export async function updateProperty(data: any) {
+	try {
+
+		const replacedImage = await replaceImageInStorage(data.image, '');
+
+		const result = databases.updateDocument(
+			config.databaseId!,
+			config.propertiesCollectionId!,
+			data.$id,
+			{ ...data, image: replacedImage?.url }
+		);
+
+		return result;
+	} catch (error) {
+		console.error('Property not updated', error);
+		return null;
+	}
+}
+
+export async function replaceImageInStorage(
+	file: {
+		uri: string;
+		name: string;
+		type: string;
+		size: number;
+	},
+	oldFileId: string
+) {
+	try {
+		if (oldFileId) {
+			await storage.deleteFile(config.bucketId, oldFileId);
+			console.log('Old file deleted successfully:', oldFileId);
+		}
+
+		const replacedImage = await addImageToStorage(file);
+
+		return replacedImage;
+	} catch (error) {
+		console.error('Image delete error:', error);
+		return null;
 	}
 }
 
