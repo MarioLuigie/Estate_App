@@ -1,10 +1,11 @@
+// modules
 import { MaterialIcons } from '@expo/vector-icons';
 import { View, Text, Image, TouchableOpacity, Alert } from 'react-native';
-import icons from '@/lib/constants/icons';
-import { router } from 'expo-router';
-import { deleteProperty } from '@/lib/appwrite';
 import { Dispatch, SetStateAction } from 'react';
-// import { Property } from '@/lib/types/appwrite-types';
+import { router } from 'expo-router';
+// lib
+import icons from '@/lib/constants/icons';
+import { deleteProperty } from '@/lib/appwrite';
 
 interface PropertyCardProps {
 	property: any;

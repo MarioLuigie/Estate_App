@@ -1,6 +1,7 @@
+// modules
 import React from 'react';
 import { Image, Text, View } from 'react-native';
-
+// lib
 import images from '@/lib/constants/images';
 
 export default function NoResults() {

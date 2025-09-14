@@ -1,9 +1,12 @@
-import PropertyForm from '@/components/forms/PropertyForm';
-import { getPropertyById } from '@/lib/appwrite';
-import { ActionTypes } from '@/lib/constants/enums';
+// modules
 import { useLocalSearchParams } from 'expo-router';
 import { ScrollView, Text, View } from 'react-native';
 import { useEffect, useState } from 'react';
+// lib
+import { getPropertyById } from '@/lib/appwrite';
+import { ActionTypes } from '@/lib/constants/enums';
+// components
+import PropertyForm from '@/components/forms/PropertyForm';
 
 export default function UpdateProperty() {
 	const { id } = useLocalSearchParams<{ id?: string }>();

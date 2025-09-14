@@ -1,4 +1,22 @@
-import Select, { SelectOption } from '@/components/shared/SelectItem';
+// modules
+import { z } from 'zod';
+import { router } from 'expo-router';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as ImagePicker from 'expo-image-picker';
+import React, { useEffect, useRef, useState } from 'react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import {
+	Alert,
+	Image,
+	Linking,
+	Platform,
+	Text,
+	TextInput,
+	TouchableOpacity,
+	View,
+} from 'react-native';
+import MapView, { MapPressEvent, Region } from 'react-native-maps';
+// lib
 import {
 	createProperty,
 	getAddressFromCoordinates,
@@ -19,25 +37,10 @@ import {
 	PropertyFormValues,
 	getPropertyFormSchema,
 } from '@/lib/utils/validators';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as ImagePicker from 'expo-image-picker';
-import React, { useEffect, useRef, useState } from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import {
-	Alert,
-	Image,
-	Linking,
-	Platform,
-	Text,
-	TextInput,
-	TouchableOpacity,
-	View,
-} from 'react-native';
-import MapView, { MapPressEvent, Region } from 'react-native-maps';
-import PropertyMarker from '@/components/shared/PropertyMarker';
-import { z } from 'zod';
-import { router } from 'expo-router';
 import { ROUTES } from '@/lib/constants/paths';
+// components
+import PropertyMarker from '@/components/shared/PropertyMarker';
+import Select, { SelectOption } from '@/components/shared/SelectItem';
 
 type PropertyFormProps = {
 	actionType: ActionTypes;

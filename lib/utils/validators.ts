@@ -1,4 +1,6 @@
+// modules
 import { z } from 'zod';
+// lib
 import { ActionTypes } from '@/lib/constants/enums';
 
 export const CreatePropertyFormSchema = z.object({

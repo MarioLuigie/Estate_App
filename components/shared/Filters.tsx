@@ -1,7 +1,8 @@
+// modules
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
 import { ScrollView, Text, TouchableOpacity } from 'react-native';
-
+// lib
 import { categories } from '@/lib/constants/data';
 
 export default function Filters() {

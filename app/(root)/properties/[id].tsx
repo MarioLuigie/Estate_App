@@ -1,3 +1,4 @@
+// modules
 import { useLocalSearchParams } from 'expo-router';
 import {
 	ActivityIndicator,
@@ -10,20 +11,20 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
-
-import Comment from '@/components/content/Comment';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useEffect, useState } from 'react';
+import MapView from 'react-native-maps';
+// lib
 import { facilities } from '@/lib/constants/data';
 import icons from '@/lib/constants/icons';
 import images from '@/lib/constants/images';
-
-import PropertyMarker from '@/components/shared/PropertyMarker';
+import { customMapStyles } from '@/lib/colorsJS';
 import { getAgentById, getPropertyById } from '@/lib/appwrite';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
-import { useEffect, useState } from 'react';
-import MapView from 'react-native-maps';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+// components
+import Comment from '@/components/content/Comment';
+import PropertyMarker from '@/components/shared/PropertyMarker';
 import NavigateBack from '@/components/shared/NavigateBack';
-import { customMapStyles } from '@/lib/colorsJS';
 
 export default function Property() {
 	const { id } = useLocalSearchParams<{ id?: string }>();

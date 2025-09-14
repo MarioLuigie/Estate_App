@@ -1,8 +1,10 @@
-import icons from '@/lib/constants/icons';
+// modules
 import { router, useLocalSearchParams, usePathname } from 'expo-router';
 import React, { useState } from 'react';
 import { Image, TextInput, TouchableOpacity, View } from 'react-native';
 import { useDebouncedCallback } from 'use-debounce';
+// lib
+import icons from '@/lib/constants/icons';
 
 export default function Search() {
 	const path = usePathname();

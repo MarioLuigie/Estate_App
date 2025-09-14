@@ -1,3 +1,4 @@
+// lib
 import { ActionTypes } from './enums';
 import icons from './icons';
 import images from './images';

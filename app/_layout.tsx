@@ -1,9 +1,11 @@
+// modules
 import { useEffect } from 'react';
 import { Stack } from 'expo-router';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
+// lib
 import { GlobalProvider } from '@/lib/global-provider';
-
+// styles
 import './globals.css';
 
 export default function RootLayout() {

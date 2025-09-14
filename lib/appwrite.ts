@@ -1,4 +1,4 @@
-import { arrayBufferToBase64, prepareImageForStorage } from '@/lib/tools';
+// modules
 import { makeRedirectUri } from 'expo-auth-session';
 import Constants from 'expo-constants';
 import * as WebBrowser from 'expo-web-browser';
@@ -14,6 +14,8 @@ import {
 	Role,
 	Storage,
 } from 'react-native-appwrite';
+// lib
+import { arrayBufferToBase64, prepareImageForStorage } from '@/lib/tools';
 
 export const config = {
 	platform: 'com.mlotocki.estate',

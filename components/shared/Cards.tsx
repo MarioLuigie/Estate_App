@@ -1,7 +1,9 @@
+// modules
+import { Models } from 'react-native-appwrite';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
+// lib
 import icons from '@/lib/constants/icons';
 import images from '@/lib/constants/images';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
-import { Models } from 'react-native-appwrite';
 
 export interface Property extends Models.Document {
 	image: { url: string, fileId: string };

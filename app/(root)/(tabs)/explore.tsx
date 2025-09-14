@@ -1,3 +1,13 @@
+// modules
+import { router, useLocalSearchParams } from 'expo-router';
+import { useEffect, useState } from 'react';
+// lib
+import { getProperties } from '@/lib/appwrite';
+import { customMapStyles } from '@/lib/colorsJS';
+import icons from '@/lib/constants/icons';
+import { TABS_HEIGHT } from '@/lib/constants/layout';
+import { useAppwrite } from '@/lib/hooks/useAppwrite';
+// components
 import { Card } from '@/components/shared/Cards';
 import EmptyState from '@/components/shared/EmptyState';
 import Filters from '@/components/shared/Filters';
@@ -5,13 +15,6 @@ import FoundCounter from '@/components/shared/FoundCounter';
 import PropertyMarker from '@/components/shared/PropertyMarker';
 import Search from '@/components/shared/Search';
 import ToggleButtons from '@/components/shared/ToggleButtons';
-import { getProperties } from '@/lib/appwrite';
-import { customMapStyles } from '@/lib/colorsJS';
-import icons from '@/lib/constants/icons';
-import { TABS_HEIGHT } from '@/lib/constants/layout';
-import { useAppwrite } from '@/lib/hooks/useAppwrite';
-import { router, useLocalSearchParams } from 'expo-router';
-import { useEffect, useState } from 'react';
 import {
 	FlatList,
 	Image,

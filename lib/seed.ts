@@ -1,4 +1,6 @@
-import { config, databases, getAddressFromCoordinates } from '@/lib/appwrite';
+// modules
+import { ID, Permission, Role } from 'react-native-appwrite';
+// lib
 import {
 	agentImages,
 	galleryImages,
@@ -6,7 +8,7 @@ import {
 	reviewImages,
 } from '@/lib/data';
 import { getRandomCoordinatesNearMajorCities } from '@/lib/tools';
-import { ID, Permission, Role } from 'react-native-appwrite';
+import { config, databases, getAddressFromCoordinates } from '@/lib/appwrite';
 
 const COLLECTIONS = {
 	AGENT: config.agentsCollectionId,

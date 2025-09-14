@@ -1,6 +1,8 @@
+// modules
 import { Slot } from 'expo-router';
 import { SafeAreaView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+// components
 import NavigateBack from '@/components/shared/NavigateBack';
 
 export default function UpdatePropertyLayout() {

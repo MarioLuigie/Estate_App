@@ -1,8 +1,7 @@
-import Avatar from '@/components/shared/Avatar';
-import { Card, FeaturedCard } from '@/components/shared/Cards';
-import EmptyState from '@/components/shared/EmptyState';
-import Filters from '@/components/shared/Filters';
-import Search from '@/components/shared/Search';
+// modules
+import { router, useLocalSearchParams } from 'expo-router';
+import { useCallback, useEffect, useState } from 'react';
+// lib
 import { getLatestProperties, getProperties } from '@/lib/appwrite';
 import icons from '@/lib/constants/icons';
 import { REC_PROPERTIES_LIMIT, TABS_HEIGHT } from '@/lib/constants/layout';
@@ -10,8 +9,12 @@ import { useGlobalContext } from '@/lib/global-provider';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
 import seed from '@/lib/seed';
 import { getTimeGreeting } from '@/lib/tools';
-import { router, useLocalSearchParams } from 'expo-router';
-import { useCallback, useEffect, useState } from 'react';
+// components
+import Avatar from '@/components/shared/Avatar';
+import { Card, FeaturedCard } from '@/components/shared/Cards';
+import EmptyState from '@/components/shared/EmptyState';
+import Filters from '@/components/shared/Filters';
+import Search from '@/components/shared/Search';
 import {
 	Button,
 	FlatList,

@@ -1,5 +1,6 @@
+// modules
 import { Image, Text, View } from 'react-native';
-
+// lib
 import icons from '@/lib/constants/icons';
 
 interface Props {

@@ -1,7 +1,8 @@
+// modules
 import { Redirect, Slot } from "expo-router";
 import { ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
+// lib
 import { useGlobalContext } from "@/lib/global-provider";
 import { ROUTES } from "@/lib/constants/paths";
 

@@ -1,5 +1,6 @@
+// modules
 import React, { createContext, ReactNode, useContext } from 'react';
-
+// lib
 import { getCurrentUser } from '@/lib/appwrite';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
 

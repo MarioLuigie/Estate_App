@@ -1,3 +1,4 @@
+// modules
 import React, { useState } from 'react';
 import {
 	View,
@@ -7,6 +8,7 @@ import {
 	Modal,
 	Image,
 } from 'react-native';
+// lib
 import icons from '@/lib/constants/icons';
 
 export interface SelectOption {

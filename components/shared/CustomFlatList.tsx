@@ -1,10 +1,13 @@
+// modules
 import { FlatList, View, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useState } from 'react';
-import EmptyState from './EmptyState';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import FoundCounter from '@/components/shared/FoundCounter';
+// lib
 import { TABS_HEIGHT } from '@/lib/constants/layout';
+// components
+import EmptyState from '@/components/shared/EmptyState';
+import FoundCounter from '@/components/shared/FoundCounter';
 
 interface CustomListProps {
 	data: any[] | null;

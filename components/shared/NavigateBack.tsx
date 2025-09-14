@@ -1,7 +1,9 @@
-import icons from '@/lib/constants/icons';
+// modules
 import { router } from 'expo-router';
 import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
+// lib
+import icons from '@/lib/constants/icons';
 
 type NavigateBackProps = {
 	path?: any;

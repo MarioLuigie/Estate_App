@@ -1,13 +1,16 @@
+// modules
 import { Text, TouchableOpacity, View } from 'react-native';
-import PropertyCard from '@/components/content/PropertyCard';
+import { router } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { MaterialIcons } from '@expo/vector-icons';
+// lib
 import { getMyProperties } from '@/lib/appwrite';
 import { ROUTES } from '@/lib/constants/paths';
 import { useGlobalContext } from '@/lib/global-provider';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
-import { MaterialIcons } from '@expo/vector-icons';
-import { router } from 'expo-router';
+// components
+import PropertyCard from '@/components/content/PropertyCard';
 import { CustomFlatList } from '@/components/shared/CustomFlatList';
-import { useEffect, useState } from 'react';
 
 export default function MyPropertiesScreen() {
 	const { user } = useGlobalContext();
@@ -21,8 +24,6 @@ export default function MyPropertiesScreen() {
 	useEffect(() => {
 		refetch()
 	}, [cardDeleted]);
-
-	// console.log('PERMISSIONS:', properties && properties[0].$permissions);
 
 	let preparedProperties: any[] = [];
 	if (properties && properties?.length > 0) {

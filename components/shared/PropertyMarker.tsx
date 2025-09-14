@@ -1,5 +1,7 @@
+// modules
 import { View, StyleSheet, Image } from 'react-native';
 import { Marker } from 'react-native-maps';
+// lib
 import { colors } from '@/lib/colorsJS';
 
 export default function PropertyMarker({

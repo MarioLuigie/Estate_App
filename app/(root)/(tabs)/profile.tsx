@@ -1,3 +1,4 @@
+// modules
 import {
 	Alert,
 	Image,
@@ -8,13 +9,13 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
-
+import { router } from 'expo-router';
+// lib
 import { logout } from '@/lib/appwrite';
 import { useGlobalContext } from '@/lib/global-provider';
 import icons from '@/lib/constants/icons';
 import { settings } from '@/lib/constants/data';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
-import { router } from 'expo-router';
 import { ROUTES } from '@/lib/constants/paths';
 
 interface SettingsItemProp {

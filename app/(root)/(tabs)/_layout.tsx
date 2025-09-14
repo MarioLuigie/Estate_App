@@ -1,9 +1,10 @@
+// modules
 import { Tabs } from 'expo-router';
 import { Image, ImageSourcePropType, Text, View } from 'react-native';
-
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+// lib
 import icons from '@/lib/constants/icons';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const TabIcon = ({
 	focused,

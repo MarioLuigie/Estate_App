@@ -1,7 +1,4 @@
-import { login } from '@/lib/appwrite';
-import icons from '@/lib/constants/icons';
-import images from '@/lib/constants/images';
-import { useGlobalContext } from '@/lib/global-provider';
+// modules
 import { Redirect } from 'expo-router';
 import React from 'react';
 import {
@@ -17,6 +14,11 @@ import {
 	SafeAreaView,
 	useSafeAreaInsets,
 } from 'react-native-safe-area-context';
+// lib
+import { login } from '@/lib/appwrite';
+import icons from '@/lib/constants/icons';
+import images from '@/lib/constants/images';
+import { useGlobalContext } from '@/lib/global-provider';
 import { ROUTES } from '@/lib/constants/paths';
 
 export default function SignIn() {

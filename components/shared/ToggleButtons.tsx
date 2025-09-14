@@ -1,3 +1,4 @@
+// modules
 import { Text, TouchableOpacity, View } from 'react-native';
 
 type ToggleButtonsProps = {

@@ -1,4 +1,6 @@
+// modules
 import { ActivityIndicator } from 'react-native';
+// components
 import NoResults from '@/components/shared/NoReults';
 
 export default function EmptyState({ isLoading }: { isLoading: boolean }) {

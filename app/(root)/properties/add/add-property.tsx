@@ -1,7 +1,10 @@
-import PropertyForm from '@/components/forms/PropertyForm';
-import { ActionTypes } from '@/lib/constants/enums';
+// modules
 import React from 'react';
 import { ScrollView } from 'react-native';
+// lib
+import { ActionTypes } from '@/lib/constants/enums';
+// components
+import PropertyForm from '@/components/forms/PropertyForm';
 
 export default function AddProperty() {
 	return (
