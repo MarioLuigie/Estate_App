@@ -195,37 +195,6 @@ async function seed() {
 					Permission.delete(Role.user('68b727a34ad1fcc0988b')),
 				]
 			);
-
-			// const geolocation = {};
-
-			// const property = await databases.createDocument(
-			// 	config.databaseId!,
-			// 	COLLECTIONS.PROPERTY!,
-			// 	ID.unique(),
-			// 	{
-			// 		name: `Property ${i}`,
-			// 		type: propertyTypes[
-			// 			Math.floor(Math.random() * propertyTypes.length)
-			// 		],
-			// 		description: `This is the description for Property ${i}.`,
-			// 		address: `123 Property Street, City ${i}`,
-			// 		geolocation: JSON.stringify({
-			// 			latitude: `192.168.1.${i}`,
-			// 			longitude: `192.168.1.${i}`,
-			// 		}),
-			// 		price: Math.floor(Math.random() * 9000) + 1000,
-			// 		area: Math.floor(Math.random() * 3000) + 500,
-			// 		bedrooms: Math.floor(Math.random() * 5) + 1,
-			// 		bathrooms: Math.floor(Math.random() * 5) + 1,
-			// 		rating: Math.floor(Math.random() * 5) + 1,
-			// 		facilities: selectedFacilities,
-			// 		image: image,
-			// 		agent: assignedAgent.$id,
-			// 		reviews: assignedReviews.map((review) => review.$id),
-			// 		gallery: assignedGalleries.map((gallery) => gallery.$id),
-			// 	}
-			// );
-
 			console.log(`Seeded property: ${property.name}`);
 		}
 
