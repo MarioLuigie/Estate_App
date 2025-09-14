@@ -452,6 +452,20 @@ export async function updateProperty(data: any) {
 	}
 }
 
+export async function deleteProperty(id: string) {
+	try {
+		await databases.deleteDocument(
+			config.databaseId!,
+			config.propertiesCollectionId!,
+			id,
+		)
+		return true;
+	} catch (error) {
+		console.error('Property not deleted', error);
+		return false;
+	}
+}
+
 export async function addImageToStorage(file: {
 	uri: string;
 	name: string;

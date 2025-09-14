@@ -7,14 +7,20 @@ import { useAppwrite } from '@/lib/hooks/useAppwrite';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { CustomFlatList } from '@/components/shared/CustomFlatList';
+import { useEffect, useState } from 'react';
 
 export default function MyPropertiesScreen() {
 	const { user } = useGlobalContext();
+	const [cardDeleted, setCardDeleted] = useState<boolean>(false);
 
-	const { data: properties, loading: propertiesLoading } = useAppwrite({
+	const { data: properties, loading: propertiesLoading, refetch } = useAppwrite({
 		fn: getMyProperties,
 		params: { userId: user?.$id! },
 	});
+
+	useEffect(() => {
+		refetch()
+	}, [cardDeleted]);
 
 	// console.log('PERMISSIONS:', properties && properties[0].$permissions);
 
@@ -50,6 +56,7 @@ export default function MyPropertiesScreen() {
 							router.push(`${ROUTES.PROPERTIES}/${item?.$id}`);
 						}}
 						isGrid={isGrid}
+						setCardDeleted={setCardDeleted}
 					/>
 				)}
 			/>

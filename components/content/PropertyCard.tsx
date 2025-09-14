@@ -1,35 +1,71 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Alert } from 'react-native';
 import icons from '@/lib/constants/icons';
 import { router } from 'expo-router';
+import { deleteProperty } from '@/lib/appwrite';
+import { Dispatch, SetStateAction } from 'react';
 // import { Property } from '@/lib/types/appwrite-types';
 
 interface PropertyCardProps {
 	property: any;
 	onPress: () => void;
 	isGrid?: boolean;
+	setCardDeleted?: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function PropertyCard({
 	property,
 	onPress,
 	isGrid,
+	setCardDeleted,
 }: PropertyCardProps) {
+	const handleEdit = () => {
+		router.push(`/properties/update/${property?.$id}`);
+	};
+
+	const handleDelete = () => {
+		Alert.alert(
+			'Confirm Delete',
+			'Are you sure you want to delete this document?',
+			[
+				{
+					text: 'Cancel',
+					style: 'cancel',
+				},
+				{
+					text: 'OK',
+					onPress: async () => {
+						const result = await deleteProperty(property?.$id);
+						setCardDeleted && setCardDeleted(result);
+					},
+					style: 'destructive',
+				},
+			],
+			{ cancelable: true }
+		);
+	};
+
 	return (
 		<TouchableOpacity
 			className={`bg-white rounded-xl shadow-md overflow-hidden mb-4 border border-mygrey-300 relative ${isGrid ? 'flex-1' : 'w-full'}`}
 			onPress={onPress}
 			activeOpacity={0.8}
 		>
-			{/* EDIT PROPERTY ICON */}
-			<TouchableOpacity
-				className="absolute z-50 top-4 right-4"
-				onPress={() => {
-					router.push(`/properties/update/${property?.$id}`);
-				}}
-			>
-				<MaterialIcons name="edit" size={28} color="white" />
-			</TouchableOpacity>
+			<View className="absolute z-50 top-4 right-4 flex flex-col gap-5">
+				{/* EDIT PROPERTY ICON */}
+				<TouchableOpacity onPress={handleEdit}>
+					<View className="bg-black/50 p-2.5 rounded-full">
+						<MaterialIcons name="edit" size={28} color="white" />
+					</View>
+				</TouchableOpacity>
+
+				{/* DELETE PROPERTY ICON */}
+				<TouchableOpacity onPress={handleDelete}>
+					<View className="bg-black/50 p-2.5 rounded-full">
+						<MaterialIcons name="delete" size={28} color="white" />
+					</View>
+				</TouchableOpacity>
+			</View>
 
 			{/* Obraz główny */}
 			{property?.image && (
