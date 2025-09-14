@@ -5,7 +5,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { router } from 'expo-router';
 // lib
 import icons from '@/lib/constants/icons';
-import { deleteMyProperty } from '@/lib/appwrite';
+import { deleteMyPropertyAtomic } from '@/lib/appwrite';
 
 interface PropertyCardProps {
 	property: any;
@@ -36,7 +36,7 @@ export default function PropertyCard({
 				{
 					text: 'OK',
 					onPress: async () => {
-						const result = await deleteMyProperty(property?.$id, property?.image?.fileId);
+						const result = await deleteMyPropertyAtomic(property?.$id, property?.image?.fileId);
 						setCardDeleted && setCardDeleted(result);
 					},
 					style: 'destructive',

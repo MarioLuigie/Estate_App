@@ -438,13 +438,13 @@ export async function updateMyProperty(data: any) {
 
 			// If the DB update is successful, delete the old file
 			if (result && oldImageId) {
-				await deleteImageFromStorage(oldImageId);
+				await deleteImageFromStorageWithRetry(oldImageId);
 			}
 
 			return result;
 		} catch (dbError) {
 			// Rollback - If the DB update fails, delete the new file (rollback).
-			await deleteImageFromStorage(uploadedNewImage.fileId);
+			await deleteImageFromStorageWithRetry(uploadedNewImage.fileId);
 			throw dbError;
 		}
 	} catch (error) {
@@ -453,31 +453,59 @@ export async function updateMyProperty(data: any) {
 	}
 }
 
-export async function deleteMyProperty(id: string, imageId: string) {
+const MAX_STORAGE_RETRIES = 3;
+const RETRY_DELAY_MS = 500;
+
+export async function deleteMyPropertyAtomic(id: string, imageId: string) {
 	try {
-		const result = await databases.deleteDocument(
+		// First remove image file from storage
+		const imageDeleted = await deleteImageFromStorageWithRetry(imageId);
+		if (!imageDeleted) {
+			console.warn(
+				`Property ${id} NOT deleted: failed to delete image ${imageId}.`
+			);
+			return false;
+		}
+
+		// When image removed from storage, remove document from db
+		await databases.deleteDocument(
 			config.databaseId!,
 			config.propertiesCollectionId!,
 			id
 		);
 
-		console.log("***", result);
-
-		if (result) {
-			deleteImageFromStorage(imageId);
-		} else {
-			return false;
-		}
-
+		console.log(`Property ${id} deleted successfully (DB + Storage).`);
 		return true;
 	} catch (error) {
-		console.error('Property not deleted', error);
+		console.error(`Failed to delete property ${id}:`, error);
 		return false;
 	}
 }
 
-export async function deleteImageFromStorage(id: string) {
-	await storage.deleteFile(config.bucketId, id);
+async function deleteImageFromStorageWithRetry(
+	imageId: string
+): Promise<boolean> {
+	for (let attempt = 1; attempt <= MAX_STORAGE_RETRIES; attempt++) {
+		try {
+			await storage.deleteFile(config.bucketId!, imageId);
+			console.log(`Image ${imageId} deleted successfully.`);
+			return true;
+		} catch (err) {
+			console.warn(
+				`Attempt ${attempt} to delete image ${imageId} failed.`,
+				err
+			);
+			if (attempt < MAX_STORAGE_RETRIES) {
+				await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY_MS));
+			} else {
+				console.error(
+					`Failed to delete image ${imageId} after ${attempt} attempts.`
+				);
+				return false;
+			}
+		}
+	}
+	return false;
 }
 
 export async function addImageToStorage(file: {
