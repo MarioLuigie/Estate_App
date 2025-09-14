@@ -263,6 +263,7 @@ export default function PropertyForm({
 				const createdProperty = await createProperty(data);
 
 				if (createdProperty) {
+					router.push({ pathname: ROUTES.PROFILE_MY_PROPERTIES });
 					reset();
 					setImageState('');
 				}
@@ -276,6 +277,8 @@ export default function PropertyForm({
 
 				if (updatedProperty) {
 					router.push({ pathname: ROUTES.PROFILE_MY_PROPERTIES });
+					reset();
+					setImageState('');
 				}
 
 				console.log('Property updated:', updatedProperty);
