@@ -16,13 +16,17 @@ export default function MyPropertiesScreen() {
 	const { user } = useGlobalContext();
 	const [cardDeleted, setCardDeleted] = useState<boolean>(false);
 
-	const { data: properties, loading: propertiesLoading, refetch } = useAppwrite({
+	const {
+		data: properties,
+		loading: propertiesLoading,
+		refetch,
+	} = useAppwrite({
 		fn: getMyProperties,
 		params: { userId: user?.$id! },
 	});
 
 	useEffect(() => {
-		refetch()
+		refetch();
 	}, [cardDeleted]);
 
 	let preparedProperties: any[] = [];
@@ -35,6 +39,7 @@ export default function MyPropertiesScreen() {
 
 	return (
 		<View className="flex-1 bg-white px-5 py-4">
+			{/* Add property button */}
 			<TouchableOpacity
 				className="bg-primary-300 py-2 px-4 rounded-full mb-4 flex flex-row items-center justify-center"
 				onPress={() =>
@@ -44,6 +49,16 @@ export default function MyPropertiesScreen() {
 				<MaterialIcons name="add" size={24} color="white" />
 				<Text className="text-white font-bold text-center">
 					Add New Property
+				</Text>
+			</TouchableOpacity>
+
+			{/* Remove all properties button */}
+			<TouchableOpacity
+				className="bg-primary-300 py-2 px-4 rounded-full mb-4 flex flex-row items-center justify-center"
+				onPress={() => {}}
+			>
+				<Text className="text-white font-bold text-center">
+					Remove All Properties
 				</Text>
 			</TouchableOpacity>
 
