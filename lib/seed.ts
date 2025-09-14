@@ -6,7 +6,7 @@ import {
 	reviewImages,
 } from '@/lib/data';
 import { getRandomCoordinatesNearMajorCities } from '@/lib/tools';
-import { ID, Permission, Role, } from 'react-native-appwrite';
+import { ID, Permission, Role } from 'react-native-appwrite';
 
 const COLLECTIONS = {
 	AGENT: config.agentsCollectionId,
@@ -126,7 +126,7 @@ async function seed() {
 				config.databaseId!,
 				COLLECTIONS.GALLERY!,
 				ID.unique(),
-				{ image }
+				{ image: image.url }
 			);
 			galleries.push(gallery);
 		}
@@ -147,10 +147,16 @@ async function seed() {
 
 			const image =
 				propertiesImages.length - 1 >= i
-					? propertiesImages[i]
-					: propertiesImages[
-							Math.floor(Math.random() * propertiesImages.length)
-						];
+					? JSON.stringify({
+							url: propertiesImages[i].url,
+							fileId: ID.unique(),
+						})
+					: JSON.stringify({
+							url: propertiesImages[
+								Math.floor(Math.random() * propertiesImages.length)
+							].url,
+							fileId: ID.unique(),
+						});
 
 			const coords = getRandomCoordinatesNearMajorCities();
 			const address = await getAddressFromCoordinates(
@@ -182,12 +188,11 @@ async function seed() {
 					agent: assignedAgent.$id,
 					reviews: assignedReviews.map((review) => review.$id),
 					gallery: assignedGalleries.map((gallery) => gallery.$id),
-					ownerId: i % 2 === 0 ? "68b727a34ad1fcc0988b" : "68bdadd72812646318d7",
-				},
+					ownerId:'68b727a34ad1fcc0988b'},
 				[
 					Permission.read(Role.users()),
-					Permission.update(Role.user(i % 2 === 0 ? "68b727a34ad1fcc0988b" : "68bdadd72812646318d7")),
-					Permission.delete(Role.user(i % 2 === 0 ? "68b727a34ad1fcc0988b" : "68bdadd72812646318d7")),
+					Permission.update(Role.user('68b727a34ad1fcc0988b')),
+					Permission.delete(Role.user('68b727a34ad1fcc0988b')),
 				]
 			);
 

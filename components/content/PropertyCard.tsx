@@ -34,7 +34,7 @@ export default function PropertyCard({
 			{/* Obraz główny */}
 			{property?.image && (
 				<Image
-					source={{ uri: property?.image }}
+					source={{ uri: property?.image?.url }}
 					className="w-full h-40"
 					resizeMode="cover"
 				/>

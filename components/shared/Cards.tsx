@@ -4,7 +4,7 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { Models } from 'react-native-appwrite';
 
 export interface Property extends Models.Document {
-	image: string;
+	image: { url: string, fileId: string };
 	name: string;
 	address: string;
 	price: number;
@@ -33,7 +33,7 @@ export function FeaturedCard({ item, onPress }: Props) {
 			style={{width: 240, height: 260}}
 		>
 			{/* BG IMAGE */}
-			<Image source={{ uri: image }} className="size-full rounded-lg" />
+			<Image source={{ uri: image?.url }} className="size-full rounded-lg" />
 			<Image
 				source={images.cardGradient}
 				className="size-full rounded-lg absolute bottom-0"
@@ -87,7 +87,7 @@ export function Card({ item, onPress }: Props) {
 			</View>
 
 			{/* BG IMAGE */}
-			<Image source={{ uri: image }} className="w-full h-40 rounded-lg" />
+			<Image source={{ uri: image?.url }} className="w-full h-40 rounded-lg" />
 
 			{/* INFOS */}
 			<View className="flex flex-col mt-2">

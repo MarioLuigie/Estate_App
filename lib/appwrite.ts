@@ -58,8 +58,8 @@ export async function login() {
 			? makeRedirectUri({ preferLocalhost: true }) // Dev Build / Expo Go
 			: makeRedirectUri({ scheme }); // Standalone build
 
-		console.log('Redirect URI użyty do OAuth:', redirectUri);
-		console.log('FUNCTION_0:', redirectUri);
+		// console.log('Redirect URI użyty do OAuth:', redirectUri);
+		// console.log('FUNCTION_0:', redirectUri);
 
 		// --- 3. Generujemy URL OAuth ---
 		const oauthUrl = account.createOAuth2Token({
@@ -361,7 +361,7 @@ export async function getMyProperties({ userId }: { userId: string }) {
 export async function createProperty(data: any) {
 	try {
 		const currentUser = await account.get();
-		const preparedImage = prepareImageForStorage(data);
+		const preparedImage = prepareImageForStorage(data?.image);
 		const uploadedImage = await addImageToStorage(preparedImage);
 
 		const result = await databases.createDocument(
@@ -373,7 +373,7 @@ export async function createProperty(data: any) {
 				geolocation: `${data.latitude},${data.longitude}`,
 				gallery: ['68bffaa10007aaf06a7b', '68bffaa00025cfaf074d'],
 				reviews: ['68bffa9e00262f951c8c'],
-				image: uploadedImage?.url,
+				image: JSON.stringify(uploadedImage),
 				ownerId: currentUser.$id,
 			},
 			[
@@ -391,44 +391,63 @@ export async function createProperty(data: any) {
 }
 
 export async function updateProperty(data: any) {
+	// First, add a new file to Storage.
+	// If the upload is successful, try updating the document in the DB.
+	// If the DB update is successful, delete the old file.
+	// If the DB update fails, delete the new file (rollback).0
+
+	// If image was not changed in form
+	const property = await getPropertyById({ id: data?.$id });
+	const oldImageId = JSON.parse(property?.image).fileId;
+	const currentImageId = JSON.parse(data.image).fileId;
+
+	if (oldImageId === currentImageId) {
+		try {
+			const result = await databases.updateDocument(
+				config.databaseId!,
+				config.propertiesCollectionId!,
+				data.$id,
+				data
+			);
+
+			return result;
+		} catch (error) {
+			console.error('Property not updated', error);
+			return null;
+		}
+	}
+
+	// If image was changed in form
 	try {
+		// First, add a new file to Storage.
+		const preparedImage = prepareImageForStorage(data?.image);
+		const uploadedNewImage = await addImageToStorage(preparedImage);
 
-		const replacedImage = await replaceImageInStorage(data.image, '');
+		if (!uploadedNewImage) throw new Error('Upload failed');
 
-		const result = databases.updateDocument(
-			config.databaseId!,
-			config.propertiesCollectionId!,
-			data.$id,
-			{ ...data, image: replacedImage?.url }
-		);
+		try {
+			// If the upload is successful, try updating the document in the DB.
+			const result = await databases.updateDocument(
+				config.databaseId!,
+				config.propertiesCollectionId!,
+				data.$id,
+				{ ...data, image: JSON.stringify(uploadedNewImage) }
+			);
 
-		return result;
+			// If the DB update is successful, delete the old file
+			if (result && oldImageId) {
+				await storage.deleteFile(config.bucketId, oldImageId);
+				console.log('Old file deleted:', oldImageId);
+			}
+
+			return result;
+		} catch (dbError) {
+			// Rollback - If the DB update fails, delete the new file (rollback).
+			await storage.deleteFile(config.bucketId, uploadedNewImage.fileId);
+			throw dbError;
+		}
 	} catch (error) {
 		console.error('Property not updated', error);
-		return null;
-	}
-}
-
-export async function replaceImageInStorage(
-	file: {
-		uri: string;
-		name: string;
-		type: string;
-		size: number;
-	},
-	oldFileId: string
-) {
-	try {
-		if (oldFileId) {
-			await storage.deleteFile(config.bucketId, oldFileId);
-			console.log('Old file deleted successfully:', oldFileId);
-		}
-
-		const replacedImage = await addImageToStorage(file);
-
-		return replacedImage;
-	} catch (error) {
-		console.error('Image delete error:', error);
 		return null;
 	}
 }
@@ -440,8 +459,8 @@ export async function addImageToStorage(file: {
 	size: number;
 }): Promise<{ fileId: string; url: string } | null> {
 	try {
-		console.log('BUCKET ID:', config.bucketId);
-		console.log('ADD IMAGE TO STORAGE1:', file);
+		// console.log('BUCKET ID:', config.bucketId);
+		// console.log('ADD IMAGE TO STORAGE1:', file);
 
 		// const fetchBlob = async (uri: string) => {
 		// 	const response = await fetch(uri);
@@ -456,7 +475,7 @@ export async function addImageToStorage(file: {
 			return ext === 'jpg' || ext === 'jpeg' || ext === 'png';
 		};
 
-		if (!isValidExt(file.name)) {
+		if (file.name && !isValidExt(file.name)) {
 			throw new Error('Unsupported file type. Only JPG and PNG allowed.');
 		}
 

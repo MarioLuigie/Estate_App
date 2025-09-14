@@ -121,8 +121,11 @@ export const getTimeGreeting = (): string => {
 	}
 };
 
-export function prepareImageForStorage(data: any) {
-	const image = JSON.parse(data.image);
+export function prepareImageForStorage(imageToPrepare: any) {
+	const image =
+		imageToPrepare &&
+		typeof imageToPrepare === 'string' &&
+		JSON.parse(imageToPrepare);
 
 	const getFileExtension = (image: any) => {
 		const name = image.name ?? image.uri.split('/').pop() ?? 'photo.jpg';
@@ -137,5 +140,5 @@ export function prepareImageForStorage(data: any) {
 		name: `photo-${Date.now()}.${ext}`,
 	};
 
-  return imageToStorage
+	return imageToStorage;
 }

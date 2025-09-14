@@ -36,6 +36,8 @@ import {
 import MapView, { MapPressEvent, Region } from 'react-native-maps';
 import PropertyMarker from '@/components/shared/PropertyMarker';
 import { z } from 'zod';
+import { router } from 'expo-router';
+import { ROUTES } from '@/lib/constants/paths';
 
 type PropertyFormProps = {
 	actionType: ActionTypes;
@@ -52,7 +54,9 @@ export default function PropertyForm({
 	const [agents, setAgents] = useState<any[]>([]);
 	const [isError, setIsError] = useState<boolean>(false);
 	const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
-	const [imageState, setImageState] = useState<string>(property?.image || '');
+	const [imageState, setImageState] = useState<string>(
+		property?.image?.url || ''
+	);
 	const mapRef = useRef<MapView>(null);
 
 	const PropertyFormSchema = getPropertyFormSchema(actionType);
@@ -85,9 +89,9 @@ export default function PropertyForm({
 	// 	longitude: watch('longitude'),
 	// };
 
-	useEffect(() => {
-		console.log('Errors:', errors);
-	}, [errors]);
+	// useEffect(() => {
+	// 	console.log('Errors:', errors);
+	// }, [errors]);
 
 	useEffect(() => {
 		const fetchAgents = async () => {
@@ -151,8 +155,8 @@ export default function PropertyForm({
 
 			mapRef?.current?.animateToRegion(region, 1000); // 1000ms animacji
 
-			console.log('Place marked on map successfully');
-			console.log('Map ref current', mapRef.current);
+			// console.log('Place marked on map successfully');
+			// console.log('Map ref current', mapRef.current);
 		}
 	};
 
@@ -176,12 +180,12 @@ export default function PropertyForm({
 			// Check for the permission
 			if (Platform.OS !== 'web') {
 				// Ask for the permission if it is mobile platform
-				console.log('PERMISSION STATUS:', status);
+				// console.log('PERMISSION STATUS:', status);
 
 				if (status?.status !== 'granted') {
 					const responsePermission = await requestPermission();
 
-					console.log('RESPONSE PERMISSION:', responsePermission);
+					// console.log('RESPONSE PERMISSION:', responsePermission);
 
 					if (responsePermission.status !== 'granted') {
 						Alert.alert(
@@ -223,10 +227,10 @@ export default function PropertyForm({
 				};
 
 				setImageState(image.uri);
-				setValue('image', JSON.stringify(imageToUpload)); // set url in form
+				setValue('image', JSON.stringify(imageToUpload));
 
-				console.log('IMAGE URI:', image.uri);
-				console.log('IMAGE:', image);
+				// console.log('IMAGE URI:', image.uri);
+				// console.log('IMAGE:', image);
 			}
 		} catch (error) {
 			console.error('Image picker error:', error);
@@ -240,6 +244,12 @@ export default function PropertyForm({
 		addAddressAuto(coords).then();
 	};
 
+	useEffect(() => {
+		if (Object.keys(errors).length > 0) {
+			console.log('Validation errors:', errors);
+		}
+	}, [errors]);
+
 	// --- Submit ---
 	const onSubmit: SubmitHandler<z.infer<typeof PropertyFormSchema>> = async (
 		data: z.infer<typeof PropertyFormSchema>
@@ -247,8 +257,6 @@ export default function PropertyForm({
 		setSubmitting(true);
 		try {
 			if (!user) return;
-
-			console.log('DATA:', data);
 
 			// CREATE PRODUCT
 			if (isCreating) {
@@ -267,8 +275,7 @@ export default function PropertyForm({
 				const updatedProperty = await updateProperty(data);
 
 				if (updatedProperty) {
-					reset();
-					setImageState('');
+					router.push({ pathname: ROUTES.PROFILE_MY_PROPERTIES });
 				}
 
 				console.log('Property updated:', updatedProperty);

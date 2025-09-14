@@ -16,7 +16,15 @@ export default function MyPropertiesScreen() {
 		params: { userId: user?.$id! },
 	});
 
-	console.log("PERMISSIONS:", properties && properties[0].$permissions);
+	// console.log('PERMISSIONS:', properties && properties[0].$permissions);
+
+	let preparedProperties: any[] = [];
+	if (properties && properties?.length > 0) {
+		preparedProperties = properties?.map((p) => ({
+			...p,
+			image: JSON.parse(p.image),
+		}));
+	}
 
 	return (
 		<View className="flex-1 bg-white px-5 py-4">
@@ -33,7 +41,7 @@ export default function MyPropertiesScreen() {
 			</TouchableOpacity>
 
 			<CustomFlatList
-				data={properties}
+				data={preparedProperties}
 				isLoading={propertiesLoading}
 				renderItem={(item, isGrid) => (
 					<PropertyCard

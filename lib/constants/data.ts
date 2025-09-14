@@ -218,7 +218,7 @@ export function getPropertyFormDefaultValues(
 	}
 
 	if (actionType === ActionTypes.UPDATE && property) {
-		return property;
+		return {...property, image: JSON.stringify(property.image)};
 	}
 	return PROPERTY_FORM_DEFAULT_VALUES;
 }

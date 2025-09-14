@@ -22,7 +22,6 @@ import { useAppwrite } from '@/lib/hooks/useAppwrite';
 import { useEffect, useState } from 'react';
 import MapView from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ROUTES } from '@/lib/constants/paths';
 import NavigateBack from '@/components/shared/NavigateBack';
 import { customMapStyles } from '@/lib/colorsJS';
 
@@ -39,6 +38,10 @@ export default function Property() {
 		},
 	});
 
+	if (property && typeof property.image === 'string') {
+		property.image = JSON.parse(property.image);
+	}
+
 	const [agent, setAgent] = useState<any>(null);
 	const [agentLoading, setAgentLoading] = useState(false);
 
@@ -51,8 +54,8 @@ export default function Property() {
 			.finally(() => setAgentLoading(false));
 	}, [property?.agent]);
 
-	console.log('Property latitude:', property?.latitude);
-	console.log('Property longitude:', property?.longitude);
+	// console.log('Property latitude:', property?.latitude);
+	// console.log('Property longitude:', property?.longitude);
 
 	return (
 		<SafeAreaView>
@@ -65,7 +68,7 @@ export default function Property() {
 					style={{ height: windowHeight / 2 }}
 				>
 					<Image
-						source={{ uri: property?.image }}
+						source={{ uri: property?.image?.url }}
 						className="size-full"
 						resizeMode="cover"
 					/>
@@ -229,10 +232,10 @@ export default function Property() {
 							</Text>
 							<FlatList
 								contentContainerStyle={{ paddingRight: 20 }}
-								data={property?.gallery}
 								keyExtractor={(item) => item.$id}
 								horizontal
 								showsHorizontalScrollIndicator={false}
+								data={property?.gallery}
 								renderItem={({ item }) => (
 									<Image
 										source={{ uri: item.image }}
@@ -273,7 +276,7 @@ export default function Property() {
 									settings={{
 										latitude: property.latitude,
 										longitude: property.longitude,
-										image: property.image,
+										image: property.image.url,
 									}}
 								/>
 							</MapView>

@@ -15,6 +15,7 @@ export default function UpdateProperty() {
 		const fetchProperty = async () => {
 			try {
 				const res = await getPropertyById({ id: normalizedId });
+				if (res && typeof res.image === 'string') res.image = JSON.parse(res.image);
 				setProperty(res);
 			} catch (error) {
 				console.error('Property not found', error);

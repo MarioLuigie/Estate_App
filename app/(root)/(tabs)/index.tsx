@@ -77,6 +77,22 @@ export default function Home() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [params.filter, params.query]);
 
+	let preparedProperties: any[] = [];
+	if (properties && properties?.length > 0) {
+		preparedProperties = properties?.map((p) => ({
+			...p,
+			image: JSON.parse(p.image),
+		}));
+	}
+
+	let preparedLatestProperties: any[] = [];
+	if (latestProperties && latestProperties?.length > 0) {
+		preparedLatestProperties = latestProperties?.map((p) => ({
+			...p,
+			image: JSON.parse(p.image),
+		}));
+	}
+
 	const handleCardPress = (id: string) => {
 		router.push(`/properties/${id}`);
 	};
@@ -113,7 +129,7 @@ export default function Home() {
 
 			{/* MAIN */}
 			<FlatList
-				data={properties}
+				data={preparedProperties}
 				renderItem={({ item }) => (
 					<Card item={item} onPress={() => handleCardPress(item.$id)} />
 				)}
@@ -144,7 +160,7 @@ export default function Home() {
 							</View>
 
 							<FlatList
-								data={latestProperties}
+								data={preparedLatestProperties}
 								refreshControl={
 									<RefreshControl
 										refreshing={refreshing}

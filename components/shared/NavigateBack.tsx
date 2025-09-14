@@ -15,8 +15,6 @@ export default function NavigateBack({
 	children,
 }: NavigateBackProps) {
 
-	console.log("IS TITLE?:", title)
-
 	return (
 		<View className="flex-row items-center justify-between w-full">
 			<TouchableOpacity

@@ -53,6 +53,15 @@ export default function Explore() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [params.filter, params.query]);
 
+	let preparedProperties: any[] = [];
+
+	if (properties && properties?.length > 0) {
+		preparedProperties = properties?.map((p) => ({
+			...p,
+			image: JSON.parse(p.image),
+		}));
+	}
+
 	const handleCardPress = (id: string) => {
 		router.push(`/properties/${id}`);
 	};
@@ -92,7 +101,7 @@ export default function Explore() {
 
 			{/* FOUNDED PROPERTIES */}
 			<View className="px-5 mt-5 mb-3">
-				<FoundCounter data={properties} listTitle="Properties" />
+				<FoundCounter data={preparedProperties} listTitle="Properties" />
 			</View>
 
 			{/* PROPERTIES LIST */}
@@ -101,12 +110,12 @@ export default function Explore() {
 					style={{ flex: 1, paddingBottom: insets.bottom }}
 					customMapStyle={customMapStyles}
 				>
-					{properties?.map((p) => (
+					{preparedProperties?.map((p) => (
 						<PropertyMarker
 							settings={{
 								latitude: p.latitude,
 								longitude: p.longitude,
-								image: p.image,
+								image: p.image.url,
 							}}
 							key={p.$id}
 							onPress={() => handleCardPress(p.$id)}
@@ -115,7 +124,7 @@ export default function Explore() {
 				</MapView>
 			) : (
 				<FlatList
-					data={properties}
+					data={preparedProperties}
 					renderItem={({ item }) => (
 						<Card item={item} onPress={() => handleCardPress(item.$id)} />
 					)}
