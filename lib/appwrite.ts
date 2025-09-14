@@ -392,7 +392,7 @@ export async function createProperty(data: any) {
 	}
 }
 
-export async function updateProperty(data: any) {
+export async function updateMyProperty(data: any) {
 	// First, add a new file to Storage.
 	// If the upload is successful, try updating the document in the DB.
 	// If the DB update is successful, delete the old file.
@@ -438,14 +438,13 @@ export async function updateProperty(data: any) {
 
 			// If the DB update is successful, delete the old file
 			if (result && oldImageId) {
-				await storage.deleteFile(config.bucketId, oldImageId);
-				console.log('Old file deleted:', oldImageId);
+				await deleteImageFromStorage(oldImageId);
 			}
 
 			return result;
 		} catch (dbError) {
 			// Rollback - If the DB update fails, delete the new file (rollback).
-			await storage.deleteFile(config.bucketId, uploadedNewImage.fileId);
+			await deleteImageFromStorage(uploadedNewImage.fileId);
 			throw dbError;
 		}
 	} catch (error) {
@@ -454,18 +453,31 @@ export async function updateProperty(data: any) {
 	}
 }
 
-export async function deleteProperty(id: string) {
+export async function deleteMyProperty(id: string, imageId: string) {
 	try {
-		await databases.deleteDocument(
+		const result = await databases.deleteDocument(
 			config.databaseId!,
 			config.propertiesCollectionId!,
-			id,
-		)
+			id
+		);
+
+		console.log("***", result);
+
+		if (result) {
+			deleteImageFromStorage(imageId);
+		} else {
+			return false;
+		}
+
 		return true;
 	} catch (error) {
 		console.error('Property not deleted', error);
 		return false;
 	}
+}
+
+export async function deleteImageFromStorage(id: string) {
+	await storage.deleteFile(config.bucketId, id);
 }
 
 export async function addImageToStorage(file: {

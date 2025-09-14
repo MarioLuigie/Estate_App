@@ -22,7 +22,7 @@ import {
 	getAddressFromCoordinates,
 	getAgents,
 	getCoordinatesFromAddress,
-	updateProperty,
+	updateMyProperty,
 } from '@/lib/appwrite';
 import { customMapStyles } from '@/lib/colorsJS';
 import {
@@ -276,7 +276,7 @@ export default function PropertyForm({
 
 			// UPDATE PRODUCT
 			if (isUpdating) {
-				const updatedProperty = await updateProperty(data);
+				const updatedProperty = await updateMyProperty(data);
 
 				if (updatedProperty) {
 					router.push({ pathname: ROUTES.PROFILE_MY_PROPERTIES });
