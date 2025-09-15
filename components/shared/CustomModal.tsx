@@ -9,45 +9,75 @@ import {
 	ActivityIndicator,
 	StyleSheet,
 } from 'react-native';
+// components
+import Checkbox from '@/components/ui/Checkbox';
+import { isLoading } from 'expo-font';
 
 type CustomModalProps = ModalProps & {
 	visible: boolean;
 	title: string;
 	message: string;
+	actionMessage: string;
 	confirmText?: string;
 	cancelText?: string;
 	variant?: string;
 	onConfirm?: () => void | Promise<void>;
-	onCancel?: () => void;
+	onCancel: () => void;
+	isChecked?: boolean;
 };
 
 export default function CustomModal({
 	visible,
 	title,
 	message,
+	actionMessage,
 	confirmText = 'OK',
 	cancelText = 'Cancel',
 	variant,
 	onConfirm,
 	onCancel,
+	isChecked = false,
 	...rest
 }: CustomModalProps) {
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState<boolean>(false);
+	const [checked, setChecked] = useState<boolean>(false);
 
 	const handleConfirm = async () => {
-		if (!onConfirm) return;
+		if (onConfirm && (!isChecked || checked)) {
+			setLoading(true);
+			await onConfirm();
+			setLoading(false);
+			handleCancel();
+		} else if (!onConfirm) {
+			handleCancel();
+		}
+	};
 
-		setLoading(true);
-		await onConfirm();
-		setLoading(false);
+	const handleCancel = () => {
+		onCancel();
+		setChecked(false);
 	};
 
 	return (
 		<Modal visible={visible} transparent animationType="fade" {...rest}>
 			<View style={styles.overlay}>
 				<View style={styles.box}>
-					<Text style={styles.title}>{title}</Text>
-					<Text style={styles.message}>{message}</Text>
+					{!loading ? (
+						<>
+							<Text style={styles.title}>{title}</Text>
+							<View style={styles.check}>
+								{isChecked && (
+									<Checkbox onChange={setChecked} checked={checked} />
+								)}
+								<Text style={styles.message}>{message}</Text>
+							</View>
+						</>
+					) : (
+						<View>
+							<Text style={styles.title}>{title}</Text>
+							<Text style={styles.message}>{actionMessage}</Text>
+						</View>
+					)}
 
 					{loading ? (
 						<ActivityIndicator
@@ -57,12 +87,14 @@ export default function CustomModal({
 						/>
 					) : (
 						<View style={styles.buttons}>
-							<TouchableOpacity
-								onPress={onCancel}
-								style={[styles.btn, styles.cancel]}
-							>
-								<Text style={styles.btnText}>{cancelText}</Text>
-							</TouchableOpacity>
+							{onConfirm && (
+								<TouchableOpacity
+									onPress={handleCancel}
+									style={[styles.btn, styles.cancel]}
+								>
+									<Text style={styles.btnText}>{cancelText}</Text>
+								</TouchableOpacity>
+							)}
 							<TouchableOpacity
 								onPress={handleConfirm}
 								style={[styles.btn, styles.ok]}
@@ -91,6 +123,7 @@ const styles = StyleSheet.create({
 		padding: 20,
 		borderRadius: 18,
 		width: '80%',
+		minHeight: 200,
 	},
 	title: {
 		fontSize: 18,
@@ -101,7 +134,6 @@ const styles = StyleSheet.create({
 	message: {
 		fontSize: 15,
 		textAlign: 'center',
-		marginBottom: 20,
 	},
 	buttons: {
 		flexDirection: 'row',
@@ -123,5 +155,13 @@ const styles = StyleSheet.create({
 	btnText: {
 		fontSize: 16,
 		fontWeight: '600',
+	},
+	check: {
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
+		gap: 12,
+		marginBottom: 25,
 	},
 });
