@@ -573,14 +573,14 @@ export default function PropertyForm({
 				disabled={submitting}
 			>
 				{isCreating && (
-					<Text className="text-white font-bold text-center">
-						{submitting ? 'Submitting...' : 'Add Property'}
+					<Text className="text-white font-bold text-center" style={{fontSize: 15}}>
+						{submitting ? 'Submitting...' : 'Create'}
 					</Text>
 				)}
 
 				{isUpdating && (
-					<Text className="text-white font-bold text-center">
-						{submitting ? 'Submitting...' : 'Update Property'}
+					<Text className="text-white font-bold text-center" style={{fontSize: 15}}>
+						{submitting ? 'Submitting...' : 'Update'}
 					</Text>
 				)}
 			</CustomTouchable>

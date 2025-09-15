@@ -1,11 +1,14 @@
 // modules
 import { MaterialIcons } from '@expo/vector-icons';
-import { View, Text, Image, TouchableOpacity, Alert } from 'react-native';
-import { Dispatch, SetStateAction } from 'react';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { router } from 'expo-router';
 // lib
 import icons from '@/lib/constants/icons';
 import { deleteMyPropertyAtomic } from '@/lib/appwrite';
+// components
+import CustomModal from '@/components/shared/CustomModal';
+import IconButton from '@/components/ui/IconButton';
 
 interface PropertyCardProps {
 	property: any;
@@ -20,30 +23,18 @@ export default function PropertyCard({
 	isGrid,
 	setCardDeleted,
 }: PropertyCardProps) {
+	const [deleteVisible, setDeleteVisible] = useState<boolean>(false);
+
 	const handleEdit = () => {
 		router.push(`/properties/update/${property?.$id}`);
 	};
 
-	const handleDelete = () => {
-		Alert.alert(
-			'Confirm Delete',
-			'Are you sure you want to delete this document?',
-			[
-				{
-					text: 'Cancel',
-					style: 'cancel',
-				},
-				{
-					text: 'OK',
-					onPress: async () => {
-						const result = await deleteMyPropertyAtomic(property?.$id, property?.image?.fileId);
-						setCardDeleted && setCardDeleted(result);
-					},
-					style: 'destructive',
-				},
-			],
-			{ cancelable: true }
+	const handleDelete = async () => {
+		const result = await deleteMyPropertyAtomic(
+			property?.$id,
+			property?.image?.fileId
 		);
+		setCardDeleted && setCardDeleted(result);
 	};
 
 	return (
@@ -52,20 +43,20 @@ export default function PropertyCard({
 			onPress={onPress}
 			activeOpacity={0.8}
 		>
-			<View className="absolute z-50 top-4 right-4 flex flex-col gap-5">
+			<View className="absolute z-50 top-4 right-4 flex flex-row gap-3 bg-red-600">
 				{/* EDIT PROPERTY ICON */}
-				<TouchableOpacity onPress={handleEdit}>
-					<View className="bg-black/50 p-2.5 rounded-full">
-						<MaterialIcons name="edit" size={28} color="white" />
-					</View>
-				</TouchableOpacity>
+				<IconButton
+					icon={<MaterialIcons name="edit" size={28} color="white" />}
+					onPress={handleEdit}
+					containerStyle={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+				/>
 
 				{/* DELETE PROPERTY ICON */}
-				<TouchableOpacity onPress={handleDelete}>
-					<View className="bg-black/50 p-2.5 rounded-full">
-						<MaterialIcons name="delete" size={28} color="white" />
-					</View>
-				</TouchableOpacity>
+				<IconButton
+					icon={<MaterialIcons name="delete" size={28} color="white" />}
+					onPress={() => setDeleteVisible(true)}
+					containerStyle={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+				/>
 			</View>
 
 			{/* Obraz główny */}
@@ -126,6 +117,14 @@ export default function PropertyCard({
 					</Text>
 				)}
 			</View>
+
+			<CustomModal
+				visible={deleteVisible}
+				title="Confirm Delete"
+				message="Are you sure you want to delete?"
+				onConfirm={handleDelete}
+				onCancel={() => setDeleteVisible(false)}
+			/>
 		</TouchableOpacity>
 	);
 }
