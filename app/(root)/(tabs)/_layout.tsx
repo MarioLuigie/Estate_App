@@ -123,6 +123,7 @@ export default function TabsLayout() {
 					shadowOffset: { width: 0, height: 2 },
 					shadowRadius: 4,
 				}}
+				activeOpacity={0.7}
 			/>
 		</View>
 	);

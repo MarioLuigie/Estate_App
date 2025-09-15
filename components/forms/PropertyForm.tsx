@@ -503,14 +503,14 @@ export default function PropertyForm({
 							onChangeText={onChange}
 							placeholder="Number Street, City, Country"
 						/>
-						<TouchableOpacity
-							className="bg-primary-300 py-3 rounded-full my-4"
+						<CustomTouchable
 							onPress={() => addMapMarkerAuto(value)}
+							containerStyle={{ marginVertical: 16 }}
 						>
 							<Text className="text-white font-bold text-center">
 								Locate entered address on map
 							</Text>
-						</TouchableOpacity>
+						</CustomTouchable>
 					</View>
 				)}
 			/>
@@ -532,7 +532,7 @@ export default function PropertyForm({
 									borderColor: 'gray',
 									paddingHorizontal: 12,
 									paddingVertical: 8,
-									borderRadius: 8,
+									borderRadius: 40,
 									marginVertical: 4,
 								}}
 								keyboardType="numeric"
@@ -573,13 +573,19 @@ export default function PropertyForm({
 				disabled={submitting}
 			>
 				{isCreating && (
-					<Text className="text-white font-bold text-center" style={{fontSize: 15}}>
+					<Text
+						className="text-white font-bold text-center"
+						style={{ fontSize: 15 }}
+					>
 						{submitting ? 'Submitting...' : 'Create'}
 					</Text>
 				)}
 
 				{isUpdating && (
-					<Text className="text-white font-bold text-center" style={{fontSize: 15}}>
+					<Text
+						className="text-white font-bold text-center"
+						style={{ fontSize: 15 }}
+					>
 						{submitting ? 'Submitting...' : 'Update'}
 					</Text>
 				)}
