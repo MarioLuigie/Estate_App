@@ -124,6 +124,10 @@ const styles = StyleSheet.create({
 		borderRadius: 18,
 		width: '80%',
 		minHeight: 200,
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'space-between',
+		alignItems: 'center',
 	},
 	title: {
 		fontSize: 18,
