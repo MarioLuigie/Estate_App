@@ -36,15 +36,10 @@ export default function CustomModal({
 
 	const handleConfirm = async () => {
 		if (!onConfirm) return;
-		try {
-			setLoading(true);
-			await onConfirm(); 
-		} catch (err) {
-			alert('Something went wrong');
-			console.error(err);
-		} finally {
-			setLoading(false);
-		}
+
+		setLoading(true);
+		await onConfirm();
+		setLoading(false);
 	};
 
 	return (

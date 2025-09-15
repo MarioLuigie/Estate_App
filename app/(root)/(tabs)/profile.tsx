@@ -9,7 +9,9 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
+import { useState } from 'react';
 import { router } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 // lib
 import { logout } from '@/lib/appwrite';
 import { useGlobalContext } from '@/lib/global-provider';
@@ -17,9 +19,7 @@ import icons from '@/lib/constants/icons';
 import { settings } from '@/lib/constants/data';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
 import { ROUTES } from '@/lib/constants/paths';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useState } from 'react';
-import LogoutModal from '@/components/content/modals/LogoutModal';
+// components
 import CustomModal from '@/components/shared/CustomModal';
 
 interface SettingsItemProp {
@@ -60,15 +60,14 @@ export default function Profile() {
 	const insets = useSafeAreaInsets();
 
 	const handleLogout = async () => {
-		const result = await logout();
-		refetch();
-		setLogoutVisible(false);
-		router.replace(ROUTES.SIGN_IN);
-
-		if (result) {
-			Alert.alert('Success', 'Logged out successfully');
-		} else {
-			Alert.alert('Error', 'Failed to logout');
+		try {
+			await logout();
+			refetch();
+			setLogoutVisible(false);
+			router.replace(ROUTES.SIGN_IN);
+		} catch (error) {
+			Alert.alert(`User not logged out. ${error}`);
+			setLogoutVisible(false);
 		}
 	};
 
@@ -158,15 +157,13 @@ export default function Profile() {
 			</ScrollView>
 
 			{/* LOGOUT MODAL */}
-			<CustomModal 
+			<CustomModal
 				visible={logoutVisible}
-				title='Confirm Logout'
-				message='Are you sure you want to logout?'
+				title="Confirm Logout"
+				message="Are you sure you want to logout?"
 				onConfirm={handleLogout}
 				onCancel={() => setLogoutVisible(false)}
 			/>
 		</SafeAreaView>
 	);
 }
-
-

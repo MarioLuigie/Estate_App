@@ -102,17 +102,13 @@ export async function login() {
 
 export async function logout() {
 	try {
-		// const result = await account.deleteSession('current');
-		const result = await account.deleteSession({
-			sessionId: 'current', // lub inny sessionId, jeśli chcesz wylogować konkretną sesję
-		});
-
-		console.log('Logged out successfully', result);
-
-		return result;
+		// await account.deleteSession({
+		// 	sessionId: 'current',
+		// });
+		throw new Error();
 	} catch (error) {
-		console.error(error);
-		return false;
+		// console.error("Logout error:", error);
+		throw error;
 	}
 }
 
