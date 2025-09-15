@@ -102,12 +102,12 @@ export async function login() {
 
 export async function logout() {
 	try {
-		// await account.deleteSession({
-		// 	sessionId: 'current',
-		// });
-		throw new Error();
+		await account.deleteSession({
+			sessionId: 'current',
+		});
+		// throw new Error();
 	} catch (error) {
-		// console.error("Logout error:", error);
+		console.error("Logout error:", error);
 		throw error;
 	}
 }
