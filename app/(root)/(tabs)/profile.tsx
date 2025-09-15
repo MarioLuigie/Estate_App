@@ -20,6 +20,7 @@ import { ROUTES } from '@/lib/constants/paths';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useState } from 'react';
 import LogoutModal from '@/components/content/modals/LogoutModal';
+import CustomModal from '@/components/shared/CustomModal';
 
 interface SettingsItemProp {
 	icon: ImageSourcePropType;
@@ -60,9 +61,12 @@ export default function Profile() {
 
 	const handleLogout = async () => {
 		const result = await logout();
+		refetch();
+		setLogoutVisible(false);
+		router.replace(ROUTES.SIGN_IN);
+
 		if (result) {
 			Alert.alert('Success', 'Logged out successfully');
-			refetch();
 		} else {
 			Alert.alert('Error', 'Failed to logout');
 		}
@@ -153,18 +157,16 @@ export default function Profile() {
 				</View>
 			</ScrollView>
 
-			<LogoutModal
+			{/* LOGOUT MODAL */}
+			<CustomModal 
 				visible={logoutVisible}
-				onClose={() => setLogoutVisible(false)}
+				title='Confirm Logout'
+				message='Are you sure you want to logout?'
+				onConfirm={handleLogout}
+				onCancel={() => setLogoutVisible(false)}
 			/>
 		</SafeAreaView>
 	);
 }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//   },
-// });
+
