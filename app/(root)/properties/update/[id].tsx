@@ -7,26 +7,41 @@ import { getPropertyById } from '@/lib/appwrite';
 import { ActionTypes } from '@/lib/constants/enums';
 // components
 import PropertyForm from '@/components/forms/PropertyForm';
+import EmptyState from '@/components/shared/EmptyState';
 
 export default function UpdateProperty() {
 	const { id } = useLocalSearchParams<{ id?: string }>();
 
 	const [property, setProperty] = useState<any>(null);
+	const [loading, setLoading] = useState(false);
 	const normalizedId = Array.isArray(id) ? id[0] : (id ?? '');
 
 	useEffect(() => {
 		const fetchProperty = async () => {
 			try {
+				setLoading(true);
 				const res = await getPropertyById({ id: normalizedId });
-				if (res && typeof res.image === 'string') res.image = JSON.parse(res.image);
+				if (res && typeof res.image === 'string')
+					res.image = JSON.parse(res.image);
 				setProperty(res);
+				setLoading(false);
 			} catch (error) {
 				console.error('Property not found', error);
+			} finally {
+				setLoading(false);
 			}
 		};
 
 		fetchProperty();
 	}, [normalizedId]);
+
+	if (loading && !property) {
+		return (
+			<View className="flex-1 items-center justify-center">
+				<EmptyState isLoading={loading} />
+			</View>
+		);
+	}
 
 	if (!property) {
 		return (
