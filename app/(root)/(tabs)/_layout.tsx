@@ -42,6 +42,7 @@ export default function TabsLayout() {
 				tabBarShowLabel: false,
 				tabBarStyle: {
 					backgroundColor: 'white',
+					opacity: 0.9,
 					position: 'absolute',
 					borderTopColor: '#0061FF1A',
 					borderTopWidth: 1,

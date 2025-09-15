@@ -1,5 +1,5 @@
 // modules
-import { Text, TouchableOpacity, View } from 'react-native';
+import { View } from 'react-native';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';

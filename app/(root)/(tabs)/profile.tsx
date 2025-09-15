@@ -17,6 +17,9 @@ import icons from '@/lib/constants/icons';
 import { settings } from '@/lib/constants/data';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
 import { ROUTES } from '@/lib/constants/paths';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useState } from 'react';
+import LogoutModal from '@/components/content/modals/LogoutModal';
 
 interface SettingsItemProp {
 	icon: ImageSourcePropType;
@@ -51,7 +54,9 @@ const SettingsItem = ({
 );
 
 export default function Profile() {
+	const [logoutVisible, setLogoutVisible] = useState<boolean>(false);
 	const { user, refetch } = useGlobalContext();
+	const insets = useSafeAreaInsets();
 
 	const handleLogout = async () => {
 		const result = await logout();
@@ -93,16 +98,46 @@ export default function Profile() {
 			<ScrollView
 				showsVerticalScrollIndicator={false}
 				contentContainerClassName="px-7"
-				contentContainerStyle={{ paddingBottom: TABS_HEIGHT }}
+				contentContainerStyle={{
+					paddingBottom: insets.bottom + TABS_HEIGHT,
+				}}
 			>
-				<View className="flex flex-col mt-10">
-					<SettingsItem icon={icons.calendar} title="My Bookings" onPress={() => router.push({ pathname: ROUTES.PROFILE_MY_BOOKINGS, params: { title: 'My Bookings' }})}/>
-					<SettingsItem icon={icons.calendar} title="My Properties" onPress={() => router.push({ pathname: ROUTES.PROFILE_MY_PROPERTIES, params: { title: 'My Properties' }})}/>
+				<View className="flex flex-col mt-4">
+					<SettingsItem
+						icon={icons.calendar}
+						title="My Bookings"
+						onPress={() =>
+							router.push({
+								pathname: ROUTES.PROFILE_MY_BOOKINGS,
+								params: { title: 'My Bookings' },
+							})
+						}
+					/>
+					<SettingsItem
+						icon={icons.calendar}
+						title="My Properties"
+						onPress={() =>
+							router.push({
+								pathname: ROUTES.PROFILE_MY_PROPERTIES,
+								params: { title: 'My Properties' },
+							})
+						}
+					/>
 				</View>
 
 				<View className="flex flex-col my-5 border-t pt-5 border-primary-200">
 					{settings.slice(2).map((item, index) => (
-						<SettingsItem key={index} title={item.title} icon={item.icon} onPress={() => router.push({ pathname: item.path, params: { title: item.title}})}/>
+						<SettingsItem
+							key={index}
+							title={item.title}
+							icon={item.icon}
+							onPress={() =>
+								router.push({
+									pathname: item.path,
+									params: { title: item.title },
+								})
+							}
+						/>
 					))}
 				</View>
 
@@ -113,10 +148,15 @@ export default function Profile() {
 						title="Logout"
 						textStyle="text-danger"
 						showArrow={false}
-						onPress={handleLogout}
+						onPress={() => setLogoutVisible(true)}
 					/>
 				</View>
 			</ScrollView>
+
+			<LogoutModal
+				visible={logoutVisible}
+				onClose={() => setLogoutVisible(false)}
+			/>
 		</SafeAreaView>
 	);
 }
