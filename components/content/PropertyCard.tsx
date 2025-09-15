@@ -120,7 +120,7 @@ export default function PropertyCard({
 
 			<CustomModal
 				visible={deleteVisible}
-				title="Confirm Delete"
+				title="Confirm Delete Item"
 				message="Are you sure you want to delete?"
 				actionMessage='Property is deleting now.'
 				onConfirm={handleDelete}
