@@ -107,7 +107,7 @@ export async function logout() {
 		});
 		// throw new Error();
 	} catch (error) {
-		console.error("Logout error:", error);
+		console.error('Logout error:', error);
 		throw error;
 	}
 }
@@ -447,6 +447,50 @@ export async function updateMyProperty(data: any) {
 		console.error('Property not updated', error);
 		return null;
 	}
+}
+
+export async function deleteAllPropertiesAtomic(
+	properties: { id: string; imageId: string }[]
+) {
+	const results: { id: string; success: boolean }[] = [];
+
+	for (const property of properties) {
+		const { id, imageId } = property;
+
+		try {
+			const imageDeleted = await deleteImageFromStorageWithRetry(imageId);
+			if (!imageDeleted) {
+				console.warn(
+					`Property ${id} NOT deleted: failed to delete image ${imageId}.`
+				);
+				results.push({ id, success: false });
+				continue; // go next
+			}
+
+			// Remove document from db
+			await databases.deleteDocument(
+				config.databaseId!,
+				config.propertiesCollectionId!,
+				id
+			);
+
+			console.log(`Property ${id} deleted successfully (DB + Storage).`);
+			results.push({ id, success: true });
+		} catch (error) {
+			console.error(`Failed to delete property ${id}:`, error);
+			results.push({ id, success: false });
+		}
+	}
+
+	// Summary
+	const failed = results.filter((r) => !r.success);
+	if (failed.length > 0) {
+		console.warn(`${failed.length} properties failed to delete.`);
+	} else {
+		console.log('All properties deleted successfully.');
+	}
+
+	return results;
 }
 
 const MAX_STORAGE_RETRIES = 3;

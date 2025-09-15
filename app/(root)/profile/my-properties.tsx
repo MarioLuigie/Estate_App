@@ -4,7 +4,7 @@ import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 // lib
-import { getMyProperties } from '@/lib/appwrite';
+import { deleteAllPropertiesAtomic, getMyProperties } from '@/lib/appwrite';
 import { ROUTES } from '@/lib/constants/paths';
 import { useGlobalContext } from '@/lib/global-provider';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
@@ -12,10 +12,12 @@ import { useAppwrite } from '@/lib/hooks/useAppwrite';
 import PropertyCard from '@/components/content/PropertyCard';
 import { CustomFlatList } from '@/components/shared/CustomFlatList';
 import CustomTouchable from '@/components/ui/CustomTouchable';
+import CustomModal from '@/components/shared/CustomModal';
 
 export default function MyPropertiesScreen() {
 	const { user } = useGlobalContext();
 	const [cardDeleted, setCardDeleted] = useState<boolean>(false);
+	const [deleteAllVisible, setDeleteAllVisible] = useState<boolean>(false);
 
 	const {
 		data: properties,
@@ -38,6 +40,15 @@ export default function MyPropertiesScreen() {
 		}));
 	}
 
+	const handleDeleteAll = async () => {
+		console.log('All deleted');
+
+		await deleteAllPropertiesAtomic(preparedProperties.map((p) => {
+			return {id: p.$id, imageId: p.image.fileId}
+		}));
+		setCardDeleted(true)
+	};
+
 	return (
 		<View className="flex-1 bg-white px-5 py-4">
 			{/* Add property button */}
@@ -52,7 +63,7 @@ export default function MyPropertiesScreen() {
 			{/* Remove all properties button */}
 			<CustomTouchable
 				title="Remove All Properties"
-				onPress={() => {console.log("All items removed")}}
+				onPress={() => setDeleteAllVisible(true)}
 			/>
 
 			<CustomFlatList
@@ -68,6 +79,16 @@ export default function MyPropertiesScreen() {
 						setCardDeleted={setCardDeleted}
 					/>
 				)}
+			/>
+
+			<CustomModal
+				visible={deleteAllVisible}
+				title="Confirm Delete All Items"
+				message="Are you sure you want to delete all?"
+				actionMessage="Property is deleting now."
+				onConfirm={handleDeleteAll}
+				onCancel={() => setDeleteAllVisible(false)}
+				isChecked
 			/>
 		</View>
 	);
