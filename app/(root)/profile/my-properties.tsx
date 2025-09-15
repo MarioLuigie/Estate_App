@@ -11,6 +11,7 @@ import { useAppwrite } from '@/lib/hooks/useAppwrite';
 // components
 import PropertyCard from '@/components/content/PropertyCard';
 import { CustomFlatList } from '@/components/shared/CustomFlatList';
+import CustomTouchable from '@/components/ui/CustomTouchable';
 
 export default function MyPropertiesScreen() {
 	const { user } = useGlobalContext();
@@ -40,27 +41,19 @@ export default function MyPropertiesScreen() {
 	return (
 		<View className="flex-1 bg-white px-5 py-4">
 			{/* Add property button */}
-			<TouchableOpacity
-				className="bg-primary-300 py-2 px-4 rounded-full mb-4 flex flex-row items-center justify-center"
+			<CustomTouchable
+				title="Add New Property"
 				onPress={() =>
 					router.push({ pathname: ROUTES.PROPERTIES_ADD_PROPERTY })
 				}
-			>
-				<MaterialIcons name="add" size={24} color="white" />
-				<Text className="text-white font-bold text-center">
-					Add New Property
-				</Text>
-			</TouchableOpacity>
+				icon={<MaterialIcons name="add" size={24} color="white" />}
+			/>
 
 			{/* Remove all properties button */}
-			<TouchableOpacity
-				className="bg-primary-300 py-2 px-4 rounded-full mb-4 flex flex-row items-center justify-center"
-				onPress={() => {}}
-			>
-				<Text className="text-white font-bold text-center">
-					Remove All Properties
-				</Text>
-			</TouchableOpacity>
+			<CustomTouchable
+				title="Remove All Properties"
+				onPress={() => {console.log("All items removed")}}
+			/>
 
 			<CustomFlatList
 				data={preparedProperties}

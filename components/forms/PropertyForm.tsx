@@ -41,6 +41,7 @@ import { ROUTES } from '@/lib/constants/paths';
 // components
 import PropertyMarker from '@/components/shared/PropertyMarker';
 import Select, { SelectOption } from '@/components/shared/SelectItem';
+import CustomTouchable from '../ui/CustomTouchable';
 
 type PropertyFormProps = {
 	actionType: ActionTypes;
@@ -567,8 +568,7 @@ export default function PropertyForm({
 			</View>
 
 			{/* Submit */}
-			<TouchableOpacity
-				className="bg-primary-300 py-3 rounded-full my-4"
+			<CustomTouchable
 				onPress={handleSubmit(onSubmit)}
 				disabled={submitting}
 			>
@@ -583,7 +583,7 @@ export default function PropertyForm({
 						{submitting ? 'Submitting...' : 'Update Property'}
 					</Text>
 				)}
-			</TouchableOpacity>
+			</CustomTouchable>
 		</View>
 	);
 }
