@@ -1,8 +1,8 @@
 // modules
-import { View } from 'react-native';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
+import { Text, View, StyleSheet } from 'react-native';
 // lib
 import { deleteAllPropertiesAtomic, getMyProperties } from '@/lib/appwrite';
 import { ROUTES } from '@/lib/constants/paths';
@@ -18,6 +18,9 @@ export default function MyPropertiesScreen() {
 	const { user } = useGlobalContext();
 	const [cardDeleted, setCardDeleted] = useState<boolean>(false);
 	const [deleteAllVisible, setDeleteAllVisible] = useState<boolean>(false);
+	const [deleteSummary, setDeleteSummary] = useState<boolean>(false);
+	const [deleteSuccessed, setDeleteSuccessed] = useState<number>(0);
+	const [deleteFailed, setDeleteFailed] = useState<number>(0);
 
 	const {
 		data: properties,
@@ -41,12 +44,34 @@ export default function MyPropertiesScreen() {
 	}
 
 	const handleDeleteAll = async () => {
-		console.log('All deleted');
+		const results = await deleteAllPropertiesAtomic(
+			preparedProperties.map((p) => {
+				return { id: p.$id, imageId: p.image.fileId };
+			})
+		);
 
-		await deleteAllPropertiesAtomic(preparedProperties.map((p) => {
-			return {id: p.$id, imageId: p.image.fileId}
-		}));
-		setCardDeleted(true)
+		if (results) {
+			setCardDeleted(true);
+
+			const successed = results.filter((r) => {
+				return r.success === true;
+			});
+
+			const failed = results.filter((r) => {
+				return r.success === false;
+			});
+			setDeleteSuccessed(Number(successed.length));
+			setDeleteFailed(Number(failed.length));
+
+			setDeleteAllVisible(true);
+
+			setTimeout(() => {
+				setDeleteSummary(true);
+			}, 500);
+
+			console.log(successed.length);
+			console.log(failed.length);
+		}
 	};
 
 	return (
@@ -64,6 +89,8 @@ export default function MyPropertiesScreen() {
 			<CustomTouchable
 				title="Remove All Properties"
 				onPress={() => setDeleteAllVisible(true)}
+				containerStyle={{ backgroundColor: '#eee'}}
+				textStyle={{color: '#7a7a7a'}}
 			/>
 
 			<CustomFlatList
@@ -90,6 +117,58 @@ export default function MyPropertiesScreen() {
 				onCancel={() => setDeleteAllVisible(false)}
 				isChecked
 			/>
+
+			<CustomModal
+				visible={deleteSummary}
+				title="Deletion Summary"
+				message={
+					<View style={Styles.textContainer}>
+						<View style={Styles.text}>
+							<MaterialIcons
+								name="check-circle"
+								size={20}
+								color="green"
+								style={{ marginRight: 6 }}
+							/>
+							<Text>Deletions completed: {deleteSuccessed}</Text>
+						</View>
+						<View style={Styles.text}>
+							{!(deleteFailed === 0) ? (
+								<MaterialIcons
+									name="cancel"
+									size={20}
+									color="red"
+									style={{ marginRight: 6 }}
+								/>
+							) : (
+								<MaterialIcons
+									name="check-circle"
+									size={20}
+									color="green"
+									style={{ marginRight: 6 }}
+								/>
+							)}
+							<Text>Deletions unsuccessful: {deleteFailed}</Text>
+						</View>
+					</View>
+				}
+				onCancel={() => setDeleteSummary(false)}
+			/>
 		</View>
 	);
 }
+
+const Styles = StyleSheet.create({
+	textContainer: {
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'flex-start',
+		gap: 6,
+	},
+	text: {
+		display: 'flex',
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'flex-start',
+	},
+});
