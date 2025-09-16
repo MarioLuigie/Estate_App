@@ -6,7 +6,6 @@ import {
 	TouchableOpacity,
 	StyleSheet,
 	TouchableOpacityProps,
-	View,
 } from 'react-native';
 // lib
 import { colors } from '@/lib/colorsJS';
