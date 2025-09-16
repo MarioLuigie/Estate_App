@@ -43,7 +43,7 @@ export default function PropertyCard({
 			onPress={onPress}
 			activeOpacity={0.8}
 		>
-			<View className="absolute z-50 top-4 right-4 flex flex-row gap-3 bg-red-600">
+			<View className="absolute z-50 top-4 right-4 flex flex-row gap-3">
 				{/* EDIT PROPERTY ICON */}
 				<IconButton
 					icon={<MaterialIcons name="edit" size={28} color="white" />}
