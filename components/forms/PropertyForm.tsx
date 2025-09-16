@@ -42,6 +42,7 @@ import { ROUTES } from '@/lib/constants/paths';
 import PropertyMarker from '@/components/shared/PropertyMarker';
 import Select, { SelectOption } from '@/components/shared/SelectItem';
 import CustomTouchable from '../ui/CustomTouchable';
+import images from '@/lib/constants/images';
 
 type PropertyFormProps = {
 	actionType: ActionTypes;
@@ -294,6 +295,59 @@ export default function PropertyForm({
 		}
 	};
 
+	const renderImage = () => {
+		if (imageState && !isUpdating) {
+			return (
+				<>
+					<Image
+						source={{ uri: imageState }}
+						className="size-full rounded-3xl"
+					/>
+					<View className='absolute'>
+						<Text className="text-white text-center">
+							Image added successfully!
+						</Text>
+						<Text className="text-white text-center">
+							Tap to change uploaded Image
+						</Text>
+					</View>
+				</>
+			);
+		} else if (imageState && isUpdating) {
+			return (
+				<>
+					<Image
+						source={{ uri: imageState }}
+						className="size-full rounded-3xl"
+					/>
+					<Image
+						source={images.updateImageGradient}
+						className="size-full rounded-3xl absolute top-0 left-0"
+					/>
+					<View className="absolute flex flex-col items-center">
+						<Image
+							source={icons.upload_w}
+							style={{ width: 90, height: 90 }}
+						/>
+						<Text className="text-white text-center">
+							Update Main Image
+						</Text>
+					</View>
+				</>
+			);
+		} else {
+			return (
+				<View>
+					<Image
+						source={icons.upload_w}
+						style={{ width: 90, height: 90 }}
+					/>
+					<Text className="text-white text-center">Add Main Image</Text>
+				</View>
+			);
+		}
+	};
+
 	return (
 		<View className="py-4 bg-white">
 			{/* Name */}
@@ -329,8 +383,9 @@ export default function PropertyForm({
 					className="bg-blue-500 border border-mygrey-300 rounded-3xl"
 					onPress={pickImage}
 				>
-					<View className="flex flex-row justify-center items-center gap-2 w-full h-[180px]">
-						{imageState ? (
+					<View className="flex flex-row justify-center items-center gap-2 w-full h-[180px] overflow-hidden">
+						{renderImage()}
+						{/* {imageState ? (
 							<Image
 								source={{ uri: imageState }}
 								className="size-full rounded-3xl"
@@ -348,7 +403,7 @@ export default function PropertyForm({
 									Add Main Image
 								</Text>
 							</View>
-						)}
+						)} */}
 					</View>
 				</TouchableOpacity>
 			</View>
