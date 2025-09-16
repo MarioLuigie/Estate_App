@@ -11,13 +11,12 @@ import {
 } from 'react-native';
 // components
 import Checkbox from '@/components/ui/Checkbox';
-import { isLoading } from 'expo-font';
 
 type CustomModalProps = ModalProps & {
 	visible: boolean;
 	title: string;
-	message: string;
-	actionMessage: string;
+	message: string | React.ReactNode;
+	actionMessage?: string;
 	confirmText?: string;
 	cancelText?: string;
 	variant?: string;
@@ -73,10 +72,10 @@ export default function CustomModal({
 							</View>
 						</>
 					) : (
-						<View>
+						<>
 							<Text style={styles.title}>{title}</Text>
 							<Text style={styles.message}>{actionMessage}</Text>
-						</View>
+						</>
 					)}
 
 					{loading ? (
@@ -137,7 +136,7 @@ const styles = StyleSheet.create({
 	},
 	message: {
 		fontSize: 15,
-		textAlign: 'center',
+		textAlign: 'left',
 	},
 	buttons: {
 		flexDirection: 'row',
