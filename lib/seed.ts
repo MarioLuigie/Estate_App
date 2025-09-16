@@ -1,7 +1,13 @@
 // modules
-import { ID, Permission, Role } from 'react-native-appwrite';
 import { Asset } from 'expo-asset';
+import { ID, Permission, Role } from 'react-native-appwrite';
 // lib
+import {
+	addImageToStorage,
+	config,
+	databases,
+	getAddressFromCoordinates,
+} from '@/lib/appwrite';
 import {
 	agentImages,
 	galleryImages,
@@ -9,12 +15,6 @@ import {
 	reviewImages,
 } from '@/lib/data';
 import { getRandomCoordinatesNearMajorCities } from '@/lib/tools';
-import {
-	addImageToStorage,
-	config,
-	databases,
-	getAddressFromCoordinates,
-} from '@/lib/appwrite';
 
 const COLLECTIONS = {
 	AGENT: config.agentsCollectionId,
@@ -241,6 +241,7 @@ async function seed() {
 				]
 			);
 			console.log(`Seeded property: ${property.name}`);
+			console.log(`Seeded property: ${JSON.stringify(property)}`);
 		}
 
 		console.log('Data seeding completed.');
