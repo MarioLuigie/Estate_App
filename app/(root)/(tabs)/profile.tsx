@@ -145,7 +145,7 @@ export default function Profile() {
 				</View>
 
 				{/* LOGOUT */}
-				<View className="flex flex-col border-t py-5 border-primary-200">
+				<View className="border-t py-5 border-primary-200">
 					<SettingsItem
 						icon={icons.logout}
 						title="Logout"
