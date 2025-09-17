@@ -23,13 +23,15 @@ export const CreatePropertyFormSchema = z.object({
 	ownerId: z.string(),
 	geolocation: z.string(),
 	gallery: z.array(z.string()).optional(),
-	reviews: z.array(z.string()).optional(),
+	reviews: z.array(z.looseObject({})).optional(),
 	agent: z.string(),
 });
 
 export type PropertyFormValues = z.infer<typeof CreatePropertyFormSchema>;
 
-export const UpdatePropertyFormSchema = CreatePropertyFormSchema.extend({ $id: z.string().min(1, 'Id is required')}); 
+export const UpdatePropertyFormSchema = CreatePropertyFormSchema.extend({
+	$id: z.string().min(1, 'Id is required'),
+});
 
 export function getPropertyFormSchema(actionType: ActionTypes) {
 	switch (actionType) {
