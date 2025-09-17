@@ -17,8 +17,9 @@ import {
 // lib
 import {
 	arrayBufferToBase64,
-	prepareImageForStorage,
 	normalizeProperty,
+	prepareImageForStorage,
+	uploadWithRetry,
 } from '@/lib/tools/';
 
 export const config = {
@@ -427,8 +428,12 @@ export async function createProperty(data: any) {
 	try {
 		const currentUser = await account.get();
 		const preparedImage = prepareImageForStorage(data?.image[0]);
-		const uploadedImage = await addImageToStorage(preparedImage); // { fileId: string, url: string }
+		// const uploadedImage = await addImageToStorage(preparedImage); // { fileId: string, url: string }
 
+		const uploadedImage = await uploadWithRetry(
+			addImageToStorage,
+			preparedImage
+		); // { fileId: string, url: string }
 		const resultGallery = await createGallery(uploadedImage!);
 
 		const resultProperty = await databases.createDocument(
@@ -450,7 +455,11 @@ export async function createProperty(data: any) {
 			]
 		);
 
-		resultProperty.image[0].image = JSON.parse(resultProperty.image[0].image);
+		if (resultProperty.image?.[0]?.image) {
+			resultProperty.image[0].image = JSON.parse(
+				resultProperty.image[0].image
+			);
+		}
 
 		return resultProperty; // clear js object
 	} catch (error) {
@@ -467,16 +476,25 @@ export async function updateMyProperty(data: any) {
 
 	// If image was not changed in form
 	const property = await getPropertyById({ id: data?.$id });
-	const oldImageId = property?.image[0].image.fileId;
-	const currentImageId = data.image[0].image.fileId; // if has new image -> undefined
 
-	if (oldImageId === currentImageId) {
+	const oldImage = property?.image?.[0]?.image;
+	const newImage = data?.image?.[0];
+	const oldImageId = oldImage?.fileId;
+
+	// Sprawdzenie, czy obrazek został zmieniony
+	const currentImageId = 'image' in (newImage || {}) ? newImage.image.fileId : null;
+	const isImageChanged = oldImageId !== currentImageId;
+
+	console.log(oldImageId)
+	console.log(currentImageId)
+
+	if (!isImageChanged) {
 		try {
 			const result = await databases.updateDocument(
 				config.databaseId!,
 				config.propertiesCollectionId!,
 				data.$id,
-				{...data, image: [data?.image[0].$id]}
+				{ ...data, image: [property?.image?.[0].$id] }
 			);
 
 			return result;
@@ -489,8 +507,11 @@ export async function updateMyProperty(data: any) {
 	// If image was changed in form
 	try {
 		// First, add a new file to Storage.
-		const preparedImage = prepareImageForStorage(data?.image[0]);
-		const uploadedNewImage = await addImageToStorage(preparedImage);
+		const preparedImage = prepareImageForStorage(newImage);
+		const uploadedNewImage = await uploadWithRetry(
+			addImageToStorage,
+			preparedImage
+		);
 
 		if (!uploadedNewImage) throw new Error('Upload failed');
 
@@ -499,7 +520,11 @@ export async function updateMyProperty(data: any) {
 			const resultGallery = await createGallery(uploadedNewImage);
 
 			// If the resultGallery is successful, try deleting the old document in the DB in galleries.
-			const resultDeleteGallery = await deleteGallery(property.image[0].$id);
+			try {
+				await deleteGallery(property.image[0].$id);
+			} catch (deleteError) {
+				console.warn("Couldn't delete old gallery record", deleteError);
+			}
 
 			// If the upload is successful, try updating the document in the DB in properties.
 			const result = await databases.updateDocument(
