@@ -219,8 +219,7 @@ export function getPropertyFormDefaultValues(
 	}
 
 	if (actionType === ActionTypes.UPDATE && property) {
-		console.log("data.ts_PROPERTY IMAGE", property.image)
-		return {...property, image: JSON.stringify(property.image)};// -> "[{url:string, fileId: string}]"
+		return property;
 	}
 	return PROPERTY_FORM_DEFAULT_VALUES;
 }
