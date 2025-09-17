@@ -684,8 +684,6 @@ export async function addImageToStorage(file: {
 			permissions: ['read("any")'],
 		});
 
-		console.log('ADD IMAGE TO STORAGE3:', uploaded);
-
 		const fileId = uploaded.$id;
 		const url = `${config.endpoint!}/storage/buckets/${config.bucketId}/files/${fileId}/view?project=${config.projectId}`;
 

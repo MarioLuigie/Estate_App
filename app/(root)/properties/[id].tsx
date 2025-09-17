@@ -89,7 +89,7 @@ export default function Property() {
 						}}
 					>
 						<NavigateBack>
-							<View className="flex flex-row items-center gap-3">
+							<View className="flex flex-row items-center gap-4">
 								<LikeButton onPress={() => featureNotAvailable()} />
 								<SendButton onPress={() => featureNotAvailable()} />
 							</View>

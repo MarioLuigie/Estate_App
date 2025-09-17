@@ -30,6 +30,7 @@ export default function PropertyCard({
 	};
 
 	const handleDelete = async () => {
+		setCardDeleted && setCardDeleted(false);
 		const result = await deleteMyPropertyAtomic(
 			property?.$id,
 			property?.image[0].image.fileId
@@ -124,7 +125,7 @@ export default function PropertyCard({
 				visible={deleteVisible}
 				title="Confirm Delete Item"
 				message="Are you sure you want to delete?"
-				actionMessage='Property is deleting now.'
+				actionMessage="Property is deleting now."
 				onConfirm={handleDelete}
 				onCancel={() => setDeleteVisible(false)}
 				isChecked

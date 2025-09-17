@@ -1,6 +1,6 @@
 // modules
 import { router, useLocalSearchParams } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 // lib
 import { getProperties } from '@/lib/appwrite';
 import { customMapStyles } from '@/lib/colorsJS';
@@ -18,6 +18,7 @@ import ToggleButtons from '@/components/shared/ToggleButtons';
 import {
 	FlatList,
 	Image,
+	RefreshControl,
 	SafeAreaView,
 	Text,
 	TouchableOpacity,
@@ -34,6 +35,7 @@ export default function Explore() {
 	const params = useLocalSearchParams<{ query?: string; filter?: string }>();
 	const insets = useSafeAreaInsets();
 	const [showMap, setShowMap] = useState<boolean>(!true);
+	const [refreshing, setRefreshing] = useState<boolean>(false);
 
 	const {
 		loading: propertiesLoading,
@@ -48,6 +50,16 @@ export default function Explore() {
 		},
 		skip: true,
 	});
+
+	const onRefresh = useCallback(async () => {
+		setRefreshing(true);
+		await refetch({
+			filter: params.filter!,
+			query: params.query!,
+			limit: propertiesNumb,
+		});
+		setRefreshing(false);
+	}, [params.filter, params.query, refetch]);
 
 	useEffect(() => {
 		refetch({
@@ -132,6 +144,12 @@ export default function Explore() {
 					numColumns={2}
 					keyExtractor={(item) => item.$id}
 					ListEmptyComponent={<EmptyState isLoading={propertiesLoading} />}
+					refreshControl={
+						<RefreshControl
+							refreshing={refreshing}
+							onRefresh={onRefresh}
+						/>
+					}
 				/>
 			)}
 		</SafeAreaView>

@@ -3,7 +3,6 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 // lib
 import { getLatestProperties, getProperties } from '@/lib/appwrite';
-import icons from '@/lib/constants/icons';
 import { REC_PROPERTIES_LIMIT, TABS_HEIGHT } from '@/lib/constants/layout';
 import { useGlobalContext } from '@/lib/global-provider';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
@@ -18,7 +17,6 @@ import Search from '@/components/shared/Search';
 import {
 	Button,
 	FlatList,
-	Image,
 	RefreshControl,
 	SafeAreaView,
 	Text,
@@ -149,29 +147,30 @@ export default function Home() {
 								</TouchableOpacity>
 							</View>
 
-							<FlatList
-								data={latestProperties}
-								refreshControl={
-									<RefreshControl
-										refreshing={refreshing}
-										onRefresh={onRefresh}
-									/>
-								}
-								renderItem={({ item }) => (
-									<FeaturedCard
-										item={item}
-										onPress={() => handleCardPress(item.$id)}
-									/>
-								)}
-								showsHorizontalScrollIndicator={false}
-								contentContainerClassName="flex gap-3"
-								horizontal
-								bounces={false}
-								keyExtractor={(item) => item.$id}
-								ListEmptyComponent={
-									<EmptyState isLoading={latestPropertiesLoading} />
-								}
-							/>
+							{latestProperties && latestProperties.length > 0 ? (
+								<FlatList
+									data={latestProperties}
+									refreshControl={
+										<RefreshControl
+											refreshing={refreshing}
+											onRefresh={onRefresh}
+										/>
+									}
+									renderItem={({ item }) => (
+										<FeaturedCard
+											item={item}
+											onPress={() => handleCardPress(item.$id)}
+										/>
+									)}
+									showsHorizontalScrollIndicator={false}
+									contentContainerClassName="flex gap-3"
+									horizontal
+									bounces={false}
+									keyExtractor={(item) => item.$id}
+								/>
+							) : (
+								<EmptyState isLoading={latestPropertiesLoading} />
+							)}
 						</View>
 
 						{/* OUR RECOMMANDATION */}

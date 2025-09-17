@@ -249,7 +249,6 @@ async function seed() {
 				]
 			);
 			console.log(`Seeded property: ${property.name}`);
-			console.log(`Seeded property: ${JSON.stringify(property)}`);
 		}
 
 		console.log('Data seeding completed.');
