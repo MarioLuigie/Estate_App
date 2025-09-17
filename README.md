@@ -2,7 +2,7 @@
 
 ![Application intro](https://raw.githubusercontent.com/MarioLuigie/Estate_App/main/assets/images/git-hub-board.jpg)
 
-**REACT NATIVE | EXPO | APPWRITE | NATIVEWIND**
+**REACT NATIVE | EXPO | NODE.JS | APPWRITE | NATIVEWIND**
 
 ## Introduction
 
