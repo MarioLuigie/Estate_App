@@ -164,3 +164,24 @@ export function normalizeProperty(doc: any) {
     image: normalizedImage,
   };
 }
+
+export async function uploadWithRetry<T>(
+  fn: (file: any) => Promise<T>, 
+  file: any, 
+  retries = 3, 
+  delay = 1000
+): Promise<T> {
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      return await fn(file);
+    } catch (err) {
+      console.error(`Upload attempt ${attempt} failed`, err);
+
+      if (attempt === retries) throw err; 
+      await new Promise((res) => setTimeout(res, delay * attempt)); 
+    }
+  }
+  throw new Error("Unreachable"); // for TS
+}
+
+
