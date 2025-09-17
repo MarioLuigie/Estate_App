@@ -2,7 +2,7 @@
 
 ![Application intro](https://raw.githubusercontent.com/MarioLuigie/Estate_App/main/assets/images/git-hub-board.jpg)
 
-<h2 aligne='center'>REACT NATIVE | EXPO | APPWRITE | NATIVEWIND <h2>
+<h3> REACT NATIVE | EXPO | APPWRITE | NATIVEWIND <h3>
 
 ## Introduction
 
