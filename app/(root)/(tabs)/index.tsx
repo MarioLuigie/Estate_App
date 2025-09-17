@@ -84,7 +84,7 @@ export default function Home() {
 		router.push(`/properties/${id}`);
 	};
 
-	console.log("index.tsx:", properties)
+	// console.log("index.tsx:", properties)
 
 	return (
 		<SafeAreaView className="h-full bg-white">

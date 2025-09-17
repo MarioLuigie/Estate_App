@@ -37,7 +37,7 @@ export default function PropertyCard({
 		setCardDeleted && setCardDeleted(result);
 	};
 
-	console.log("PropertyCard:", property)
+	// console.log("PropertyCard:", property)
 
 	return (
 		<TouchableOpacity
