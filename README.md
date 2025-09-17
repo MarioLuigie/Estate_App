@@ -2,7 +2,7 @@
 
 ![Application intro](https://raw.githubusercontent.com/MarioLuigie/Estate_App/main/assets/images/git-hub-board.jpg)
 
-<h2 style="text-align: center; width: 100%">REACT NATIVE | EXPO | APPWRITE | NATIVEWIND <h2>
+<h2 aligne='center'>REACT NATIVE | EXPO | APPWRITE | NATIVEWIND <h2>
 
 ## Introduction
 
