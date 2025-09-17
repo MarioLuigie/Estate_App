@@ -21,6 +21,8 @@ import { TABS_HEIGHT } from '@/lib/constants/layout';
 import { ROUTES } from '@/lib/constants/paths';
 // components
 import CustomModal from '@/components/shared/CustomModal';
+import { featureNotAvailable } from '@/lib/tools';
+import NotifBellButton from '@/components/ui/NotifBellButton';
 
 interface SettingsItemProp {
 	icon: ImageSourcePropType;
@@ -77,7 +79,7 @@ export default function Profile() {
 			<View className="px-5 mb-4">
 				<View className="flex flex-row items-center justify-between mt-16">
 					<Text className="text-xl font-rubik-bold">Profile</Text>
-					<Image source={icons.bell} className="size-7" />
+					<NotifBellButton onPress={() => featureNotAvailable()} />
 				</View>
 
 				<View className="flex flex-row justify-center">
@@ -86,7 +88,10 @@ export default function Profile() {
 							source={{ uri: user?.avatar }}
 							className="size-44 relative rounded-full"
 						/>
-						<TouchableOpacity className="absolute bottom-11 right-2">
+						<TouchableOpacity
+							className="absolute bottom-11 right-2"
+							onPress={() => featureNotAvailable()}
+						>
 							<Image source={icons.edit} className="size-9" />
 						</TouchableOpacity>
 

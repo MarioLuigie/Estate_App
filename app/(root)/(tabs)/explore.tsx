@@ -25,6 +25,8 @@ import {
 } from 'react-native';
 import MapView from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import NotifBellButton from '@/components/ui/NotifBellButton';
+import { featureNotAvailable } from '@/lib/tools';
 
 export default function Explore() {
 	const propertiesNumb = 30;
@@ -76,7 +78,7 @@ export default function Explore() {
 				<Text className="text-base mr-2 font-rubik-medium text-black-300">
 					Search for your ideal Home
 				</Text>
-				<Image source={icons.bell} className="size-6" />
+				<NotifBellButton onPress={() => featureNotAvailable()} />
 			</View>
 
 			{/* SEARCH */}

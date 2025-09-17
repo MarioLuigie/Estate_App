@@ -1,3 +1,5 @@
+import { Alert } from "react-native";
+
 type Coordinates = {
 	latitude: number;
 	longitude: number;
@@ -138,50 +140,55 @@ export function prepareImageForStorage(image: any) {
 	return imageToStorage;
 }
 
-
 export function normalizeProperty(doc: any) {
-  if (!doc) return doc;
+	if (!doc) return doc;
 
-  const normalizedImage = Array.isArray(doc.image)
-    ? doc.image.map((img: any) => {
-        if (typeof img?.image === "string") {
-          try {
-            return {
-              ...img,
-              image: JSON.parse(img.image), // "{url, fileId}" → {url, fileId}
-            };
-          } catch (e) {
-            console.warn("Błąd parsowania image:", e);
-            return img;
-          }
-        }
-        return img;
-      })
-    : doc.image;
+	const normalizedImage = Array.isArray(doc.image)
+		? doc.image.map((img: any) => {
+				if (typeof img?.image === 'string') {
+					try {
+						return {
+							...img,
+							image: JSON.parse(img.image), // "{url, fileId}" → {url, fileId}
+						};
+					} catch (e) {
+						console.warn('Błąd parsowania image:', e);
+						return img;
+					}
+				}
+				return img;
+			})
+		: doc.image;
 
-  return {
-    ...doc,
-    image: normalizedImage,
-  };
+	return {
+		...doc,
+		image: normalizedImage,
+	};
 }
 
 export async function uploadWithRetry<T>(
-  fn: (file: any) => Promise<T>, 
-  file: any, 
-  retries = 3, 
-  delay = 1000
+	fn: (file: any) => Promise<T>,
+	file: any,
+	retries = 3,
+	delay = 1000
 ): Promise<T> {
-  for (let attempt = 1; attempt <= retries; attempt++) {
-    try {
-      return await fn(file);
-    } catch (err) {
-      console.error(`Upload attempt ${attempt} failed`, err);
+	for (let attempt = 1; attempt <= retries; attempt++) {
+		try {
+			return await fn(file);
+		} catch (err) {
+			console.error(`Upload attempt ${attempt} failed`, err);
 
-      if (attempt === retries) throw err; 
-      await new Promise((res) => setTimeout(res, delay * attempt)); 
-    }
-  }
-  throw new Error("Unreachable"); // for TS
+			if (attempt === retries) throw err;
+			await new Promise((res) => setTimeout(res, delay * attempt));
+		}
+	}
+	throw new Error('Unreachable'); // for TS
 }
 
-
+export function featureNotAvailable(title?: string) {
+	const messageTitle = title ? `-> ${title}` : ''
+	return Alert.alert(
+		`Message ${messageTitle}`,
+		'This feature is currently being rolled out. It will be available soon!'
+	);
+}

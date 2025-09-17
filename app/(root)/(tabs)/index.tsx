@@ -8,7 +8,7 @@ import { REC_PROPERTIES_LIMIT, TABS_HEIGHT } from '@/lib/constants/layout';
 import { useGlobalContext } from '@/lib/global-provider';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
 import seed from '@/lib/seed';
-import { getTimeGreeting } from '@/lib/tools';
+import { featureNotAvailable, getTimeGreeting } from '@/lib/tools';
 // components
 import Avatar from '@/components/shared/Avatar';
 import { Card, FeaturedCard } from '@/components/shared/Cards';
@@ -26,6 +26,7 @@ import {
 	View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import NotifBellButton from '@/components/ui/NotifBellButton';
 
 export default function Home() {
 	const { user } = useGlobalContext();
@@ -33,7 +34,7 @@ export default function Home() {
 	const greeting = getTimeGreeting();
 	const [refreshing, setRefreshing] = useState<boolean>(false);
 
-	const isSeedButtonHidden: boolean = !true;
+	const isSeedButtonHidden: boolean = true;
 
 	const params = useLocalSearchParams<{ query?: string; filter?: string }>();
 
@@ -107,7 +108,7 @@ export default function Home() {
 							</Text>
 						</View>
 					</View>
-					<Image source={icons.bell} className="size-6" />
+					<NotifBellButton onPress={() => featureNotAvailable()} />
 				</View>
 			</View>
 

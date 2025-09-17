@@ -5,6 +5,7 @@ import { Image, TextInput, TouchableOpacity, View } from 'react-native';
 import { useDebouncedCallback } from 'use-debounce';
 // lib
 import icons from '@/lib/constants/icons';
+import { featureNotAvailable } from '@/lib/tools';
 
 export default function Search() {
 	const path = usePathname();
@@ -33,7 +34,7 @@ export default function Search() {
 				/>
 			</View>
 
-			<TouchableOpacity>
+			<TouchableOpacity onPress={() => featureNotAvailable("Filters")}>
 				<Image source={icons.filter} className="size-5" />
 			</TouchableOpacity>
 		</View>
