@@ -60,7 +60,7 @@ export default function PropertyForm({
 	const [isError, setIsError] = useState<boolean>(false);
 	const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
 	const [imageState, setImageState] = useState<string>(
-		property?.image?.url || ''
+		property?.image[0].image.url || ''
 	);
 	const mapRef = useRef<MapView>(null);
 
@@ -232,7 +232,7 @@ export default function PropertyForm({
 				};
 
 				setImageState(image.uri);
-				setValue('image', JSON.stringify(imageToUpload));
+				setValue('image', [imageToUpload]);
 
 				// console.log('IMAGE URI:', image.uri);
 				// console.log('IMAGE:', image);
@@ -273,7 +273,7 @@ export default function PropertyForm({
 					setImageState('');
 				}
 
-				console.log('Property added:', createdProperty);
+				// console.log('Property added:', createdProperty);
 			}
 
 			// UPDATE PRODUCT

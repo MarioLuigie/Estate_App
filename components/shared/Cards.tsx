@@ -6,7 +6,7 @@ import icons from '@/lib/constants/icons';
 import images from '@/lib/constants/images';
 
 export interface Property extends Models.Document {
-	image: { url: string, fileId: string };
+	image: {image: { url: string, fileId: string }}[];
 	name: string;
 	address: string;
 	price: number;
@@ -28,6 +28,8 @@ export default function ComponentName() {
 
 export function FeaturedCard({ item, onPress }: Props) {
 	const { name, price, rating, address, image } = item as unknown as Property;
+
+	console.log("IMAGE", image)
 	return (
 		<TouchableOpacity
 			onPress={onPress}
@@ -35,7 +37,7 @@ export function FeaturedCard({ item, onPress }: Props) {
 			style={{width: 240, height: 260}}
 		>
 			{/* BG IMAGE */}
-			<Image source={{ uri: image?.url }} className="size-full rounded-lg" />
+			<Image source={{ uri: image[0].image.url }} className="size-full rounded-lg" />
 			<Image
 				source={images.cardGradient}
 				className="size-full rounded-lg absolute bottom-0"
@@ -89,7 +91,7 @@ export function Card({ item, onPress }: Props) {
 			</View>
 
 			{/* BG IMAGE */}
-			<Image source={{ uri: image?.url }} className="w-full h-40 rounded-lg" />
+			<Image source={{ uri: image[0].image.url }} className="w-full h-40 rounded-lg" />
 
 			{/* INFOS */}
 			<View className="flex flex-col mt-2">

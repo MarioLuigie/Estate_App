@@ -39,9 +39,9 @@ export default function Property() {
 		},
 	});
 
-	if (property && typeof property.image === 'string') {
-		property.image = JSON.parse(property.image);
-	}
+	// if (property && typeof property.image[0].image === 'string') {
+	// 	property.image = [JSON.parse(property.image[0].image)];
+	// }
 
 	const [agent, setAgent] = useState<any>(null);
 	const [agentLoading, setAgentLoading] = useState(false);
@@ -69,7 +69,7 @@ export default function Property() {
 					style={{ height: windowHeight / 2 }}
 				>
 					<Image
-						source={{ uri: property?.image?.url }}
+						source={{ uri: property?.image[0].image.url }}
 						className="size-full"
 						resizeMode="cover"
 					/>
@@ -239,7 +239,7 @@ export default function Property() {
 								data={property?.gallery}
 								renderItem={({ item }) => (
 									<Image
-										source={{ uri: item.image }}
+										source={{ uri: item.image.url }}
 										className="size-56 rounded-xl"
 									/>
 								)}
@@ -277,7 +277,7 @@ export default function Property() {
 									settings={{
 										latitude: property.latitude,
 										longitude: property.longitude,
-										image: property.image.url,
+										image: property.image[0].image.url,
 									}}
 								/>
 							</MapView>

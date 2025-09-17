@@ -202,7 +202,7 @@ export const PROPERTY_FORM_DEFAULT_VALUES = {
 	bathrooms: 1,
 	rating: 3,
 	facilities: [],
-	image: '',
+	image: [],
 	ownerId: '',
 	gallery: [],
 	reviews: [],
@@ -219,7 +219,8 @@ export function getPropertyFormDefaultValues(
 	}
 
 	if (actionType === ActionTypes.UPDATE && property) {
-		return {...property, image: JSON.stringify(property.image)};
+		console.log("data.ts_PROPERTY IMAGE", property.image)
+		return {...property, image: JSON.stringify(property.image)};// -> "[{url:string, fileId: string}]"
 	}
 	return PROPERTY_FORM_DEFAULT_VALUES;
 }

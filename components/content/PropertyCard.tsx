@@ -32,10 +32,12 @@ export default function PropertyCard({
 	const handleDelete = async () => {
 		const result = await deleteMyPropertyAtomic(
 			property?.$id,
-			property?.image?.fileId
+			property?.image[0].image.fileId
 		);
 		setCardDeleted && setCardDeleted(result);
 	};
+
+	console.log("PropertyCard:", property)
 
 	return (
 		<TouchableOpacity
@@ -60,9 +62,9 @@ export default function PropertyCard({
 			</View>
 
 			{/* Obraz główny */}
-			{property?.image && (
+			{property?.image[0] && (
 				<Image
-					source={{ uri: property?.image?.url }}
+					source={{ uri: property?.image[0].image.url }}
 					className="w-full h-40"
 					resizeMode="cover"
 				/>

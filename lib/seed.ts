@@ -5,6 +5,7 @@ import { ID, Permission, Role } from 'react-native-appwrite';
 import {
 	addImageToStorage,
 	config,
+	createGallery,
 	databases,
 	getAddressFromCoordinates,
 } from '@/lib/appwrite';
@@ -141,18 +142,23 @@ async function seed() {
 		console.log(`Seeded ${reviews.length} reviews.`);
 
 		// Seed Galleries
-		const galleries = [];
-		for (const image of galleryImages) {
-			const gallery = await databases.createDocument(
-				config.databaseId!,
-				COLLECTIONS.GALLERY!,
-				ID.unique(),
-				{ image: image.url }
-			);
-			galleries.push(gallery);
-		}
+		// const galleries = [];
+		// for (const image of galleryImages) {
+		// 	const gallery = await databases.createDocument(
+		// 		config.databaseId!,
+		// 		COLLECTIONS.GALLERY!,
+		// 		ID.unique(),
+		// 		{
+		// 			image: JSON.stringify({
+		// 				url: image.url,
+		// 				fileId: null, // bo przy seedzie nie masz pliku w storage
+		// 			}),
+		// 		}
+		// 	);
+		// 	galleries.push(gallery);
+		// }
 
-		console.log(`Seeded ${galleries.length} galleries.`);
+		// console.log(`Seeded ${galleries.length} galleries.`);
 
 		// Seed Properties
 		for (let i = 1; i <= 20; i++) {
@@ -160,7 +166,7 @@ async function seed() {
 				agents[Math.floor(Math.random() * agents.length)];
 
 			const assignedReviews = getRandomSubset(reviews, 5, 7); // 5 to 7 reviews
-			const assignedGalleries = getRandomSubset(galleries, 3, 8); // 3 to 8 galleries
+			// const assignedGalleries = getRandomSubset(galleries, 3, 8); // 3 to 8 galleries
 
 			const selectedFacilities = facilities
 				.sort(() => 0.5 - Math.random())
@@ -195,10 +201,12 @@ async function seed() {
 
 			const result = await addImageToStorage(fileToUpload);
 
-			const imageToDb = JSON.stringify({
-				url: result?.url,
-				fileId: result?.fileId,
-			});
+			const imageToDb = {
+				url: result?.url!,
+				fileId: result?.fileId!,
+			};
+
+			const resultGallery = await createGallery(imageToDb);
 
 			const coords = getRandomCoordinatesNearMajorCities();
 			const address = await getAddressFromCoordinates(
@@ -228,10 +236,10 @@ async function seed() {
 					bathrooms: Math.floor(Math.random() * 5) + 1,
 					rating: Math.floor(Math.random() * 5) + 1,
 					facilities: selectedFacilities,
-					image: imageToDb,
+					image: [resultGallery?.$id],
 					agent: assignedAgent.$id,
 					reviews: assignedReviews.map((review) => review.$id),
-					gallery: assignedGalleries.map((gallery) => gallery.$id),
+					gallery: ['68bffaa10007aaf06a7b', '68bffaa00025cfaf074d'], // CORRECT!
 					ownerId: ownerIdTest,
 				},
 				[

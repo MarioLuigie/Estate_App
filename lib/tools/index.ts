@@ -121,12 +121,7 @@ export const getTimeGreeting = (): string => {
 	}
 };
 
-export function prepareImageForStorage(imageToPrepare: any) {
-	const image =
-		imageToPrepare &&
-		typeof imageToPrepare === 'string' &&
-		JSON.parse(imageToPrepare);
-
+export function prepareImageForStorage(image: any) {
 	const getFileExtension = (image: any) => {
 		const name = image.name ?? image.uri.split('/').pop() ?? 'photo.jpg';
 		const extMatch = name.match(/\.(\w+)$/);
@@ -141,4 +136,31 @@ export function prepareImageForStorage(imageToPrepare: any) {
 	};
 
 	return imageToStorage;
+}
+
+
+export function normalizeProperty(doc: any) {
+  if (!doc) return doc;
+
+  const normalizedImage = Array.isArray(doc.image)
+    ? doc.image.map((img: any) => {
+        if (typeof img?.image === "string") {
+          try {
+            return {
+              ...img,
+              image: JSON.parse(img.image), // "{url, fileId}" → {url, fileId}
+            };
+          } catch (e) {
+            console.warn("Błąd parsowania image:", e);
+            return img;
+          }
+        }
+        return img;
+      })
+    : doc.image;
+
+  return {
+    ...doc,
+    image: normalizedImage,
+  };
 }

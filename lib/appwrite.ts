@@ -15,7 +15,11 @@ import {
 	Storage,
 } from 'react-native-appwrite';
 // lib
-import { arrayBufferToBase64, prepareImageForStorage } from '@/lib/tools';
+import {
+	arrayBufferToBase64,
+	prepareImageForStorage,
+	normalizeProperty,
+} from '@/lib/tools/';
 
 export const config = {
 	platform: 'com.mlotocki.estate',
@@ -161,10 +165,18 @@ export async function getLatestProperties(limit: number | string = 5) {
 		const result = await databases.listDocuments(
 			config.databaseId!,
 			config.propertiesCollectionId!,
-			[Query.orderDesc('$createdAt'), Query.limit(Number(parsedLimit))]
+			[
+				Query.orderDesc('$createdAt'),
+				Query.limit(Number(parsedLimit)),
+				Query.select(['*', 'gallery.*', 'reviews.*', 'image.*']),
+			]
 		);
 
-		return result.documents;
+		// console.log("getLatestProperties:", typeof result?.documents[0].image[0].image)
+
+		const parsedList = result?.documents.map(normalizeProperty);
+
+		return parsedList;
 	} catch (error) {
 		console.error(error);
 		return [];
@@ -197,13 +209,17 @@ export async function getProperties({
 
 		if (limit) buildQuery.push(Query.limit(limit));
 
+		buildQuery.push(Query.select(['*', 'image.*', 'gallery.*', 'reviews.*']));
+
 		const result = await databases.listDocuments(
 			config.databaseId!,
 			config.propertiesCollectionId!,
 			buildQuery
 		);
 
-		return result.documents;
+		const parsedList = result?.documents.map(normalizeProperty);
+
+		return parsedList;
 	} catch (error) {
 		console.error(error);
 		return [];
@@ -216,11 +232,19 @@ export async function getPropertyById({ id }: { id: string }) {
 			config.databaseId!,
 			config.propertiesCollectionId!,
 			id,
-			[Query.select(['*', 'gallery.*', 'reviews.*'])] // '*' = wszystkie własne pola rekordu
+			[Query.select(['*', 'gallery.*', 'reviews.*', 'image.*'])] // '*' = wszystkie własne pola rekordu
 			// 'gallery.*', 'reviews.*', 'agent.*' = pełne obiekty relacji
 		);
 
-		return result;
+		const parsedProperty = {
+			...result,
+			image: result.image.map((img: any) => ({
+				...img,
+				image: JSON.parse(img.image),
+			})),
+		} as any;
+
+		return parsedProperty;
 	} catch (error) {
 		console.error(error);
 		return null;
@@ -338,9 +362,15 @@ export async function getMyProperties({ userId }: { userId: string }) {
 		const result = await databases.listDocuments(
 			config.databaseId!,
 			config.propertiesCollectionId!,
-			[Query.equal('ownerId', userId), Query.orderDesc('$createdAt')]
+			[
+				Query.equal('ownerId', userId),
+				Query.orderDesc('$createdAt'),
+				Query.select(['*', 'gallery.*', 'reviews.*', 'image.*']),
+			]
 		);
-		return result.documents;
+
+		const parsedList = result?.documents.map(normalizeProperty);
+		return parsedList;
 	} catch (err) {
 		console.error('Error in getMyProperties:', err);
 		return null;
@@ -356,24 +386,29 @@ export async function getMyProperties({ userId }: { userId: string }) {
 //   return result.documents;
 // }
 
-export async function createProperty(data: any) {
+export async function deleteGallery(id: string) {
+	try {
+		const result = await databases.deleteDocument(
+			config.databaseId!,
+			config.galleriesCollectionId!,
+			id
+		);
+
+		return result;
+	} catch (error) {
+		console.error('Property not created', error);
+		return null;
+	}
+}
+
+export async function createGallery(data: { url: string; fileId: string }) {
 	try {
 		const currentUser = await account.get();
-		const preparedImage = prepareImageForStorage(data?.image);
-		const uploadedImage = await addImageToStorage(preparedImage);
-
 		const result = await databases.createDocument(
 			config.databaseId!,
-			config.propertiesCollectionId!,
+			config.galleriesCollectionId!,
 			ID.unique(),
-			{
-				...data,
-				geolocation: `${data.latitude},${data.longitude}`,
-				gallery: ['68bffaa10007aaf06a7b', '68bffaa00025cfaf074d'],
-				reviews: ['68bffa9e00262f951c8c'],
-				image: JSON.stringify(uploadedImage),
-				ownerId: currentUser.$id,
-			},
+			{ image: JSON.stringify(data) },
 			[
 				Permission.read(Role.users()),
 				Permission.update(Role.user(currentUser.$id)),
@@ -388,6 +423,42 @@ export async function createProperty(data: any) {
 	}
 }
 
+export async function createProperty(data: any) {
+	try {
+		const currentUser = await account.get();
+		const preparedImage = prepareImageForStorage(data?.image[0]);
+		const uploadedImage = await addImageToStorage(preparedImage); // { fileId: string, url: string }
+
+		const resultGallery = await createGallery(uploadedImage!);
+
+		const resultProperty = await databases.createDocument(
+			config.databaseId!,
+			config.propertiesCollectionId!,
+			ID.unique(),
+			{
+				...data,
+				geolocation: `${data.latitude},${data.longitude}`,
+				gallery: ['68bffaa10007aaf06a7b', '68bffaa00025cfaf074d'],
+				reviews: ['68bffa9e00262f951c8c'],
+				image: [resultGallery?.$id],
+				ownerId: currentUser.$id,
+			},
+			[
+				Permission.read(Role.users()),
+				Permission.update(Role.user(currentUser.$id)),
+				Permission.delete(Role.user(currentUser.$id)),
+			]
+		);
+
+		resultProperty.image[0].image = JSON.parse(resultProperty.image[0].image);
+
+		return resultProperty; // clear js object
+	} catch (error) {
+		console.error('Property not created', error);
+		return null;
+	}
+}
+
 export async function updateMyProperty(data: any) {
 	// First, add a new file to Storage.
 	// If the upload is successful, try updating the document in the DB.
@@ -396,8 +467,8 @@ export async function updateMyProperty(data: any) {
 
 	// If image was not changed in form
 	const property = await getPropertyById({ id: data?.$id });
-	const oldImageId = JSON.parse(property?.image).fileId;
-	const currentImageId = JSON.parse(data.image).fileId;
+	const oldImageId = property?.image[0].image.fileId;
+	const currentImageId = data.image[0].image.fileId; // if has new image -> undefined
 
 	if (oldImageId === currentImageId) {
 		try {
@@ -405,7 +476,7 @@ export async function updateMyProperty(data: any) {
 				config.databaseId!,
 				config.propertiesCollectionId!,
 				data.$id,
-				data
+				{...data, image: [data?.image[0].$id]}
 			);
 
 			return result;
@@ -418,18 +489,24 @@ export async function updateMyProperty(data: any) {
 	// If image was changed in form
 	try {
 		// First, add a new file to Storage.
-		const preparedImage = prepareImageForStorage(data?.image);
+		const preparedImage = prepareImageForStorage(data?.image[0]);
 		const uploadedNewImage = await addImageToStorage(preparedImage);
 
 		if (!uploadedNewImage) throw new Error('Upload failed');
 
 		try {
-			// If the upload is successful, try updating the document in the DB.
+			// If the upload is successful, try creating the new document in the DB in galleries.
+			const resultGallery = await createGallery(uploadedNewImage);
+
+			// If the resultGallery is successful, try deleting the old document in the DB in galleries.
+			const resultDeleteGallery = await deleteGallery(property.image[0].$id);
+
+			// If the upload is successful, try updating the document in the DB in properties.
 			const result = await databases.updateDocument(
 				config.databaseId!,
 				config.propertiesCollectionId!,
 				data.$id,
-				{ ...data, image: JSON.stringify(uploadedNewImage) }
+				{ ...data, image: [resultGallery?.$id] }
 			);
 
 			// If the DB update is successful, delete the old file

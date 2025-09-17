@@ -21,8 +21,6 @@ export default function UpdateProperty() {
 			try {
 				setLoading(true);
 				const res = await getPropertyById({ id: normalizedId });
-				if (res && typeof res.image === 'string')
-					res.image = JSON.parse(res.image);
 				setProperty(res);
 				setLoading(false);
 			} catch (error) {

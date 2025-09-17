@@ -33,7 +33,7 @@ export default function Home() {
 	const greeting = getTimeGreeting();
 	const [refreshing, setRefreshing] = useState<boolean>(false);
 
-	const isSeedButtonHidden: boolean = true;
+	const isSeedButtonHidden: boolean = !true;
 
 	const params = useLocalSearchParams<{ query?: string; filter?: string }>();
 
@@ -80,25 +80,11 @@ export default function Home() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [params.filter, params.query]);
 
-	let preparedProperties: any[] = [];
-	if (properties && properties?.length > 0) {
-		preparedProperties = properties?.map((p) => ({
-			...p,
-			image: JSON.parse(p.image),
-		}));
-	}
-
-	let preparedLatestProperties: any[] = [];
-	if (latestProperties && latestProperties?.length > 0) {
-		preparedLatestProperties = latestProperties?.map((p) => ({
-			...p,
-			image: JSON.parse(p.image),
-		}));
-	}
-
 	const handleCardPress = (id: string) => {
 		router.push(`/properties/${id}`);
 	};
+
+	console.log("index.tsx:", properties)
 
 	return (
 		<SafeAreaView className="h-full bg-white">
@@ -132,7 +118,7 @@ export default function Home() {
 
 			{/* MAIN */}
 			<FlatList
-				data={preparedProperties}
+				data={properties}
 				renderItem={({ item }) => (
 					<Card item={item} onPress={() => handleCardPress(item.$id)} />
 				)}
@@ -163,7 +149,7 @@ export default function Home() {
 							</View>
 
 							<FlatList
-								data={preparedLatestProperties}
+								data={latestProperties}
 								refreshControl={
 									<RefreshControl
 										refreshing={refreshing}

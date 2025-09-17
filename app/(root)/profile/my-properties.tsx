@@ -35,18 +35,10 @@ export default function MyPropertiesScreen() {
 		refetch();
 	}, [cardDeleted]);
 
-	let preparedProperties: any[] = [];
-	if (properties && properties?.length > 0) {
-		preparedProperties = properties?.map((p) => ({
-			...p,
-			image: JSON.parse(p.image),
-		}));
-	}
-
 	const handleDeleteAll = async () => {
 		const results = await deleteAllPropertiesAtomic(
-			preparedProperties.map((p) => {
-				return { id: p.$id, imageId: p.image.fileId };
+			properties!.map((p) => {
+				return { id: p.$id, imageId: p.image[0].image.fileId };
 			})
 		);
 
@@ -94,7 +86,7 @@ export default function MyPropertiesScreen() {
 			/>
 
 			<CustomFlatList
-				data={preparedProperties}
+				data={properties}
 				isLoading={propertiesLoading}
 				renderItem={(item, isGrid) => (
 					<PropertyCard
