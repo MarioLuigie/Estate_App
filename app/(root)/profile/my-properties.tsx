@@ -1,8 +1,8 @@
 // modules
 import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, RefreshControl } from 'react-native';
 // lib
 import { deleteAllPropertiesAtomic, getMyProperties } from '@/lib/appwrite';
 import { ROUTES } from '@/lib/constants/paths';
@@ -21,6 +21,7 @@ export default function MyPropertiesScreen() {
 	const [deleteSummary, setDeleteSummary] = useState<boolean>(false);
 	const [deleteSuccessed, setDeleteSuccessed] = useState<number>(0);
 	const [deleteFailed, setDeleteFailed] = useState<number>(0);
+	const [refreshing, setRefreshing] = useState<boolean>(false);
 
 	const {
 		data: properties,
@@ -28,14 +29,23 @@ export default function MyPropertiesScreen() {
 		refetch,
 	} = useAppwrite({
 		fn: getMyProperties,
-		params: { userId: user?.$id! },
+		params: { userId: user?.$id ?? '' },
 	});
 
+	const onRefresh = useCallback(async () => {
+		setRefreshing(true);
+		await refetch({ userId: user?.$id! });
+		setRefreshing(false);
+	}, [user?.$id, refetch]);
+
 	useEffect(() => {
-		refetch();
-	}, [cardDeleted]);
+		if (user?.$id) {
+			refetch({ userId: user.$id });
+		}
+	}, [cardDeleted, user?.$id]);
 
 	const handleDeleteAll = async () => {
+		setCardDeleted(false);
 		const results = await deleteAllPropertiesAtomic(
 			properties!.map((p) => {
 				return { id: p.$id, imageId: p.image[0].image.fileId };
@@ -81,13 +91,16 @@ export default function MyPropertiesScreen() {
 			<CustomTouchable
 				title="Remove All Properties"
 				onPress={() => setDeleteAllVisible(true)}
-				containerStyle={{ backgroundColor: '#eee'}}
-				textStyle={{color: '#7a7a7a'}}
+				containerStyle={{ backgroundColor: '#eee' }}
+				textStyle={{ color: '#7a7a7a' }}
 			/>
 
 			<CustomFlatList
 				data={properties}
 				isLoading={propertiesLoading}
+				refreshControl={
+					<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+				}
 				renderItem={(item, isGrid) => (
 					<PropertyCard
 						property={item}
