@@ -9,6 +9,7 @@ import { deleteMyPropertyAtomic } from '@/lib/appwrite';
 // components
 import CustomModal from '@/components/shared/CustomModal';
 import IconButton from '@/components/ui/IconButton';
+import { ROUTES } from '@/lib/constants/paths';
 
 interface PropertyCardProps {
 	property: any;
@@ -26,7 +27,7 @@ export default function PropertyCard({
 	const [deleteVisible, setDeleteVisible] = useState<boolean>(false);
 
 	const handleEdit = () => {
-		router.push(`/properties/update/${property?.$id}`);
+		router.push(`${ROUTES.PROPERTIES_UPDATE_PROPERTY}/${property?.$id}`);
 	};
 
 	const handleDelete = async () => {
