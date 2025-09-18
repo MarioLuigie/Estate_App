@@ -702,13 +702,28 @@ export async function getBookingsByPropertyId(propertyId: string) {
 		const result = await databases.listDocuments(
 			config.databaseId!,
 			config.bookingsCollectionId!,
-			[Query.equal("property", propertyId)],
+			[Query.equal('property', propertyId)]
 		);
 
 		return result.documents;
-		
 	} catch (error) {
 		console.error('Bookings not founded error:', error);
-		return null
+		return null;
+	}
+}
+
+export async function createBooking(data: any) {
+	try {
+		const result = await databases.createDocument(
+			config.databaseId!,
+			config.bookingsCollectionId!,
+			data,
+			[], // permissions
+		)
+
+		return result;
+	} catch (error) {
+		console.error('Bookings not founded error:', error);
+		return null;
 	}
 }

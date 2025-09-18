@@ -33,7 +33,7 @@ export default function AddBooking() {
 		end?: string;
 	}>({});
 
-  console.log("add-booking.tsx", selectedRange);
+	console.log('add-booking.tsx', selectedRange);
 
 	// pobranie agenta
 	useEffect(() => {
@@ -80,20 +80,63 @@ export default function AddBooking() {
 			const startDate = new Date(selectedRange.start);
 			const endDate = new Date(day.dateString);
 
-			if (endDate < startDate) {
-				// odwrócenie
-				setSelectedRange({
-					start: day.dateString,
-					end: selectedRange.start,
-				});
-			} else {
-				setSelectedRange({
-					start: selectedRange.start,
-					end: day.dateString,
-				});
+			// poprawka: jeśli end < start → zamiana
+			const [realStart, realEnd] =
+				endDate < startDate ? [endDate, startDate] : [startDate, endDate];
+
+			// WALIDACJA: sprawdź czy w środku są zablokowane dni
+			let current = new Date(realStart);
+			let invalid = false;
+
+			while (current <= realEnd) {
+				const key = current.toISOString().split('T')[0];
+				if (blockedDates[key]) {
+					invalid = true;
+					break;
+				}
+				current.setDate(current.getDate() + 1);
 			}
+
+			if (invalid) {
+				// np. reset wyboru i pokaż komunikat
+				setSelectedRange({});
+				alert(
+					'Wybrany zakres zawiera niedostępne dni. Wybierz inny termin.'
+				);
+				return;
+			}
+
+			// ustaw poprawny zakres
+			setSelectedRange({
+				start: realStart.toISOString().split('T')[0],
+				end: realEnd.toISOString().split('T')[0],
+			});
 		}
 	};
+
+	// const handleDayPress = (day: any) => {
+	// 	if (!selectedRange.start || (selectedRange.start && selectedRange.end)) {
+	// 		// nowy wybór od początku
+	// 		setSelectedRange({ start: day.dateString, end: undefined });
+	// 	} else {
+	// 		// ustaw koniec zakresu
+	// 		const startDate = new Date(selectedRange.start);
+	// 		const endDate = new Date(day.dateString);
+
+	// 		if (endDate < startDate) {
+	// 			// odwrócenie
+	// 			setSelectedRange({
+	// 				start: day.dateString,
+	// 				end: selectedRange.start,
+	// 			});
+	// 		} else {
+	// 			setSelectedRange({
+	// 				start: selectedRange.start,
+	// 				end: day.dateString,
+	// 			});
+	// 		}
+	// 	}
+	// };
 
 	// oznaczenia w kalendarzu
 	const markedDates = {
@@ -187,4 +230,3 @@ export default function AddBooking() {
 		</View>
 	);
 }
-
