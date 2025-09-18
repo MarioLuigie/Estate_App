@@ -1,5 +1,6 @@
 // modules
 import { router, useLocalSearchParams } from 'expo-router';
+import { useEffect, useState } from 'react';
 import {
 	Dimensions,
 	Image,
@@ -10,24 +11,23 @@ import {
 	View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useEffect, useState } from 'react';
 // lib
-import images from '@/lib/constants/images';
 import { getAgentById, getPropertyById } from '@/lib/appwrite';
+import images from '@/lib/constants/images';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
 // components
-import NavigateBack from '@/components/shared/NavigateBack';
-import { featureNotAvailable } from '@/lib/tools';
-import LikeButton from '@/components/ui/LikeButton';
-import SendButton from '@/components/ui/SendButton';
-import AgentContact from '@/components/content/PropertySections/Agent';
-import Intro from '@/components/content/PropertySections/Intro';
-import Overview from '@/components/content/PropertySections/Overview';
+import AgentContact from '@/components/content/PropertySections/AgentContact';
 import Facilities from '@/components/content/PropertySections/Facilities';
 import Gallery from '@/components/content/PropertySections/Gallery';
+import Intro from '@/components/content/PropertySections/Intro';
 import Location from '@/components/content/PropertySections/Location';
+import Overview from '@/components/content/PropertySections/Overview';
 import Reviews from '@/components/content/PropertySections/Reviews';
+import NavigateBack from '@/components/shared/NavigateBack';
+import LikeButton from '@/components/ui/LikeButton';
+import SendButton from '@/components/ui/SendButton';
 import { ROUTES } from '@/lib/constants/paths';
+import { featureNotAvailable } from '@/lib/tools';
 
 export default function PropertyDetails() {
 	const { id } = useLocalSearchParams<{ id?: string }>();
@@ -142,10 +142,12 @@ export default function PropertyDetails() {
 					</View>
 
 					<TouchableOpacity
-						onPress={() => router.push({
-							pathname: ROUTES.BOOKINGS_ADD_BOOKING,
-							params: { id: property?.$id}
-						})}
+						onPress={() =>
+							router.push({
+								pathname: ROUTES.BOOKINGS_ADD_BOOKING,
+								params: { id: property?.$id },
+							})
+						}
 						className="flex-1 flex flex-row items-center justify-center bg-primary-300 py-3 rounded-full shadow-md shadow-zinc-400"
 					>
 						<Text className="text-white text-lg text-center font-rubik-bold">
