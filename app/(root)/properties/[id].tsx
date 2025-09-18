@@ -1,5 +1,5 @@
 // modules
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import {
 	Dimensions,
 	Image,
@@ -27,8 +27,9 @@ import Facilities from '@/components/content/PropertySections/Facilities';
 import Gallery from '@/components/content/PropertySections/Gallery';
 import Location from '@/components/content/PropertySections/Location';
 import Reviews from '@/components/content/PropertySections/Reviews';
+import { ROUTES } from '@/lib/constants/paths';
 
-export default function Property() {
+export default function PropertyDetails() {
 	const { id } = useLocalSearchParams<{ id?: string }>();
 	const insets = useSafeAreaInsets();
 
@@ -140,7 +141,13 @@ export default function Property() {
 						</Text>
 					</View>
 
-					<TouchableOpacity className="flex-1 flex flex-row items-center justify-center bg-primary-300 py-3 rounded-full shadow-md shadow-zinc-400">
+					<TouchableOpacity
+						onPress={() => router.push({
+							pathname: ROUTES.BOOKINGS_ADD_BOOKING,
+							params: { id: property?.$id}
+						})}
+						className="flex-1 flex flex-row items-center justify-center bg-primary-300 py-3 rounded-full shadow-md shadow-zinc-400"
+					>
 						<Text className="text-white text-lg text-center font-rubik-bold">
 							Book Now
 						</Text>
