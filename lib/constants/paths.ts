@@ -17,4 +17,9 @@ export const ROUTES = {
   PROPERTIES: '/properties' as const,
   PROPERTIES_ADD: '/properties/add' as const,
   PROPERTIES_ADD_PROPERTY: '/properties/add/add-property' as const,
+  PROPERTIES_UPDATE_PROPERTY: '/properties/update' as const,
+  // bookings routes
+  BOOKINGS: '/bookings' as const,
+  BOOKINGS_ADD_BOOKING: '/bookings/add/add-booking' as const,
+
 }
