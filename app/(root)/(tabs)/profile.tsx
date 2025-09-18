@@ -1,4 +1,6 @@
 // modules
+import { router } from 'expo-router';
+import { useState } from 'react';
 import {
 	Alert,
 	Image,
@@ -9,20 +11,18 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
-import { useState } from 'react';
-import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 // lib
-import { logout } from '@/lib/appwrite';
-import { useGlobalContext } from '@/lib/global-provider';
-import icons from '@/lib/constants/icons';
+import { logout } from '@/lib/actions/appwrite';
 import { settings } from '@/lib/constants/data';
+import icons from '@/lib/constants/icons';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
 import { ROUTES } from '@/lib/constants/paths';
+import { useGlobalContext } from '@/lib/global-provider';
 // components
 import CustomModal from '@/components/shared/CustomModal';
-import { featureNotAvailable } from '@/lib/tools';
 import NotifBellButton from '@/components/ui/NotifBellButton';
+import { featureNotAvailable } from '@/lib/tools';
 
 interface SettingsItemProp {
 	icon: ImageSourcePropType;

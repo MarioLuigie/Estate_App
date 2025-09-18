@@ -696,3 +696,19 @@ export async function addImageToStorage(file: {
 		return null;
 	}
 }
+
+export async function getBookingsByPropertyId(propertyId: string) {
+	try {
+		const result = await databases.listDocuments(
+			config.databaseId!,
+			config.bookingsCollectionId!,
+			[Query.equal("property", propertyId)],
+		);
+
+		return result.documents;
+		
+	} catch (error) {
+		console.error('Bookings not founded error:', error);
+		return null
+	}
+}

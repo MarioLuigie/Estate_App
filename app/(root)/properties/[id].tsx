@@ -7,12 +7,11 @@ import {
 	SafeAreaView,
 	ScrollView,
 	Text,
-	TouchableOpacity,
 	View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 // lib
-import { getAgentById, getPropertyById } from '@/lib/appwrite';
+import { getAgentById, getPropertyById } from '@/lib/actions/appwrite';
 import images from '@/lib/constants/images';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
 // components
@@ -24,12 +23,12 @@ import Location from '@/components/content/PropertySections/Location';
 import Overview from '@/components/content/PropertySections/Overview';
 import Reviews from '@/components/content/PropertySections/Reviews';
 import NavigateBack from '@/components/shared/NavigateBack';
+import CustomTouchable from '@/components/ui/CustomTouchable';
 import LikeButton from '@/components/ui/LikeButton';
 import SendButton from '@/components/ui/SendButton';
+import { TABS_HEIGHT } from '@/lib/constants/layout';
 import { ROUTES } from '@/lib/constants/paths';
 import { featureNotAvailable } from '@/lib/tools';
-import CustomTouchable from '@/components/ui/CustomTouchable';
-import { TABS_HEIGHT } from '@/lib/constants/layout';
 
 export default function PropertyDetails() {
 	const { id } = useLocalSearchParams<{ id?: string }>();
@@ -67,7 +66,10 @@ export default function PropertyDetails() {
 		<SafeAreaView>
 			<ScrollView
 				showsVerticalScrollIndicator={false}
-				contentContainerStyle={{ backgroundColor: 'white', paddingBottom: insets.bottom + TABS_HEIGHT}}
+				contentContainerStyle={{
+					backgroundColor: 'white',
+					paddingBottom: insets.bottom + TABS_HEIGHT,
+				}}
 			>
 				<View
 					className="relative w-full"

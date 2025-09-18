@@ -1,7 +1,7 @@
 // modules
 import React, { createContext, ReactNode, useContext } from 'react';
 // lib
-import { getCurrentUser } from '@/lib/appwrite';
+import { getCurrentUser } from '@/lib/actions/appwrite';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
 
 interface GlobalContextType {
@@ -12,7 +12,7 @@ interface GlobalContextType {
 }
 
 interface User {
-	id:string,
+	id: string;
 	$id: string;
 	name: string;
 	email: string;
@@ -35,7 +35,9 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
 	const mappedUser = user ? { ...user, id: user.$id } : null;
 
 	return (
-		<GlobalContext.Provider value={{ isLoggedIn, user: mappedUser, loading, refetch }}>
+		<GlobalContext.Provider
+			value={{ isLoggedIn, user: mappedUser, loading, refetch }}
+		>
 			{children}
 		</GlobalContext.Provider>
 	);

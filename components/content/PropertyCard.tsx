@@ -1,11 +1,11 @@
 // modules
 import { MaterialIcons } from '@expo/vector-icons';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
-import { Dispatch, SetStateAction, useState } from 'react';
 import { router } from 'expo-router';
+import { Dispatch, SetStateAction, useState } from 'react';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 // lib
+import { deleteMyPropertyAtomic } from '@/lib/actions/appwrite';
 import icons from '@/lib/constants/icons';
-import { deleteMyPropertyAtomic } from '@/lib/appwrite';
 // components
 import CustomModal from '@/components/shared/CustomModal';
 import IconButton from '@/components/ui/IconButton';

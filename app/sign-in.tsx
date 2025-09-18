@@ -15,11 +15,11 @@ import {
 	useSafeAreaInsets,
 } from 'react-native-safe-area-context';
 // lib
-import { login } from '@/lib/appwrite';
+import { login } from '@/lib/actions/appwrite';
 import icons from '@/lib/constants/icons';
 import images from '@/lib/constants/images';
-import { useGlobalContext } from '@/lib/global-provider';
 import { ROUTES } from '@/lib/constants/paths';
+import { useGlobalContext } from '@/lib/global-provider';
 
 export default function SignIn() {
 	const { isLoggedIn, loading, refetch } = useGlobalContext();

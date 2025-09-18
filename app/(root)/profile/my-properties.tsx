@@ -1,18 +1,21 @@
 // modules
+import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import { MaterialIcons } from '@expo/vector-icons';
-import { Text, View, StyleSheet, RefreshControl } from 'react-native';
+import { RefreshControl, StyleSheet, Text, View } from 'react-native';
 // lib
-import { deleteAllPropertiesAtomic, getMyProperties } from '@/lib/appwrite';
+import {
+	deleteAllPropertiesAtomic,
+	getMyProperties,
+} from '@/lib/actions/appwrite';
 import { ROUTES } from '@/lib/constants/paths';
 import { useGlobalContext } from '@/lib/global-provider';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
 // components
 import PropertyCard from '@/components/content/PropertyCard';
 import { CustomFlatList } from '@/components/shared/CustomFlatList';
-import CustomTouchable from '@/components/ui/CustomTouchable';
 import CustomModal from '@/components/shared/CustomModal';
+import CustomTouchable from '@/components/ui/CustomTouchable';
 
 export default function MyPropertiesScreen() {
 	const { user } = useGlobalContext();

@@ -8,13 +8,8 @@ import {
 	createGallery,
 	databases,
 	getAddressFromCoordinates,
-} from '@/lib/appwrite';
-import {
-	agentImages,
-	galleryImages,
-	propertiesImages,
-	reviewImages,
-} from '@/lib/data';
+} from '@/lib/actions/appwrite';
+import { agentImages, propertiesImages, reviewImages } from '@/lib/data';
 import { getRandomCoordinatesNearMajorCities } from '@/lib/tools';
 
 const COLLECTIONS = {

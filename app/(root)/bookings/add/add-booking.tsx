@@ -3,15 +3,15 @@ import CustomTouchable from '@/components/ui/CustomTouchable';
 import Paper from '@/components/ui/Paper';
 import {
 	getAgentById,
-	getPropertyById,
 	getBookingsByPropertyId,
-} from '@/lib/appwrite';
+	getPropertyById,
+} from '@/lib/actions/appwrite';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
 import { ROUTES } from '@/lib/constants/paths';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView, SafeAreaView } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -32,6 +32,8 @@ export default function AddBooking() {
 		end?: string;
 	}>({});
 
+  console.log("add-booking.tsx", selectedRange);
+
 	// pobranie agenta
 	useEffect(() => {
 		if (!property?.agent) return;
@@ -50,7 +52,7 @@ export default function AddBooking() {
 			const bookings = await getBookingsByPropertyId(id);
 			const disabled: Record<string, any> = {};
 
-			bookings.forEach((b: any) => {
+			bookings!.forEach((b: any) => {
 				let current = new Date(b.startDate);
 				const end = new Date(b.endDate);
 
@@ -185,41 +187,3 @@ export default function AddBooking() {
 	);
 }
 
-// import PropertySummary from '@/components/content/PropertySummary';
-// import { getAgentById, getPropertyById } from '@/lib/appwrite';
-// import { useAppwrite } from '@/lib/hooks/useAppwrite';
-// import { useLocalSearchParams } from 'expo-router';
-// import React, { useEffect, useState } from 'react';
-// import { View } from 'react-native';
-
-// export default function AddBooking() {
-// 	const { id } = useLocalSearchParams<{ id?: string }>();
-// 	const [agent, setAgent] = useState<any>(null);
-// 	const [agentLoading, setAgentLoading] = useState(false);
-
-// 	const { data: property } = useAppwrite({
-// 		fn: getPropertyById,
-// 		params: { id: id! },
-// 	});
-
-// 	useEffect(() => {
-// 		if (!property?.agent) return;
-
-// 		setAgentLoading(true);
-// 		getAgentById({ id: property.agent })
-// 			.then((res) => setAgent(res))
-// 			.finally(() => setAgentLoading(false));
-// 	}, [property?.agent]);
-
-// 	return (
-// 		<View className="pt-3">
-// 			<PropertySummary
-// 				name={property?.name}
-// 				address={property?.address}
-// 				price={property?.price}
-// 				imageUrl={property?.image[0].image.url}
-// 				agent={agent}
-// 			/>
-// 		</View>
-// 	);
-// }

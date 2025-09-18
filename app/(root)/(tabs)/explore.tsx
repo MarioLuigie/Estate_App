@@ -2,7 +2,7 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 // lib
-import { getProperties } from '@/lib/appwrite';
+import { getProperties } from '@/lib/actions/appwrite';
 import { customMapStyles } from '@/lib/colorsJS';
 import icons from '@/lib/constants/icons';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
@@ -15,6 +15,8 @@ import FoundCounter from '@/components/shared/FoundCounter';
 import PropertyMarker from '@/components/shared/PropertyMarker';
 import Search from '@/components/shared/Search';
 import ToggleButtons from '@/components/shared/ToggleButtons';
+import NotifBellButton from '@/components/ui/NotifBellButton';
+import { featureNotAvailable } from '@/lib/tools';
 import {
 	FlatList,
 	Image,
@@ -26,8 +28,6 @@ import {
 } from 'react-native';
 import MapView from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import NotifBellButton from '@/components/ui/NotifBellButton';
-import { featureNotAvailable } from '@/lib/tools';
 
 export default function Explore() {
 	const propertiesNumb = 30;

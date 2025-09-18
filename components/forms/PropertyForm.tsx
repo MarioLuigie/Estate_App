@@ -1,8 +1,7 @@
 // modules
-import { z } from 'zod';
-import { router } from 'expo-router';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as ImagePicker from 'expo-image-picker';
+import { router } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import {
@@ -16,6 +15,7 @@ import {
 	View,
 } from 'react-native';
 import MapView, { MapPressEvent, Region } from 'react-native-maps';
+import { z } from 'zod';
 // lib
 import {
 	createProperty,
@@ -23,26 +23,26 @@ import {
 	getAgents,
 	getCoordinatesFromAddress,
 	updateMyProperty,
-} from '@/lib/appwrite';
+} from '@/lib/actions/appwrite';
 import { customMapStyles } from '@/lib/colorsJS';
 import {
 	facilities,
-	types,
 	getPropertyFormDefaultValues,
+	types,
 } from '@/lib/constants/data';
 import { ActionTypes } from '@/lib/constants/enums';
 import icons from '@/lib/constants/icons';
+import { ROUTES } from '@/lib/constants/paths';
 import { useGlobalContext } from '@/lib/global-provider';
 import {
 	PropertyFormValues,
 	getPropertyFormSchema,
 } from '@/lib/utils/validators';
-import { ROUTES } from '@/lib/constants/paths';
 // components
 import PropertyMarker from '@/components/shared/PropertyMarker';
 import Select, { SelectOption } from '@/components/shared/SelectItem';
-import CustomTouchable from '../ui/CustomTouchable';
 import images from '@/lib/constants/images';
+import CustomTouchable from '../ui/CustomTouchable';
 
 type PropertyFormProps = {
 	actionType: ActionTypes;
@@ -303,7 +303,7 @@ export default function PropertyForm({
 						source={{ uri: imageState }}
 						className="size-full rounded-3xl"
 					/>
-					<View className='absolute'>
+					<View className="absolute">
 						<Text className="text-white text-center">
 							Image added successfully!
 						</Text>
