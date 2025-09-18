@@ -53,9 +53,8 @@ const styles = StyleSheet.create({
 	container: {
 		backgroundColor: colors.primary[300],
 		paddingVertical: 8,
-		paddingHorizontal: 16,
+		paddingHorizontal: 32,
 		borderRadius: 100,
-		marginBottom: 16,
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',

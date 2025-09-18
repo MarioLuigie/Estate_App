@@ -3,6 +3,7 @@ import React from 'react';
 import { Image, Text, View } from 'react-native';
 // components
 import AgentContact from '@/components/content/PropertySections/AgentContact';
+import Paper from '@/components/ui/Paper';
 
 interface PropertySummaryProps {
 	name: string;
@@ -20,8 +21,8 @@ export default function PropertySummary({
 	agent,
 }: PropertySummaryProps) {
 	return (
-		<View className="m-4 p-4 flex flex-col border border-zinc-200 bg-white dark:bg-black rounded-2xl shadow-xl overflow-hidden">
-      <Text className='text-2xl font-bold text-black pb-3'>Summary</Text>
+		<Paper>
+			<Text className="text-black-300 text-2xl font-rubik-bold pb-3">Summary</Text>
 			<View className="flex-row">
 				{/* Image */}
 				<View className="w-32 h-32">
@@ -49,6 +50,6 @@ export default function PropertySummary({
 			</View>
 
 			<AgentContact agent={agent} />
-		</View>
+		</Paper>
 	);
 }

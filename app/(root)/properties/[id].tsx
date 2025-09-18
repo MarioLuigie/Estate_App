@@ -28,6 +28,8 @@ import LikeButton from '@/components/ui/LikeButton';
 import SendButton from '@/components/ui/SendButton';
 import { ROUTES } from '@/lib/constants/paths';
 import { featureNotAvailable } from '@/lib/tools';
+import CustomTouchable from '@/components/ui/CustomTouchable';
+import { TABS_HEIGHT } from '@/lib/constants/layout';
 
 export default function PropertyDetails() {
 	const { id } = useLocalSearchParams<{ id?: string }>();
@@ -65,7 +67,7 @@ export default function PropertyDetails() {
 		<SafeAreaView>
 			<ScrollView
 				showsVerticalScrollIndicator={false}
-				contentContainerClassName="pb-48 bg-white"
+				contentContainerStyle={{ backgroundColor: 'white', paddingBottom: insets.bottom + TABS_HEIGHT}}
 			>
 				<View
 					className="relative w-full"
@@ -99,7 +101,7 @@ export default function PropertyDetails() {
 				</View>
 
 				{/* PROPERTY SECTION */}
-				<View className="px-5 mt-7 flex gap-2">
+				<View className="px-5 my-7 flex gap-2">
 					{/* INTRO FIRST INFO SECTION */}
 					<Intro property={property} />
 
@@ -125,10 +127,10 @@ export default function PropertyDetails() {
 
 			{/* BOOK NOW SECTION */}
 			<View
-				className="absolute bg-white bottom-0 w-full rounded-t-2xl border-t border-r border-l border-primary-200 px-7 py-7"
-				style={{ paddingBottom: insets.bottom + 10 }}
+				className="absolute flex flex-row items-center bg-[#ffffffea] bottom-0 w-full border-t border-r border-l border-primary-200 px-5"
+				style={{ marginBottom: insets.bottom, height: TABS_HEIGHT }}
 			>
-				<View className="flex flex-row items-center justify-between gap-10">
+				<View className="flex flex-row items-center justify-between gap-10 w-full">
 					<View className="flex flex-col items-start">
 						<Text className="text-black-200 text-xs font-rubik-medium">
 							Price
@@ -141,19 +143,15 @@ export default function PropertyDetails() {
 						</Text>
 					</View>
 
-					<TouchableOpacity
+					<CustomTouchable
+						title="Book Now"
 						onPress={() =>
 							router.push({
 								pathname: ROUTES.BOOKINGS_ADD_BOOKING,
 								params: { id: property?.$id },
 							})
 						}
-						className="flex-1 flex flex-row items-center justify-center bg-primary-300 py-3 rounded-full shadow-md shadow-zinc-400"
-					>
-						<Text className="text-white text-lg text-center font-rubik-bold">
-							Book Now
-						</Text>
-					</TouchableOpacity>
+					/>
 				</View>
 			</View>
 		</SafeAreaView>
