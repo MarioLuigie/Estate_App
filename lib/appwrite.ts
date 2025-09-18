@@ -33,6 +33,8 @@ export const config = {
 	agentsCollectionId: Constants.expoConfig?.extra?.auth?.agentsCollectionId,
 	propertiesCollectionId:
 		Constants.expoConfig?.extra?.auth?.propertiesCollectionId,
+	bookingsCollectionId:
+		Constants.expoConfig?.extra?.auth?.bookingsCollectionId,
 	bucketId: Constants.expoConfig?.extra?.auth?.bucketId,
 	googleMapsApiKey: Constants.expoConfig?.extra?.auth?.googleMapsApiKey,
 };
@@ -482,11 +484,12 @@ export async function updateMyProperty(data: any) {
 	const oldImageId = oldImage?.fileId;
 
 	// Sprawdzenie, czy obrazek został zmieniony
-	const currentImageId = 'image' in (newImage || {}) ? newImage.image.fileId : null;
+	const currentImageId =
+		'image' in (newImage || {}) ? newImage.image.fileId : null;
 	const isImageChanged = oldImageId !== currentImageId;
 
-	console.log(oldImageId)
-	console.log(currentImageId)
+	console.log(oldImageId);
+	console.log(currentImageId);
 
 	if (!isImageChanged) {
 		try {

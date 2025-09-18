@@ -104,6 +104,7 @@ export default {
 				"reviewsCollectionId": process.env.EXPO_PUBLIC_APPWRITE_REVIEWS_COLLECTION_ID,
 				"agentsCollectionId": process.env.EXPO_PUBLIC_APPWRITE_AGENTS_COLLECTION_ID,
 				"propertiesCollectionId": process.env.EXPO_PUBLIC_APPWRITE_PROPERTIES_COLLECTION_ID,
+				"bookingsCollectionId": process.env.EXPO_PUBLIC_APPWRITE_BOOKINGS_COLLECTION_ID,
 				'bucketId': process.env.EXPO_PUBLIC_APPWRITE_BUCKET_ID,
 				"googleMapsApiKey": process.env.GOOGLE_MAPS_API_KEY,
 			}
