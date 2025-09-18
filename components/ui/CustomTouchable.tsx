@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		height: 45,
+		minWidth: 150,
 	},
 	title: {
 		color: 'white',

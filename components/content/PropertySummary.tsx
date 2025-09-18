@@ -22,10 +22,10 @@ export default function PropertySummary({
 }: PropertySummaryProps) {
 	return (
 		<Paper>
-			<Text className="text-black-300 text-2xl font-rubik-bold pb-3">Summary</Text>
+			<Text className="text-black-300 text-xl font-rubik-bold pb-3">Summary</Text>
 			<View className="flex-row">
 				{/* Image */}
-				<View className="w-32 h-32">
+				<View style={{ width: 100, height: 100 }}>
 					<Image
 						source={{ uri: imageUrl }}
 						className="w-full h-full rounded-l-2xl"
@@ -34,7 +34,7 @@ export default function PropertySummary({
 				</View>
 
 				{/* Info */}
-				<View className="flex-1 p-4 justify-between">
+				<View className="flex-1 px-4 justify-between">
 					<View>
 						<Text className="text-lg font-semibold text-black dark:text-white">
 							{name}
@@ -43,13 +43,13 @@ export default function PropertySummary({
 							{address}
 						</Text>
 					</View>
-					<Text className="text-xl font-bold text-black dark:text-white mt-2">
+					<Text className="text-xl font-bold text-primary-300 dark:text-white mt-2 text-right w-full">
 						${price}/night
 					</Text>
 				</View>
 			</View>
 
-			<AgentContact agent={agent} />
+			<AgentContact agent={agent} isTitle={false} />
 		</Paper>
 	);
 }

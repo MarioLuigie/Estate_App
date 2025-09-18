@@ -133,7 +133,7 @@ export default function PropertyDetails() {
 				<View className="flex flex-row items-center justify-between gap-10 w-full">
 					<View className="flex flex-col items-start">
 						<Text className="text-black-200 text-xs font-rubik-medium">
-							Price
+							Price/Night
 						</Text>
 						<Text
 							numberOfLines={1}

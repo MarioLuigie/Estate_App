@@ -16,7 +16,7 @@ export default function AddBookingLayout() {
         style={{ marginTop: insets.top + 16 }}
       >
         {/* BACK NAVIGATION */}
-        <NavigateBack title={'Add New Reservation'} />
+        <NavigateBack title={'Book Property'} />
       </View>
 
       {/* MAIN CONTENT */}

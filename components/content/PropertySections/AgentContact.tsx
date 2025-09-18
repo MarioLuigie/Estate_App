@@ -6,14 +6,16 @@ import icons from '@/lib/constants/icons';
 
 type AgentContactProps = {
   agent: any;
+	isTitle?: boolean
 }
 
 export default function AgentContact({
-  agent
+  agent,
+	isTitle=true,
 }: AgentContactProps) {
 	return (
-		<View className="w-full border-t border-primary-200 pt-3 mt-4">
-			<Text className="text-black-300 text-xl font-rubik-bold">Agent</Text>
+		<View className="w-full border-t border-primary-200 pt-2 mt-3">
+			{isTitle && <Text className="text-black-300 text-xl font-rubik-bold">Agent</Text>}
 
 			<View className="flex flex-row items-center justify-between mt-4">
 				<View className="flex flex-row items-center">

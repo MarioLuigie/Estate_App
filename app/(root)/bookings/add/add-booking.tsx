@@ -6,6 +6,7 @@ import {
 	getPropertyById,
 	getBookingsByPropertyId,
 } from '@/lib/appwrite';
+import { TABS_HEIGHT } from '@/lib/constants/layout';
 import { ROUTES } from '@/lib/constants/paths';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -115,10 +116,15 @@ export default function AddBooking() {
 	};
 
 	return (
+		<View className="flex-1 relative">
 			<ScrollView
 				showsVerticalScrollIndicator={false}
-				contentContainerStyle={{ paddingBottom: insets.bottom }}
-				className="pt-3 flex-1 bg-white dark:bg-black"
+				contentContainerStyle={{
+					display: 'flex',
+					gap: 7,
+					paddingVertical: 7,
+				}}
+				className="flex-1 bg-white dark:bg-black gap-2"
 			>
 				<PropertySummary
 					name={property?.name}
@@ -146,8 +152,36 @@ export default function AddBooking() {
 				</Paper>
 			</ScrollView>
 
-			
+			{/* BOOK NOW SECTION */}
+			<View
+				className="flex flex-row items-center bg-[#ffffffea] w-full border-t border-r border-l border-primary-200 px-5"
+				style={{ marginBottom: insets.bottom, height: TABS_HEIGHT }}
+			>
+				<View className="flex flex-row items-center justify-between gap-10 w-full">
+					<View className="flex flex-col items-start">
+						<Text className="text-black-200 text-xs font-rubik-medium">
+							Total Price
+						</Text>
+						<Text
+							numberOfLines={1}
+							className="text-primary-300 text-start text-2xl font-rubik-bold"
+						>
+							${property?.price}
+						</Text>
+					</View>
 
+					<CustomTouchable
+						title="Payment"
+						onPress={() =>
+							router.push({
+								pathname: ROUTES.BOOKINGS_ADD_BOOKING,
+								params: { id: property?.$id },
+							})
+						}
+					/>
+				</View>
+			</View>
+		</View>
 	);
 }
 
