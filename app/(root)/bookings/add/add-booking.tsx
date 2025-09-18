@@ -6,6 +6,7 @@ import {
 	getBookingsByPropertyId,
 	getPropertyById,
 } from '@/lib/actions/appwrite';
+import { colors } from '@/lib/colorsJS';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
 import { ROUTES } from '@/lib/constants/paths';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
@@ -101,7 +102,7 @@ export default function AddBooking() {
 			? {
 					[selectedRange.start]: {
 						startingDay: true,
-						color: '#000',
+						color: colors.primary[300],
 						textColor: 'white',
 					},
 				}
@@ -110,7 +111,7 @@ export default function AddBooking() {
 			? {
 					[selectedRange.end]: {
 						endingDay: true,
-						color: '#000',
+						color: colors.primary[300],
 						textColor: 'white',
 					},
 				}
