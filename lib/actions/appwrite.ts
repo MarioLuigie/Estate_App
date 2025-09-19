@@ -36,6 +36,7 @@ export const config = {
 	bookingsCollectionId:
 		Constants.expoConfig?.extra?.auth?.bookingsCollectionId,
 	usersCollectionId: Constants.expoConfig?.extra?.auth?.usersCollectionId,
+	likesCollectionId: Constants.expoConfig?.extra?.auth?.likesCollectionId,
 	bucketId: Constants.expoConfig?.extra?.auth?.bucketId,
 	googleMapsApiKey: Constants.expoConfig?.extra?.auth?.googleMapsApiKey,
 };
@@ -142,7 +143,7 @@ export async function logout() {
 	}
 }
 
-export async function getCurrentUser() {
+export async function getCurrentAuthUser() {
 	try {
 		const result = await account.get();
 		if (result.$id) {
@@ -180,6 +181,21 @@ export async function getCurrentUser() {
 			// Obsługa nie-Error typu (np. string lub object)
 			console.error('Unexpected error:', error);
 		}
+		return null;
+	}
+}
+
+export async function getCurrentUser({ authId }: { authId: string }) {
+	try {
+		const result = await databases.listDocuments(
+			config.databaseId!,
+			config.usersCollectionId!,
+			[Query.equal('authId', authId)]
+		);
+
+		return result.documents[0];
+	} catch (error) {
+		console.error('Unexpected error-current user not found:', error);
 		return null;
 	}
 }
@@ -750,3 +766,92 @@ export async function createBooking(data: any) {
 		return null;
 	}
 }
+
+export async function createLike(propertyId: string) {
+	try {
+		const authUser = await account.get();
+
+		const user = await databases.listDocuments(
+			config.databaseId!,
+			config.usersCollectionId!,
+			[Query.equal('authId', authUser.$id)]
+		);
+
+		const result = await databases.createDocument(
+			config.databaseId!,
+			config.likesCollectionId!,
+			ID.unique(),
+			{
+				owner: user.documents[0].$id,
+				property: propertyId,
+			}
+		);
+
+		console.log('createLike(): Like created successfully!');
+
+		return result;
+	} catch (error) {
+		console.error('Like not created error:', error);
+		return null;
+	}
+}
+
+export async function deleteLike(likeId: string) {
+	try {
+		const result = await databases.deleteDocument(
+			config.databaseId!,
+			config.likesCollectionId!,
+			likeId
+		);
+
+		console.log('deleteLike(): Like deleted successfully!');
+
+		return result;
+	} catch (error) {
+		console.error('Like not deleted error:', error);
+		return null;
+	}
+}
+
+export async function getLikeByUserAndProperty(
+	userId: string,
+	propertyId: string
+) {
+	try {
+		if (!userId && !propertyId) return;
+
+		const result = await databases.listDocuments(
+			config.databaseId!,
+			config.likesCollectionId!,
+			[
+				Query.equal('owner', userId),
+				Query.equal('property', propertyId),
+				Query.limit(1),
+			]
+		);
+
+		return result.documents[0];
+	} catch (error) {
+		console.error('Like not found error:', error);
+		return null;
+	}
+}
+
+export async function countLikesForProperty(propertyId: string) {
+  try {
+    const result = await databases.listDocuments(
+      config.databaseId!,
+      config.likesCollectionId!,
+      [
+        Query.equal('property', propertyId),
+        Query.limit(0)
+      ]
+    );
+
+    return result.total;
+  } catch (error) {
+    console.error('Error getting likes for property:', error);
+    return 0;
+  }
+}
+
