@@ -35,8 +35,7 @@ export const config = {
 		Constants.expoConfig?.extra?.auth?.propertiesCollectionId,
 	bookingsCollectionId:
 		Constants.expoConfig?.extra?.auth?.bookingsCollectionId,
-			usersCollectionId:
-		Constants.expoConfig?.extra?.auth?.usersCollectionId,
+	usersCollectionId: Constants.expoConfig?.extra?.auth?.usersCollectionId,
 	bucketId: Constants.expoConfig?.extra?.auth?.bucketId,
 	googleMapsApiKey: Constants.expoConfig?.extra?.auth?.googleMapsApiKey,
 };
@@ -101,11 +100,27 @@ export async function login() {
 		// --- 6. Tworzymy sesję Appwrite ---
 		await account.createSession({ userId, secret });
 
+		const currentUser = await account.get();
 
+		const userDoc = await databases.listDocuments(
+			config.databaseId!,
+			config.usersCollectionId!,
+			[Query.equal('authId', currentUser.$id)]
+		);
 
-		
-
-
+		if (userDoc.documents.length === 0) {
+			await databases.createDocument(
+				config.databaseId!,
+				config.usersCollectionId!,
+				ID.unique(),
+				{
+					authId: currentUser.$id,
+					fullName: currentUser.name,
+					email: currentUser.email,
+					createdAt: currentUser.$createdAt,
+				}
+			);
+		}
 
 		console.log('Login zakończony sukcesem');
 		return true;
@@ -726,8 +741,8 @@ export async function createBooking(data: any) {
 			config.databaseId!,
 			config.bookingsCollectionId!,
 			data,
-			[], // permissions
-		)
+			[] // permissions
+		);
 
 		return result;
 	} catch (error) {
