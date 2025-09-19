@@ -11,12 +11,14 @@ import {
 } from '@/lib/actions/appwrite';
 import { agentImages, propertiesImages, reviewImages } from '@/lib/data';
 import { getRandomCoordinatesNearMajorCities } from '@/lib/tools';
+import { PaymentMethod, Status } from '@/lib/constants/enums';
 
 const COLLECTIONS = {
 	AGENT: config.agentsCollectionId,
 	REVIEWS: config.reviewsCollectionId,
 	GALLERY: config.galleriesCollectionId,
 	PROPERTY: config.propertiesCollectionId,
+	BOOKING: config.bookingsCollectionId,
 };
 
 const propertyTypes = [
@@ -43,6 +45,31 @@ function getMimeType(fileName: string) {
 		default:
 			return 'image/jpeg';
 	}
+}
+
+function generateBookingsData(count: number) {
+	const today = new Date();
+	const year = today.getFullYear();
+	const month = today.getMonth(); // bieżący miesiąc (0-11)
+
+	const results: { startDate: Date; endDate: Date }[] = [];
+
+	let currentDay = 1;
+
+	for (let i = 0; i < count; i++) {
+		const duration = Math.floor(Math.random() * 3) + 2; // 2–4 dni
+		const start = new Date(year, month, currentDay);
+		const end = new Date(year, month, currentDay + duration);
+
+		results.push({
+			startDate: start,
+			endDate: end,
+		});
+
+		currentDay += duration + 1;
+	}
+
+	return results;
 }
 
 function getRandomSubset<T>(
@@ -155,6 +182,8 @@ async function seed() {
 
 		// console.log(`Seeded ${galleries.length} galleries.`);
 
+		const propertiesIds: string[] = [];
+		const ownerIdTest: string = '68b727a34ad1fcc0988b';
 		// Seed Properties
 		for (let i = 1; i <= 20; i++) {
 			const assignedAgent =
@@ -209,8 +238,6 @@ async function seed() {
 				coords.longitude
 			);
 
-			const ownerIdTest = '68b727a34ad1fcc0988b';
-
 			const property = await databases.createDocument(
 				config.databaseId!,
 				COLLECTIONS.PROPERTY!,
@@ -236,6 +263,7 @@ async function seed() {
 					reviews: assignedReviews.map((review) => review.$id),
 					gallery: ['68bffaa10007aaf06a7b', '68bffaa00025cfaf074d'], // CORRECT!
 					ownerId: ownerIdTest,
+					likes: [],
 				},
 				[
 					Permission.read(Role.users()),
@@ -243,7 +271,44 @@ async function seed() {
 					Permission.delete(Role.user(ownerIdTest)),
 				]
 			);
-			console.log(`Seeded property: ${property.name}`);
+			propertiesIds.push(property.$id);
+			console.log(`Seeded property: ${property.name}, id: ${property.$id}`);
+
+			await new Promise((r) => setTimeout(r, 200));
+		}
+
+		// seed bookings
+		const bookingsData = generateBookingsData(6);
+
+		for (let i = 0; i < bookingsData.length; i++) {
+			const booking = await databases.createDocument(
+				config.databaseId!,
+				config.bookingsCollectionId!,
+				ID.unique(),
+				{
+					ownerId: ownerIdTest,
+					startDate: bookingsData[i].startDate,
+					endDate: bookingsData[i].endDate,
+					property: propertiesIds[propertiesIds.length - 1],
+					status: i % 2 === 0 ? Status.CANCELLED : Status.CONFIRMED,
+					totalPrice: 1000,
+					paymentMethod: PaymentMethod.PAYPAL,
+					transactionId: '',
+					guestDetails: '',
+					createdAt: new Date(
+						Date.now() -
+							Math.floor(Math.random() * 30 * 24 * 60 * 60 * 1000)
+					),
+
+					propertySnapshot: '',
+				}
+			);
+
+			console.log(
+				`Seeded booking ${i + 1} with start: ${bookingsData[i].startDate.toLocaleDateString('pl-PL')} end: ${bookingsData[i].endDate.toLocaleDateString('pl-PL')} for property id: ${booking.property}`
+			);
+
+			await new Promise((r) => setTimeout(r, 200));
 		}
 
 		console.log('Data seeding completed.');
