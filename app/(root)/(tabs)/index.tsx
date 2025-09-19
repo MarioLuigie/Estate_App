@@ -27,12 +27,12 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function Home() {
-	const { user } = useGlobalContext();
+	const { authUser } = useGlobalContext();
 	const insets = useSafeAreaInsets();
 	const greeting = getTimeGreeting();
 	const [refreshing, setRefreshing] = useState<boolean>(false);
 
-	const isSeedButtonHidden: boolean = !true;
+	const isSeedButtonHidden: boolean = true;
 
 	const params = useLocalSearchParams<{ query?: string; filter?: string }>();
 
@@ -96,13 +96,13 @@ export default function Home() {
 			<View className="px-5" style={{ marginTop: insets.top + 16 }}>
 				<View className="flex flex-row items-center justify-between">
 					<View className="flex flex-row items-center">
-						<Avatar avatar={user?.avatar} />
+						<Avatar avatar={authUser?.avatar} />
 						<View className="flex flex-col items-start justify-center ml-2">
 							<Text className="text-xs font-rubik text-black-100">
 								{greeting}
 							</Text>
 							<Text className="text-base font-rubik-medium text-black-300">
-								{user?.name}
+								{authUser?.name}
 							</Text>
 						</View>
 					</View>
@@ -127,8 +127,9 @@ export default function Home() {
 				showsVerticalScrollIndicator={false}
 				contentContainerStyle={{
 					paddingBottom: insets.bottom + TABS_HEIGHT,
+					paddingHorizontal: 10,
 				}}
-				columnWrapperClassName="flex gap-3 px-5 pb-3"
+				columnWrapperClassName="flex gap-3 pb-3"
 				numColumns={2}
 				keyExtractor={(item) => item.$id}
 				ListEmptyComponent={<EmptyState isLoading={propertiesLoading} />}

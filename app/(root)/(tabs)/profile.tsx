@@ -58,7 +58,7 @@ const SettingsItem = ({
 
 export default function Profile() {
 	const [logoutVisible, setLogoutVisible] = useState<boolean>(false);
-	const { user, refetch } = useGlobalContext();
+	const { authUser, refetch } = useGlobalContext();
 	const insets = useSafeAreaInsets();
 
 	const handleLogout = async () => {
@@ -85,7 +85,7 @@ export default function Profile() {
 				<View className="flex flex-row justify-center">
 					<View className="flex flex-col items-center relative">
 						<Image
-							source={{ uri: user?.avatar }}
+							source={{ uri: authUser?.avatar }}
 							className="size-44 relative rounded-full"
 						/>
 						<TouchableOpacity
@@ -96,7 +96,7 @@ export default function Profile() {
 						</TouchableOpacity>
 
 						<Text className="text-2xl font-rubik-bold mt-3">
-							{user?.name}
+							{authUser?.name}
 						</Text>
 					</View>
 				</View>

@@ -139,8 +139,9 @@ export default function Explore() {
 					showsVerticalScrollIndicator={false}
 					contentContainerStyle={{
 						paddingBottom: insets.bottom + TABS_HEIGHT,
+						paddingHorizontal: 10,
 					}}
-					columnWrapperClassName="flex gap-3 px-5 pb-3"
+					columnWrapperClassName="flex gap-3 pb-3"
 					numColumns={2}
 					keyExtractor={(item) => item.$id}
 					ListEmptyComponent={<EmptyState isLoading={propertiesLoading} />}
