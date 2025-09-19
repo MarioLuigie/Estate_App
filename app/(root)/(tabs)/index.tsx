@@ -32,7 +32,7 @@ export default function Home() {
 	const greeting = getTimeGreeting();
 	const [refreshing, setRefreshing] = useState<boolean>(false);
 
-	const isSeedButtonHidden: boolean = true;
+	const isSeedButtonHidden: boolean = !true;
 
 	const params = useLocalSearchParams<{ query?: string; filter?: string }>();
 

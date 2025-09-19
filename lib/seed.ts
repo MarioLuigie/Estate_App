@@ -183,7 +183,7 @@ async function seed() {
 		// console.log(`Seeded ${galleries.length} galleries.`);
 
 		const propertiesIds: string[] = [];
-		const ownerIdTest: string = '68b727a34ad1fcc0988b';
+		const ownerIdTest: string = '68cd4b16637286e81627';
 		// Seed Properties
 		for (let i = 1; i <= 20; i++) {
 			const assignedAgent =
