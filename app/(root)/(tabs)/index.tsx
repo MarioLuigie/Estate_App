@@ -119,7 +119,7 @@ export default function Home() {
 			<FlatList
 				data={properties}
 				renderItem={({ item }) => (
-					<Card item={item} onPress={() => handleCardPress(item.$id)} />
+					<Card property={item} onPress={() => handleCardPress(item.$id)} />
 				)}
 				refreshControl={
 					<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -159,7 +159,7 @@ export default function Home() {
 									}
 									renderItem={({ item }) => (
 										<FeaturedCard
-											item={item}
+											property={item}
 											onPress={() => handleCardPress(item.$id)}
 										/>
 									)}

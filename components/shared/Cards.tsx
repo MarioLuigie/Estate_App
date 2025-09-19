@@ -1,13 +1,15 @@
 // modules
 import { Models } from 'react-native-appwrite';
 import { Image, Text, TouchableOpacity, View, Dimensions } from 'react-native';
+import { useEffect } from 'react';
 // lib
 import icons from '@/lib/constants/icons';
 import images from '@/lib/constants/images';
-import LikeButton from '../ui/LikeButton';
 import { useGlobalContext } from '@/lib/global-provider';
 import { getCurrentUser } from '@/lib/actions/appwrite';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
+// components
+import LikeButton from '@/components/ui/LikeButton';
 
 export interface Property extends Models.Document {
 	image: { image: { url: string; fileId: string } }[];
@@ -18,13 +20,13 @@ export interface Property extends Models.Document {
 }
 
 interface Props {
-	item: Models.Document;
+	property: Models.Document;
 	onPress?: () => void;
 }
 
-export function FeaturedCard({ item, onPress }: Props) {
+export function FeaturedCard({ property, onPress }: Props) {
 	const { name, price, rating, address, image, $id } =
-		item as unknown as Property;
+		property as unknown as Property;
 
 	const { authUser } = useGlobalContext();
 
@@ -88,14 +90,14 @@ export function FeaturedCard({ item, onPress }: Props) {
 	);
 }
 
-export function Card({ item, onPress }: Props) {
+export function Card({ property, onPress }: Props) {
 	const windowWidth = Dimensions.get('window').width;
 	const CARD_MARGIN = 12; // odstęp między kolumnami (ten sam co gap w FlatList)
 	const CARD_PADDING = 20; // padding FlatList (np. px-5 → 10px z każdej strony)
 	const cardWidth = (windowWidth - CARD_PADDING - CARD_MARGIN) / 2; // 2 kolumny
 
 	const { name, price, rating, address, image, $id } =
-		item as unknown as Property;
+		property as unknown as Property;
 
 	const { authUser } = useGlobalContext();
 
