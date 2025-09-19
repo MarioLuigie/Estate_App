@@ -35,6 +35,8 @@ export const config = {
 		Constants.expoConfig?.extra?.auth?.propertiesCollectionId,
 	bookingsCollectionId:
 		Constants.expoConfig?.extra?.auth?.bookingsCollectionId,
+			usersCollectionId:
+		Constants.expoConfig?.extra?.auth?.usersCollectionId,
 	bucketId: Constants.expoConfig?.extra?.auth?.bucketId,
 	googleMapsApiKey: Constants.expoConfig?.extra?.auth?.googleMapsApiKey,
 };
@@ -98,6 +100,8 @@ export async function login() {
 
 		// --- 6. Tworzymy sesję Appwrite ---
 		await account.createSession({ userId, secret });
+
+
 
 		console.log('Login zakończony sukcesem');
 		return true;
