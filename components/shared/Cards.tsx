@@ -4,6 +4,8 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 // lib
 import icons from '@/lib/constants/icons';
 import images from '@/lib/constants/images';
+import LikeButton from '../ui/LikeButton';
+import { featureNotAvailable } from '@/lib/tools';
 
 export interface Property extends Models.Document {
 	image: {image: { url: string, fileId: string }}[];
@@ -67,7 +69,7 @@ export function FeaturedCard({ item, onPress }: Props) {
 					<Text className="text-xl font-rubik-extrabold text-white">
 						${price}
 					</Text>
-					<Image source={icons.heart} className="size-5" />
+					<LikeButton onPress={() => featureNotAvailable()}/>
 				</View>
 			</View>
 		</TouchableOpacity>
@@ -104,11 +106,7 @@ export function Card({ item, onPress }: Props) {
 					<Text className="text-base font-rubik-bold text-primary-300">
 						${price}
 					</Text>
-					<Image
-						source={icons.heart}
-						className="w-5 h-5"
-						tintColor="#191D31"
-					/>
+					<LikeButton onPress={() => featureNotAvailable()}/>
 				</View>
 			</View>
 		</TouchableOpacity>

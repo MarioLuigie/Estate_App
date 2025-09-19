@@ -81,22 +81,24 @@ export default function MyPropertiesScreen() {
 
 	return (
 		<View className="flex-1 bg-white px-5 py-4">
-			{/* Add property button */}
-			<CustomTouchable
-				title="Add New Property"
-				onPress={() =>
-					router.push({ pathname: ROUTES.PROPERTIES_ADD_PROPERTY })
-				}
-				icon={<MaterialIcons name="add" size={24} color="white" />}
-			/>
+			<View className='flex gap-6'>
+				{/* Add property button */}
+				<CustomTouchable
+					title="Add New Property"
+					onPress={() =>
+						router.push({ pathname: ROUTES.PROPERTIES_ADD_PROPERTY })
+					}
+					icon={<MaterialIcons name="add" size={24} color="white" />}
+				/>
 
-			{/* Remove all properties button */}
-			<CustomTouchable
-				title="Remove All Properties"
-				onPress={() => setDeleteAllVisible(true)}
-				containerStyle={{ backgroundColor: '#eee' }}
-				textStyle={{ color: '#7a7a7a' }}
-			/>
+				{/* Remove all properties button */}
+				<CustomTouchable
+					title="Remove All Properties"
+					onPress={() => setDeleteAllVisible(true)}
+					containerStyle={{ backgroundColor: '#eee' }}
+					textStyle={{ color: '#7a7a7a' }}
+				/>
+			</View>
 
 			<CustomFlatList
 				data={properties}
