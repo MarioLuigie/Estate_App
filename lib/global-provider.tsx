@@ -1,12 +1,12 @@
 // modules
 import React, { createContext, ReactNode, useContext } from 'react';
 // lib
-import { getCurrentUser } from '@/lib/actions/appwrite';
+import { getCurrentAuthUser } from '@/lib/actions/appwrite';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
 
 interface GlobalContextType {
 	isLoggedIn: boolean;
-	user: User | null;
+	authUser: User | null;
 	loading: boolean;
 	refetch: (newParams?: Record<string, string | number>) => Promise<void>;
 }
@@ -23,20 +23,20 @@ const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
 
 export const GlobalProvider = ({ children }: { children: ReactNode }) => {
 	const {
-		data: user,
+		data: authUser,
 		loading,
 		refetch,
 	} = useAppwrite({
-		fn: getCurrentUser,
+		fn: getCurrentAuthUser,
 	});
 
-	const isLoggedIn = !!user; // !null -> true !true -> false
+	const isLoggedIn = !!authUser; // !null -> true !true -> false
 
-	const mappedUser = user ? { ...user, id: user.$id } : null;
+	const mappedUser = authUser ? { ...authUser, id: authUser.$id } : null;
 
 	return (
 		<GlobalContext.Provider
-			value={{ isLoggedIn, user: mappedUser, loading, refetch }}
+			value={{ isLoggedIn, authUser: mappedUser, loading, refetch }}
 		>
 			{children}
 		</GlobalContext.Provider>
