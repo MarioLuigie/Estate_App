@@ -34,18 +34,18 @@ const propertyTypes = [
 
 const facilities = ['Laundry', 'Parking', 'Gym', 'Wifi', 'Pet-friendly'];
 
-function getMimeType(fileName: string) {
-	const ext = fileName.split('.').pop()?.toLowerCase();
-	switch (ext) {
-		case 'jpg':
-		case 'jpeg':
-			return 'image/jpeg';
-		case 'png':
-			return 'image/png';
-		default:
-			return 'image/jpeg';
-	}
-}
+// function getMimeType(fileName: string) {
+// 	const ext = fileName.split('.').pop()?.toLowerCase();
+// 	switch (ext) {
+// 		case 'jpg':
+// 		case 'jpeg':
+// 			return 'image/jpeg';
+// 		case 'png':
+// 			return 'image/png';
+// 		default:
+// 			return 'image/jpeg';
+// 	}
+// }
 
 function generateBookingsData(count: number) {
 	const today = new Date();
