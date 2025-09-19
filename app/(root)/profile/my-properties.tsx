@@ -18,7 +18,7 @@ import CustomModal from '@/components/shared/CustomModal';
 import CustomTouchable from '@/components/ui/CustomTouchable';
 
 export default function MyPropertiesScreen() {
-	const { user } = useGlobalContext();
+	const { authUser } = useGlobalContext();
 	const [cardDeleted, setCardDeleted] = useState<boolean>(false);
 	const [deleteAllVisible, setDeleteAllVisible] = useState<boolean>(false);
 	const [deleteSummary, setDeleteSummary] = useState<boolean>(false);
@@ -32,20 +32,20 @@ export default function MyPropertiesScreen() {
 		refetch,
 	} = useAppwrite({
 		fn: getMyProperties,
-		params: { userId: user?.$id ?? '' },
+		params: { userId: authUser?.$id ?? '' },
 	});
 
 	const onRefresh = useCallback(async () => {
 		setRefreshing(true);
-		await refetch({ userId: user?.$id! });
+		await refetch({ userId: authUser?.$id! });
 		setRefreshing(false);
-	}, [user?.$id, refetch]);
+	}, [authUser?.$id, refetch]);
 
 	useEffect(() => {
-		if (user?.$id) {
-			refetch({ userId: user.$id });
+		if (authUser?.$id) {
+			refetch({ userId: authUser.$id });
 		}
-	}, [cardDeleted, user?.$id]);
+	}, [cardDeleted, authUser?.$id]);
 
 	const handleDeleteAll = async () => {
 		setCardDeleted(false);

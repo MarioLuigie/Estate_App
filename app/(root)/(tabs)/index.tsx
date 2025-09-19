@@ -114,7 +114,7 @@ export default function Home() {
 			<View className="px-5 my-4">
 				<Search />
 			</View>
-
+Update
 			{/* MAIN */}
 			<FlatList
 				data={properties}

@@ -34,6 +34,8 @@ import wifi from "@/assets/icons/wifi.png";
 import location from "@/assets/icons/location.png";
 import edit from "@/assets/icons/edit.png";
 import upload_w from "@/assets/icons/upload_w.png";
+import heartColor from "@/assets/icons/heart_1-red.png";
+import heartGray from "@/assets/icons/heart_1-gray.png";
 
 export default {
   google,
@@ -71,4 +73,6 @@ export default {
   location,
   edit,
   upload_w,
+  heartColor,
+  heartGray,
 };

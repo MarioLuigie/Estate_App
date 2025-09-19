@@ -55,7 +55,7 @@ export default function PropertyForm({
 	id,
 	property,
 }: PropertyFormProps) {
-	const { user } = useGlobalContext();
+	const { authUser } = useGlobalContext();
 	const [agents, setAgents] = useState<any[]>([]);
 	const [isError, setIsError] = useState<boolean>(false);
 	const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
@@ -261,7 +261,7 @@ export default function PropertyForm({
 	) => {
 		setSubmitting(true);
 		try {
-			if (!user) return;
+			if (!authUser) return;
 
 			// CREATE PRODUCT
 			if (isCreating) {
