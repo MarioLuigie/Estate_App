@@ -1,13 +1,9 @@
 // modules
 import { Models } from 'react-native-appwrite';
 import { Image, Text, TouchableOpacity, View, Dimensions } from 'react-native';
-import { useEffect } from 'react';
 // lib
 import icons from '@/lib/constants/icons';
 import images from '@/lib/constants/images';
-import { useGlobalContext } from '@/lib/global-provider';
-import { getCurrentUser } from '@/lib/actions/appwrite';
-import { useAppwrite } from '@/lib/hooks/useAppwrite';
 // components
 import LikeButton from '@/components/ui/LikeButton';
 
@@ -22,22 +18,12 @@ export interface Property extends Models.Document {
 interface Props {
 	property: Models.Document;
 	onPress?: () => void;
+	currentUserId: string;
 }
 
-export function FeaturedCard({ property, onPress }: Props) {
+export function FeaturedCard({ property, onPress, currentUserId }: Props) {
 	const { name, price, rating, address, image, $id } =
 		property as unknown as Property;
-
-	const { authUser } = useGlobalContext();
-
-	const { data: currentUser } = useAppwrite({
-		fn: getCurrentUser,
-		params: { authId: authUser!.$id },
-	});
-
-	if (!currentUser) {
-		return null;
-	}
 
 	return (
 		<TouchableOpacity
@@ -81,7 +67,7 @@ export function FeaturedCard({ property, onPress }: Props) {
 					</Text>
 					<LikeButton
 						propertyId={$id}
-						userId={currentUser!.$id}
+						userId={currentUserId}
 						initialCount={0}
 					/>
 				</View>
@@ -90,7 +76,7 @@ export function FeaturedCard({ property, onPress }: Props) {
 	);
 }
 
-export function Card({ property, onPress }: Props) {
+export function Card({ property, onPress, currentUserId }: Props) {
 	const windowWidth = Dimensions.get('window').width;
 	const CARD_MARGIN = 12; // odstęp między kolumnami (ten sam co gap w FlatList)
 	const CARD_PADDING = 20; // padding FlatList (np. px-5 → 10px z każdej strony)
@@ -98,17 +84,6 @@ export function Card({ property, onPress }: Props) {
 
 	const { name, price, rating, address, image, $id } =
 		property as unknown as Property;
-
-	const { authUser } = useGlobalContext();
-
-	const { data: currentUser } = useAppwrite({
-		fn: getCurrentUser,
-		params: { authId: authUser!.$id },
-	});
-
-	if (!currentUser) {
-		return null;
-	}
 
 	return (
 		<TouchableOpacity
@@ -150,7 +125,7 @@ export function Card({ property, onPress }: Props) {
 					</Text>
 					<LikeButton
 						propertyId={$id}
-						userId={currentUser!.$id}
+						userId={currentUserId}
 						initialCount={0}
 					/>
 				</View>

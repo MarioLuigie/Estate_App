@@ -134,7 +134,7 @@ export default function Explore() {
 				<FlatList
 					data={properties}
 					renderItem={({ item }) => (
-						<Card item={item} onPress={() => handleCardPress(item.$id)} />
+						<Card property={item} onPress={() => handleCardPress(item.$id)} />
 					)}
 					showsVerticalScrollIndicator={false}
 					contentContainerStyle={{

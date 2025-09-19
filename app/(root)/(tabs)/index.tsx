@@ -2,7 +2,11 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 // lib
-import { getLatestProperties, getProperties } from '@/lib/actions/appwrite';
+import {
+	getCurrentUser,
+	getLatestProperties,
+	getProperties,
+} from '@/lib/actions/appwrite';
 import { REC_PROPERTIES_LIMIT, TABS_HEIGHT } from '@/lib/constants/layout';
 import { useGlobalContext } from '@/lib/global-provider';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
@@ -83,7 +87,14 @@ export default function Home() {
 		router.push(`/properties/${id}`);
 	};
 
-	// console.log("index.tsx:", properties)
+	const { data: currentUser } = useAppwrite({
+		fn: getCurrentUser,
+		params: { authId: authUser!.$id },
+	});
+
+	if (!currentUser) {
+		return null;
+	}
 
 	return (
 		<SafeAreaView className="h-full bg-white">
@@ -114,12 +125,16 @@ export default function Home() {
 			<View className="px-5 my-4">
 				<Search />
 			</View>
-			
+
 			{/* MAIN */}
 			<FlatList
 				data={properties}
 				renderItem={({ item }) => (
-					<Card property={item} onPress={() => handleCardPress(item.$id)} />
+					<Card
+						property={item}
+						onPress={() => handleCardPress(item.$id)}
+						currentUserId={currentUser.$id}
+					/>
 				)}
 				refreshControl={
 					<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -161,6 +176,7 @@ export default function Home() {
 										<FeaturedCard
 											property={item}
 											onPress={() => handleCardPress(item.$id)}
+											currentUserId={currentUser.$id}
 										/>
 									)}
 									showsHorizontalScrollIndicator={false}

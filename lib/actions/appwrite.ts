@@ -261,6 +261,8 @@ export async function getProperties({
 
 		const parsedList = result?.documents.map(normalizeProperty);
 
+		
+
 		return parsedList;
 	} catch (error) {
 		console.error(error);
