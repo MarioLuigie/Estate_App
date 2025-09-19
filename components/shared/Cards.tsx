@@ -1,15 +1,13 @@
 // modules
 import { Models } from 'react-native-appwrite';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Text, TouchableOpacity, View, Dimensions } from 'react-native';
 // lib
 import icons from '@/lib/constants/icons';
 import images from '@/lib/constants/images';
 import LikeButton from '../ui/LikeButton';
-import { featureNotAvailable } from '@/lib/tools';
 import { useGlobalContext } from '@/lib/global-provider';
 import { getCurrentUser } from '@/lib/actions/appwrite';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
-import { Dimensions } from 'react-native';
 
 export interface Property extends Models.Document {
 	image: { image: { url: string; fileId: string } }[];
