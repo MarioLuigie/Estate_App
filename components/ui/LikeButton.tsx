@@ -32,6 +32,8 @@ export default function LikeButton({
 		getLikeByUserAndProperty(userId, propertyId).then((like) => {
 			if (like) {
 				setLike(propertyId, true, likeState.count, like.$id);
+			} else {
+				setLike(propertyId, false, likeState.count, null);
 			}
 		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
