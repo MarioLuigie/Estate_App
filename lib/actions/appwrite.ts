@@ -261,9 +261,14 @@ export async function getProperties({
 
 		const parsedList = result?.documents.map(normalizeProperty);
 
-		
+		const parsedListWithLikes = await Promise.all(
+			parsedList.map(async (p) => {
+				const likesCount = await countLikesForProperty(p.$id);
+				return { ...p, likes: likesCount };
+			})
+		);
 
-		return parsedList;
+		return parsedListWithLikes;
 	} catch (error) {
 		console.error(error);
 		return [];
@@ -840,20 +845,16 @@ export async function getLikeByUserAndProperty(
 }
 
 export async function countLikesForProperty(propertyId: string) {
-  try {
-    const result = await databases.listDocuments(
-      config.databaseId!,
-      config.likesCollectionId!,
-      [
-        Query.equal('property', propertyId),
-        Query.limit(0)
-      ]
-    );
+	try {
+		const result = await databases.listDocuments(
+			config.databaseId!,
+			config.likesCollectionId!,
+			[Query.equal('property', propertyId), Query.limit(1)]
+		);
 
-    return result.total;
-  } catch (error) {
-    console.error('Error getting likes for property:', error);
-    return 0;
-  }
+		return result.total;
+	} catch (error) {
+		console.error('Error getting likes for property:', error);
+		return 0;
+	}
 }
-

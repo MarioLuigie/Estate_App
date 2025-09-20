@@ -2,7 +2,7 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 // lib
-import { getProperties } from '@/lib/actions/appwrite';
+import { getCurrentUser, getProperties } from '@/lib/actions/appwrite';
 import { customMapStyles } from '@/lib/colorsJS';
 import icons from '@/lib/constants/icons';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
@@ -28,12 +28,14 @@ import {
 } from 'react-native';
 import MapView from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useGlobalContext } from '@/lib/global-provider';
 
 export default function Explore() {
 	const propertiesNumb = 30;
 
 	const params = useLocalSearchParams<{ query?: string; filter?: string }>();
 	const insets = useSafeAreaInsets();
+	const { authUser } = useGlobalContext();
 	const [showMap, setShowMap] = useState<boolean>(!true);
 	const [refreshing, setRefreshing] = useState<boolean>(false);
 
@@ -69,6 +71,15 @@ export default function Explore() {
 		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [params.filter, params.query]);
+
+	const { data: currentUser } = useAppwrite({
+		fn: getCurrentUser,
+		params: { authId: authUser!.$id },
+	});
+
+	if (!currentUser) {
+		return null;
+	}
 
 	const handleCardPress = (id: string) => {
 		router.push(`/properties/${id}`);
@@ -134,7 +145,11 @@ export default function Explore() {
 				<FlatList
 					data={properties}
 					renderItem={({ item }) => (
-						<Card property={item} onPress={() => handleCardPress(item.$id)} />
+						<Card
+							property={item}
+							onPress={() => handleCardPress(item.$id)}
+							currentUserId=""
+						/>
 					)}
 					showsVerticalScrollIndicator={false}
 					contentContainerStyle={{

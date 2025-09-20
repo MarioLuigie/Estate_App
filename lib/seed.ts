@@ -263,7 +263,7 @@ async function seed() {
 					reviews: assignedReviews.map((review) => review.$id),
 					gallery: ['68bffaa10007aaf06a7b', '68bffaa00025cfaf074d'], // CORRECT!
 					ownerId: ownerIdTest,
-					likes: [],
+					likes: 0,
 				},
 				[
 					Permission.read(Role.users()),
