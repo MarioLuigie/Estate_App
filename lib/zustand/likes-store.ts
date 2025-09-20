@@ -26,5 +26,5 @@ export const useLikesStore = create<LikesStore>((set) => ({
 				[propertyId]: { isLiked, count, likeId },
 			},
 		})),
-    reset: () => set({ likes: {} }),
+	reset: () => set({ likes: {} }),
 }));

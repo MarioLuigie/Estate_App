@@ -292,6 +292,21 @@ export async function countLikesForProperty(propertyId: string) {
 	}
 }
 
+export async function getLikesByUser(userId: string) {
+	try {
+		const result = await databases.listDocuments(
+			config.databaseId!,
+			config.likesCollectionId!,
+			[Query.equal('owner', userId)]
+		);
+
+		return result.documents; // każdy dokument ma propertyId i $id (id lajka)
+	} catch (error) {
+		console.error('Error fetching user likes:', error);
+		return [];
+	}
+}
+
 export async function getPropertyById({ id }: { id: string }) {
 	try {
 		const result = await databases.getDocument(
@@ -860,20 +875,5 @@ export async function getLikeByUserAndProperty(
 	} catch (error) {
 		console.error('Like not found error:', error);
 		return null;
-	}
-}
-
-export async function getLikesByUser(userId: string) {
-	try {
-		const result = await databases.listDocuments(
-			config.databaseId!,
-			config.likesCollectionId!,
-			[Query.equal('owner', userId)]
-		);
-
-		return result.documents; // każdy dokument ma propertyId i $id (id lajka)
-	} catch (error) {
-		console.error('Error fetching user likes:', error);
-		return [];
 	}
 }

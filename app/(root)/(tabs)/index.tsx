@@ -97,6 +97,8 @@ export default function Home() {
 		return null;
 	}
 
+	console.log("index.tsx | currentUserId:", currentUser.$id);
+
 	return (
 		<SafeAreaView className="h-full bg-white">
 			{!isSeedButtonHidden && (
