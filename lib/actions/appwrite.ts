@@ -20,6 +20,7 @@ import {
 	normalizeProperty,
 	prepareImageForStorage,
 	uploadWithRetry,
+	addOwnLikesToProperty,
 } from '@/lib/tools/';
 
 export const config = {
@@ -218,7 +219,9 @@ export async function getLatestProperties(limit: number | string = 5) {
 
 		const parsedList = result?.documents.map(normalizeProperty);
 
-		return parsedList;
+		const parsedListWithLikes = await addOwnLikesToProperty(parsedList);
+
+		return parsedListWithLikes;
 	} catch (error) {
 		console.error(error);
 		return [];
@@ -261,17 +264,31 @@ export async function getProperties({
 
 		const parsedList = result?.documents.map(normalizeProperty);
 
-		const parsedListWithLikes = await Promise.all(
-			parsedList.map(async (p) => {
-				const likesCount = await countLikesForProperty(p.$id);
-				return { ...p, likes: likesCount };
-			})
-		);
+		const parsedListWithLikes = await addOwnLikesToProperty(parsedList);
+
+		// console.log('getProperties():', parsedListWithLikes![2]);
 
 		return parsedListWithLikes;
 	} catch (error) {
 		console.error(error);
 		return [];
+	}
+}
+
+export async function countLikesForProperty(propertyId: string) {
+	try {
+		const result = await databases.listDocuments(
+			config.databaseId!,
+			config.likesCollectionId!,
+			[Query.equal('property', propertyId), Query.limit(1)]
+		);
+
+		console.log('countLikesForProperty():', result.total);
+
+		return result.total;
+	} catch (error) {
+		console.error('Error getting likes for property:', error);
+		return 0;
 	}
 }
 
@@ -293,7 +310,9 @@ export async function getPropertyById({ id }: { id: string }) {
 			})),
 		} as any;
 
-		return parsedProperty;
+		const parsedListWithLikes = await addOwnLikesToProperty([parsedProperty]);
+
+		if (parsedListWithLikes?.length === 1) return parsedListWithLikes[0];
 	} catch (error) {
 		console.error(error);
 		return null;
@@ -844,17 +863,17 @@ export async function getLikeByUserAndProperty(
 	}
 }
 
-export async function countLikesForProperty(propertyId: string) {
+export async function getLikesByUser(userId: string) {
 	try {
 		const result = await databases.listDocuments(
 			config.databaseId!,
 			config.likesCollectionId!,
-			[Query.equal('property', propertyId), Query.limit(1)]
+			[Query.equal('owner', userId)]
 		);
 
-		return result.total;
+		return result.documents; // każdy dokument ma propertyId i $id (id lajka)
 	} catch (error) {
-		console.error('Error getting likes for property:', error);
-		return 0;
+		console.error('Error fetching user likes:', error);
+		return [];
 	}
 }

@@ -1,63 +1,79 @@
-import React, { useEffect } from 'react';
-import { TouchableOpacity, Text, Image } from 'react-native';
-import { useLikesStore } from '@/lib/zustand/likes-store';
-import { createLike, deleteLike, getLikeByUserAndProperty } from '@/lib/actions/appwrite';
+import {
+	createLike,
+	deleteLike,
+	getLikeByUserAndProperty,
+} from '@/lib/actions/appwrite';
 import icons from '@/lib/constants/icons';
+import { useLikesStore } from '@/lib/zustand/likes-store';
+import React, { useEffect } from 'react';
+import { Image, Text, TouchableOpacity } from 'react-native';
 interface LikeButtonProps {
-  propertyId: string;
-  userId: string;
-  initialCount: number;
+	propertyId: string;
+	userId: string;
+	initialCount: number;
 }
 
-export default function LikeButton({ propertyId, userId, initialCount }: LikeButtonProps) {
-  const { likes, setLike } = useLikesStore();
-  const likeState = likes[propertyId] || { isLiked: false, count: initialCount, likeId: null };
+export default function LikeButton({
+	propertyId,
+	userId,
+	initialCount,
+}: LikeButtonProps) {
+	const { likes, setLike } = useLikesStore();
+	const likeState = likes[propertyId] || {
+		isLiked: false,
+		count: initialCount,
+		likeId: null,
+	};
 
-  // Sprawdzamy przy mount, czy user już polubił
-  useEffect(() => {
-    getLikeByUserAndProperty(userId, propertyId).then((like) => {
-      if (like) {
-        setLike(propertyId, true, likeState.count, like.$id);
-      }
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userId, propertyId]);
+	// console.log("LikeButton.tsx:", likes)
 
-  const toggleLike = async () => {
-    if (likeState.isLiked) {
-      setLike(propertyId, false, likeState.count - 1, null);
+	// Sprawdzamy przy mount, czy user już polubił
+	useEffect(() => {
+		getLikeByUserAndProperty(userId, propertyId).then((like) => {
+			if (like) {
+				setLike(propertyId, true, likeState.count, like.$id);
+			}
+		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [userId, propertyId]);
 
-      try {
-        if (likeState.likeId) {
-          await deleteLike(likeState.likeId);
-        }
-      } catch (err) {
-        setLike(propertyId, true, likeState.count, likeState.likeId);
-        console.error('Error removing like', err);
-      }
-    } else {
-      setLike(propertyId, true, likeState.count + 1, likeState.likeId);
+	const toggleLike = async () => {
+		if (likeState.isLiked) {
+			setLike(propertyId, false, likeState.count - 1, null);
 
-      try {
-        const newLike = await createLike(propertyId);
-        if (newLike) {
-          setLike(propertyId, true, likeState.count + 1, newLike.$id);
-        }
-      } catch (err) {
-        setLike(propertyId, false, likeState.count, null);
-        console.error('Error adding like', err);
-      }
-    }
-  };
+			try {
+				if (likeState.likeId) {
+					await deleteLike(likeState.likeId);
+				}
+			} catch (err) {
+				setLike(propertyId, true, likeState.count, likeState.likeId);
+				console.error('Error removing like', err);
+			}
+		} else {
+			setLike(propertyId, true, likeState.count + 1, likeState.likeId);
 
-  return (
-    <TouchableOpacity onPress={toggleLike} className="flex-row items-center">
-      <Text className="mr-1">{likeState.count}</Text>
-      <Image source={likeState.isLiked ? icons.heartColor : icons.heartGray} className="w-8 h-8" />
-    </TouchableOpacity>
-  );
+			try {
+				const newLike = await createLike(propertyId);
+				if (newLike) {
+					setLike(propertyId, true, likeState.count + 1, newLike.$id);
+				}
+			} catch (err) {
+				setLike(propertyId, false, likeState.count, null);
+				console.error('Error adding like', err);
+			}
+		}
+	};
+
+	return (
+		<TouchableOpacity onPress={toggleLike} className="flex-row items-center">
+			<Text className="mr-1">{likeState.count}</Text>
+			<Image
+				source={likeState.isLiked ? icons.heartColor : icons.heartGray}
+				className="w-8 h-8"
+			/>
+		</TouchableOpacity>
+	);
 }
-
 
 // import React, { useEffect } from "react";
 // import { TouchableOpacity, Text, Image } from "react-native";

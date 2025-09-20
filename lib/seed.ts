@@ -183,7 +183,7 @@ async function seed() {
 		// console.log(`Seeded ${galleries.length} galleries.`);
 
 		const propertiesIds: string[] = [];
-		const ownerIdTest: string = '68cd4b16637286e81627';
+		const ownerIdTest: string = '68ceb582a01bc69e237f';
 		// Seed Properties
 		for (let i = 1; i <= 20; i++) {
 			const assignedAgent =
@@ -263,7 +263,6 @@ async function seed() {
 					reviews: assignedReviews.map((review) => review.$id),
 					gallery: ['68bffaa10007aaf06a7b', '68bffaa00025cfaf074d'], // CORRECT!
 					ownerId: ownerIdTest,
-					likes: 0,
 				},
 				[
 					Permission.read(Role.users()),

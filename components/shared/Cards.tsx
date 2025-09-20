@@ -13,6 +13,7 @@ export interface Property extends Models.Document {
 	address: string;
 	price: number;
 	rating: number;
+	likes: number;
 }
 
 interface Props {
@@ -69,6 +70,7 @@ export function FeaturedCard({ property, onPress, currentUserId }: Props) {
 						propertyId={$id}
 						userId={currentUserId}
 						initialCount={0}
+						
 					/>
 				</View>
 			</View>
@@ -82,7 +84,7 @@ export function Card({ property, onPress, currentUserId }: Props) {
 	const CARD_PADDING = 20; // padding FlatList (np. px-5 → 10px z każdej strony)
 	const cardWidth = (windowWidth - CARD_PADDING - CARD_MARGIN) / 2; // 2 kolumny
 
-	const { name, price, rating, address, image, $id } =
+	const { name, price, rating, address, image, $id, likes } =
 		property as unknown as Property;
 
 	return (
@@ -126,7 +128,7 @@ export function Card({ property, onPress, currentUserId }: Props) {
 					<LikeButton
 						propertyId={$id}
 						userId={currentUserId}
-						initialCount={0}
+						initialCount={likes}
 					/>
 				</View>
 			</View>

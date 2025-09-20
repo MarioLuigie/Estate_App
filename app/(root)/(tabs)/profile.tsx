@@ -83,21 +83,27 @@ export default function Profile() {
 				</View>
 
 				<View className="flex flex-row justify-center">
-					<View className="flex flex-col items-center relative">
-						<Image
-							source={{ uri: authUser?.avatar }}
-							className="size-44 relative rounded-full"
-						/>
-						<TouchableOpacity
-							className="absolute bottom-11 right-2"
-							onPress={() => featureNotAvailable()}
-						>
-							<Image source={icons.edit} className="size-9" />
-						</TouchableOpacity>
-
-						<Text className="text-2xl font-rubik-bold mt-3">
-							{authUser?.name}
-						</Text>
+					<View className="flex flex-col items-center">
+						<View className="relative">
+							<Image
+								source={{ uri: authUser?.avatar }}
+								className="size-44 rounded-full"
+							/>
+							<TouchableOpacity
+								className="absolute bottom-0 right-0"
+								onPress={() => featureNotAvailable()}
+							>
+								<Image source={icons.edit} className="size-9" />
+							</TouchableOpacity>
+						</View>
+						<View className='mt-3 flex items-center'>
+							<Text className="text-2xl font-rubik-bold">
+								{authUser?.name}
+							</Text>
+							<Text className="text-md font-rubik-light">
+								{authUser?.email}
+							</Text>
+						</View>
 					</View>
 				</View>
 			</View>

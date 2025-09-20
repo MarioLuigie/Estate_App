@@ -29,6 +29,7 @@ import {
 	View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ROUTES } from '@/lib/constants/paths';
 
 export default function Home() {
 	const { authUser } = useGlobalContext();
@@ -84,7 +85,7 @@ export default function Home() {
 	}, [params.filter, params.query]);
 
 	const handleCardPress = (id: string) => {
-		router.push(`/properties/${id}`);
+		router.push(`${ROUTES.PROPERTIES}/${id}`);
 	};
 
 	const { data: currentUser } = useAppwrite({
@@ -114,6 +115,9 @@ export default function Home() {
 							</Text>
 							<Text className="text-base font-rubik-medium text-black-300">
 								{authUser?.name}
+							</Text>
+							<Text className="text-xs font-rubik text-black-100">
+								{authUser?.email}
 							</Text>
 						</View>
 					</View>

@@ -1,8 +1,9 @@
 // modules
-import React, { createContext, ReactNode, useContext } from 'react';
+import React, { createContext, ReactNode, useContext, useEffect } from 'react';
 // lib
 import { getCurrentAuthUser } from '@/lib/actions/appwrite';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
+import { useLikesStore } from '@/lib/zustand/likes-store';
 
 interface GlobalContextType {
 	isLoggedIn: boolean;
@@ -33,6 +34,14 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
 	const isLoggedIn = !!authUser; // !null -> true !true -> false
 
 	const mappedUser = authUser ? { ...authUser, id: authUser.$id } : null;
+
+	const resetLikes = useLikesStore((s) => s.reset);
+
+	useEffect(() => {
+		if (!authUser) {
+			resetLikes();
+		}
+	}, [authUser]);
 
 	return (
 		<GlobalContext.Provider

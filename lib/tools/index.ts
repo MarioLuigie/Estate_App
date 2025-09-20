@@ -1,4 +1,5 @@
-import { Alert } from "react-native";
+import { Alert } from 'react-native';
+import { countLikesForProperty } from '@/lib/actions/appwrite';
 
 type Coordinates = {
 	latitude: number;
@@ -166,6 +167,19 @@ export function normalizeProperty(doc: any) {
 	};
 }
 
+export async function addOwnLikesToProperty(properties: any[]) {
+	try {
+		return await Promise.all(
+			properties.map(async (p) => {
+				const likesCount = await countLikesForProperty(p.$id);
+				return { ...p, likes: likesCount };
+			})
+		);
+	} catch (error) {
+		console.error(`Problem with adding likes into property id`, error);
+	}
+}
+
 export async function uploadWithRetry<T>(
 	fn: (file: any) => Promise<T>,
 	file: any,
@@ -186,7 +200,7 @@ export async function uploadWithRetry<T>(
 }
 
 export function featureNotAvailable(title?: string) {
-	const messageTitle = title ? `-> ${title}` : ''
+	const messageTitle = title ? `-> ${title}` : '';
 	return Alert.alert(
 		`Message ${messageTitle}`,
 		'This feature is currently being rolled out. It will be available soon!'
