@@ -91,6 +91,14 @@ export async function login() {
 		if (result.type !== 'success' || !result.url)
 			throw new Error('OAuth login anulowany lub brak URL');
 
+		// ---  TEST Bezpieczne parsowanie URL ---
+		// const cleanUrl = result.url.split('#')[0]; // usuń fragment
+		// const params = new URLSearchParams(cleanUrl.split('?')[1]);
+
+		// const secret = params.get('secret');
+		// const userId = params.get('userId');
+		// --- TEST ENDING
+
 		// --- 5. Parsujemy secret i userId z callback URL ---
 		const url = new URL(result.url);
 		const secret = url.searchParams.get('secret');

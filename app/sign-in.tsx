@@ -59,22 +59,22 @@ export default function SignIn() {
 					resizeMode="contain"
 				/>
 
-				<View className="px-10">
+				<View className="px-10 mt-4">
 					<Text className="text-base text-center uppercase font-rubik text-black-200">
 						Welcome To
 					</Text>
 
-					<Text className="text-7xl font-rubik-medium text-black-300 text-center mt-2 pb-8">
+					<Text className="text-6xl font-rubik-medium text-black-300 text-center mt-2 pb-5">
 						Estate
 					</Text>
 
-					<Text className="text-lg font-rubik text-black-200 text-center mt-12">
+					<Text className="text-lg font-rubik text-black-200 text-center mt-1">
 						Login to Estate with Google
 					</Text>
 
 					<TouchableOpacity
 						onPress={handleLogin}
-						className="bg-white border border-zinc-300 shadow-md shadow-zinc-00 rounded-full w-full py-4 mt-5"
+						className="bg-white border border-zinc-300 shadow-md shadow-zinc-00 rounded-full w-full py-4 mt-4"
 					>
 						<View className="flex flex-row items-center justify-center">
 							<Image
