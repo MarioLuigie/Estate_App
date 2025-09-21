@@ -96,7 +96,7 @@ export default function PropertyDetails() {
                 <LikeButton
                   propertyId={property.$id}
                   userId={currentUser.$id}
-                  initialCount={0}
+                  initialCount={property.likes}
                 />
                 <SendButton onPress={() => featureNotAvailable()} />
               </View>

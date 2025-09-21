@@ -292,6 +292,21 @@ export async function countLikesForProperty(propertyId: string) {
 	}
 }
 
+export async function getLikesByUser(userId: string) {
+	try {
+		const result = await databases.listDocuments(
+			config.databaseId!,
+			config.likesCollectionId!,
+			[Query.equal('owner', userId)]
+		);
+
+		return result.documents; // każdy dokument ma propertyId i $id (id lajka)
+	} catch (error) {
+		console.error('Error fetching user likes:', error);
+		return [];
+	}
+}
+
 export async function getPropertyById({ id }: { id: string }) {
 	try {
 		const result = await databases.getDocument(
@@ -677,12 +692,18 @@ export async function deleteMyPropertyAtomic(id: string, imageId: string) {
 			return false;
 		}
 
+		const likes = await getLikesByProperty(id);
+
 		// When image removed from storage, remove document from db
 		await databases.deleteDocument(
 			config.databaseId!,
 			config.propertiesCollectionId!,
 			id
 		);
+
+		for (const like of likes!) {
+			await deleteLike(like.$id);
+		}
 
 		console.log(`Property ${id} deleted successfully (DB + Storage).`);
 		return true;
@@ -839,6 +860,27 @@ export async function deleteLike(likeId: string) {
 	}
 }
 
+export async function deleteLikes(likes: any[]) {
+	try {
+		const deletedIds: string[] = [];
+
+		for (const like of likes) {
+			await databases.deleteDocument(
+				config.databaseId!,
+				config.likesCollectionId!,
+				like.$id
+			);
+			deletedIds.push(like.$id); // jeśli tu doszło, to się udało
+		}
+
+		console.log('deleteLikes(): Deleted likes:', deletedIds);
+		return { success: true, deletedIds };
+	} catch (error) {
+		console.error('deleteLikes() error:', error);
+		return { success: false, error };
+	}
+}
+
 export async function getLikeByUserAndProperty(
 	userId: string,
 	propertyId: string
@@ -863,17 +905,19 @@ export async function getLikeByUserAndProperty(
 	}
 }
 
-export async function getLikesByUser(userId: string) {
+export async function getLikesByProperty(propertyId: string) {
 	try {
+		if (!propertyId) return;
+
 		const result = await databases.listDocuments(
 			config.databaseId!,
 			config.likesCollectionId!,
-			[Query.equal('owner', userId)]
+			[Query.equal('property', propertyId)]
 		);
 
-		return result.documents; // każdy dokument ma propertyId i $id (id lajka)
+		return result.documents;
 	} catch (error) {
-		console.error('Error fetching user likes:', error);
-		return [];
+		console.error('Likes not found error:', error);
+		return null;
 	}
 }

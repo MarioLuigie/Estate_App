@@ -25,19 +25,19 @@ export default function LikeButton({
 		likeId: null,
 	};
 
-	// console.log("LikeButton.tsx:", likes)
+	console.log("LikeButton.tsx:", likes)
 
 	// Sprawdzamy przy mount, czy user już polubił
-	useEffect(() => {
-		getLikeByUserAndProperty(userId, propertyId).then((like) => {
-			if (like) {
-				setLike(propertyId, true, likeState.count, like.$id);
-			} else {
-				setLike(propertyId, false, likeState.count, null);
-			}
-		});
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [userId, propertyId]);
+	// useEffect(() => {
+	// 	getLikeByUserAndProperty(userId, propertyId).then((like) => {
+	// 		if (like) {
+	// 			setLike(propertyId, true, likeState.count, like.$id);
+	// 		} else {
+	// 			setLike(propertyId, false, likeState.count, null);
+	// 		}
+	// 	});
+	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
+	// }, [userId, propertyId]);
 
 	const toggleLike = async () => {
 		if (likeState.isLiked) {

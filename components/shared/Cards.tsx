@@ -6,6 +6,8 @@ import icons from '@/lib/constants/icons';
 import images from '@/lib/constants/images';
 // components
 import LikeButton from '@/components/ui/LikeButton';
+import { useEffect } from 'react';
+import { useLikesStore } from '@/lib/zustand/likes-store';
 
 export interface Property extends Models.Document {
 	image: { image: { url: string; fileId: string } }[];
@@ -23,8 +25,14 @@ interface Props {
 }
 
 export function FeaturedCard({ property, onPress, currentUserId }: Props) {
-	const { name, price, rating, address, image, $id } =
+	const { name, price, rating, address, image, $id, likes } =
 		property as unknown as Property;
+
+	const initCount = useLikesStore((s) => s.initCount);
+
+	useEffect(() => {
+		initCount($id, likes); // wrzuć initial count do store
+	}, [$id, likes, initCount]);
 
 	return (
 		<TouchableOpacity
@@ -69,8 +77,7 @@ export function FeaturedCard({ property, onPress, currentUserId }: Props) {
 					<LikeButton
 						propertyId={$id}
 						userId={currentUserId}
-						initialCount={0}
-						
+						initialCount={likes}
 					/>
 				</View>
 			</View>
@@ -86,6 +93,12 @@ export function Card({ property, onPress, currentUserId }: Props) {
 
 	const { name, price, rating, address, image, $id, likes } =
 		property as unknown as Property;
+
+	const initCount = useLikesStore((s) => s.initCount);
+
+	useEffect(() => {
+		initCount($id, likes); // wrzuć initial count do store
+	}, [$id, likes, initCount]);
 
 	return (
 		<TouchableOpacity
@@ -108,7 +121,7 @@ export function Card({ property, onPress, currentUserId }: Props) {
 			/>
 
 			{/* INFOS */}
-			<View className="flex flex-col mt-2 justify-between">
+			<View className="flex flex-col mt-2 justify-between" style={{minHeight: 85}}>
 				<View>
 					<Text className="text-base font-rubik-bold text-black-300">
 						{name}
