@@ -692,12 +692,18 @@ export async function deleteMyPropertyAtomic(id: string, imageId: string) {
 			return false;
 		}
 
+		const likes = await getLikesByProperty(id);
+
 		// When image removed from storage, remove document from db
 		await databases.deleteDocument(
 			config.databaseId!,
 			config.propertiesCollectionId!,
 			id
 		);
+
+		for (const like of likes!) {
+			await deleteLike(like.$id);
+		}
 
 		console.log(`Property ${id} deleted successfully (DB + Storage).`);
 		return true;
@@ -854,6 +860,27 @@ export async function deleteLike(likeId: string) {
 	}
 }
 
+export async function deleteLikes(likes: any[]) {
+	try {
+		const deletedIds: string[] = [];
+
+		for (const like of likes) {
+			await databases.deleteDocument(
+				config.databaseId!,
+				config.likesCollectionId!,
+				like.$id
+			);
+			deletedIds.push(like.$id); // jeśli tu doszło, to się udało
+		}
+
+		console.log('deleteLikes(): Deleted likes:', deletedIds);
+		return { success: true, deletedIds };
+	} catch (error) {
+		console.error('deleteLikes() error:', error);
+		return { success: false, error };
+	}
+}
+
 export async function getLikeByUserAndProperty(
 	userId: string,
 	propertyId: string
@@ -874,6 +901,23 @@ export async function getLikeByUserAndProperty(
 		return result.documents[0];
 	} catch (error) {
 		console.error('Like not found error:', error);
+		return null;
+	}
+}
+
+export async function getLikesByProperty(propertyId: string) {
+	try {
+		if (!propertyId) return;
+
+		const result = await databases.listDocuments(
+			config.databaseId!,
+			config.likesCollectionId!,
+			[Query.equal('property', propertyId)]
+		);
+
+		return result.documents;
+	} catch (error) {
+		console.error('Likes not found error:', error);
 		return null;
 	}
 }

@@ -1,7 +1,11 @@
 // modules
 import React, { createContext, ReactNode, useContext, useEffect } from 'react';
 // lib
-import { getCurrentAuthUser } from '@/lib/actions/appwrite';
+import {
+	getCurrentAuthUser,
+	getCurrentUser,
+	getLikesByUser,
+} from '@/lib/actions/appwrite';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
 import { useLikesStore } from '@/lib/zustand/likes-store';
 
@@ -36,11 +40,35 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
 	const mappedUser = authUser ? { ...authUser, id: authUser.$id } : null;
 
 	const resetLikes = useLikesStore((s) => s.reset);
+	const setManyLikes = useLikesStore((s) => s.setManyLikes);
 
 	useEffect(() => {
-		if (!authUser) {
+		let isMounted = true;
+
+		if (authUser) {
+			(async () => {
+				const user = await getCurrentUser({ authId: authUser.$id });
+				if (!user || !isMounted) return;
+
+				const userLikes = await getLikesByUser(user.$id);
+				if (!isMounted) return;
+
+				const formatted = userLikes.map((like) => ({
+					propertyId: like.property,
+					likeId: like.$id,
+				}));
+
+				console.log(formatted)
+
+				setManyLikes(formatted);
+			})();
+		} else {
 			resetLikes();
 		}
+
+		return () => {
+			isMounted = false;
+		};
 	}, [authUser]);
 
 	return (
