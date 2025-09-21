@@ -1,10 +1,11 @@
 // modules
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { Image, Text, View } from 'react-native';
 // lib
 import icons from '@/lib/constants/icons';
-import LikeButton from '@/components/ui/LikeButton';
 import { featureNotAvailable } from '@/lib/tools';
+// components
+import LikeButton from '@/components/ui/LikeButton';
 import SendButton from '@/components/ui/SendButton';
 
 type IntroProps = {
@@ -14,7 +15,7 @@ type IntroProps = {
 export default function Intro({ property }: IntroProps) {
 	return (
 		<>
-			<View className='flex flex-row justify-between items-center'>
+			<View className="flex flex-row justify-between items-center">
 				<Text className="text-2xl font-rubik-extrabold">
 					{property?.name}
 				</Text>

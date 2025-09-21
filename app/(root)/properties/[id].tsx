@@ -9,7 +9,6 @@ import images from '@/lib/constants/images';
 import { useGlobalContext } from '@/lib/global-provider';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
 import { ROUTES } from '@/lib/constants/paths';
-import { featureNotAvailable } from '@/lib/tools';
 // components
 import AgentContact from '@/components/content/PropertySections/AgentContact';
 import Facilities from '@/components/content/PropertySections/Facilities';
@@ -20,8 +19,6 @@ import Overview from '@/components/content/PropertySections/Overview';
 import Reviews from '@/components/content/PropertySections/Reviews';
 import NavigateBack from '@/components/shared/NavigateBack';
 import CustomTouchable from '@/components/ui/CustomTouchable';
-import LikeButton from '@/components/ui/LikeButton';
-import SendButton from '@/components/ui/SendButton';
 
 export default function PropertyDetails() {
   const { id } = useLocalSearchParams<{ id?: string }>();
