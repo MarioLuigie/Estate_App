@@ -1,14 +1,15 @@
+// modules
+import { Image, Text, TouchableOpacity } from 'react-native';
+import { useShallow } from 'zustand/shallow';
+// lib
 import { createLike, deleteLike } from '@/lib/actions/appwrite';
 import icons from '@/lib/constants/icons';
 import { useLikesStore } from '@/lib/zustand/likes-store';
-import { Image, Text, TouchableOpacity } from 'react-native';
 interface LikeButtonProps {
 	propertyId: string;
 }
 
-export default function LikeButton({
-	propertyId,
-}: LikeButtonProps) {
+export default function LikeButton({ propertyId }: LikeButtonProps) {
 	// const { likes, setLike } = useLikesStore();
 	// const likeState = likes[propertyId] || {
 	// 	isLiked: false,
@@ -16,13 +17,23 @@ export default function LikeButton({
 	// 	likeId: null,
 	// };
 
-	const { likes, setLike } = useLikesStore();
-	const likeState = likes[propertyId];
+	// const { likes, setLike } = useLikesStore();
+	// const likeState = likes[propertyId];
+
+	// Selector - subscribe only a part of state for avoid unnecessary re-renders
+	const { likeState, setLike } = useLikesStore(
+		useShallow((state) => ({
+			likeState: state.likes[propertyId] || {
+				isLiked: false,
+				count: 0,
+				likeId: null,
+			},
+			setLike: state.setLike,
+		}))
+	);
 
 	// Jeśli jeszcze nie ma tego property w store (initCount się nie zdążył wykonać) → nie renderuj
 	if (!likeState) return null;
-
-	console.log('LikeButton.tsx:', likes);
 
 	const toggleLike = async () => {
 		if (likeState.isLiked) {
