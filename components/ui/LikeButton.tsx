@@ -1,6 +1,5 @@
 // modules
 import { Image, Text, TouchableOpacity } from 'react-native';
-import { useShallow } from 'zustand/shallow';
 // lib
 import { createLike, deleteLike } from '@/lib/actions/appwrite';
 import icons from '@/lib/constants/icons';
