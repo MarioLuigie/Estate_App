@@ -102,12 +102,15 @@ export async function login() {
 		// --- 6. Tworzymy sesję Appwrite ---
 		await account.createSession({ userId, secret });
 
-		const currentUser = await account.get();
+		const currentAuthUser = await account.get();
+
+		console.log('Callback URL:', result.url);
+		console.log('Secret:', secret, 'UserId:', userId);
 
 		const userDoc = await databases.listDocuments(
 			config.databaseId!,
 			config.usersCollectionId!,
-			[Query.equal('authId', currentUser.$id)]
+			[Query.equal('authId', currentAuthUser.$id)]
 		);
 
 		if (userDoc.documents.length === 0) {
@@ -116,10 +119,10 @@ export async function login() {
 				config.usersCollectionId!,
 				ID.unique(),
 				{
-					authId: currentUser.$id,
-					fullName: currentUser.name,
-					email: currentUser.email,
-					createdAt: currentUser.$createdAt,
+					authId: currentAuthUser.$id,
+					fullName: currentAuthUser.name,
+					email: currentAuthUser.email,
+					createdAt: currentAuthUser.$createdAt,
 				}
 			);
 		}

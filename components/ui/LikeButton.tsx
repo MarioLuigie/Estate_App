@@ -21,14 +21,7 @@ export default function LikeButton({ propertyId }: LikeButtonProps) {
 	// const likeState = likes[propertyId];
 
 	// Selector - subscribe only a part of state for avoid unnecessary re-renders
-	const likeState = useLikesStore(
-		(state) =>
-			state.likes[propertyId] || {
-				isLiked: false,
-				count: 0,
-				likeId: null,
-			}
-	);
+	const likeState = useLikesStore((state) => state.likes[propertyId]);
 
 	const setLike = useLikesStore((state) => state.setLike);
 
