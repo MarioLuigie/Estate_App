@@ -3,7 +3,6 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 // lib
 import {
-	getCurrentUser,
 	getLatestProperties,
 	getProperties,
 } from '@/lib/actions/appwrite';

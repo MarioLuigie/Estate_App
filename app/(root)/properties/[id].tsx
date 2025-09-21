@@ -148,7 +148,6 @@ export default function PropertyDetails() {
   );
 }
 
-
 // // modules
 // import { router, useLocalSearchParams } from 'expo-router';
 // import { useEffect, useState } from 'react';
