@@ -96,7 +96,7 @@ export default function Profile() {
 								<Image source={icons.edit} className="size-9" />
 							</TouchableOpacity>
 						</View>
-						<View className='mt-3 flex items-center'>
+						<View className="mt-3 flex items-center">
 							<Text className="text-2xl font-rubik-bold">
 								{authUser?.name}
 							</Text>

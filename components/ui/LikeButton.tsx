@@ -21,16 +21,16 @@ export default function LikeButton({ propertyId }: LikeButtonProps) {
 	// const likeState = likes[propertyId];
 
 	// Selector - subscribe only a part of state for avoid unnecessary re-renders
-	const { likeState, setLike } = useLikesStore(
-		useShallow((state) => ({
-			likeState: state.likes[propertyId] || {
+	const likeState = useLikesStore(
+		(state) =>
+			state.likes[propertyId] || {
 				isLiked: false,
 				count: 0,
 				likeId: null,
-			},
-			setLike: state.setLike,
-		}))
+			}
 	);
+
+	const setLike = useLikesStore((state) => state.setLike);
 
 	// Jeśli jeszcze nie ma tego property w store (initCount się nie zdążył wykonać) → nie renderuj
 	if (!likeState) return null;
