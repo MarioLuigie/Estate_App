@@ -77,7 +77,7 @@ export default function Profile() {
 		<SafeAreaView className="h-full bg-white">
 			{/* PROFILE INFO */}
 			<View className="px-5 mb-4">
-				<View className="flex flex-row items-center justify-between mt-16">
+				<View className="flex flex-row items-start justify-between mt-14">
 					<Text className="text-xl font-rubik-bold">Profile</Text>
 					<NotifBellButton onPress={() => featureNotAvailable()} />
 				</View>

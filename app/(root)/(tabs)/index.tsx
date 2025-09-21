@@ -2,10 +2,7 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 // lib
-import {
-	getLatestProperties,
-	getProperties,
-} from '@/lib/actions/appwrite';
+import { getLatestProperties, getProperties } from '@/lib/actions/appwrite';
 import { REC_PROPERTIES_LIMIT, TABS_HEIGHT } from '@/lib/constants/layout';
 import { useGlobalContext } from '@/lib/global-provider';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
@@ -96,21 +93,25 @@ export default function Home() {
 			)}
 			{/* HEADER */}
 			<View className="px-5" style={{ marginTop: insets.top + 16 }}>
-				<View className="flex flex-row items-center justify-between">
-					<View className="flex flex-row items-center">
-						<Avatar avatar={authUser?.avatar} />
-						<View className="flex flex-col items-start justify-center ml-2">
-							<Text className="text-xs font-rubik text-black-100">
-								{greeting}
-							</Text>
-							<Text className="text-base font-rubik-medium text-black-300">
-								{authUser?.name}
-							</Text>
-							<Text className="text-xs font-rubik text-black-100">
-								{authUser?.email}
-							</Text>
+				<View className="flex flex-row items-start justify-between">
+					<TouchableOpacity
+						onPress={() => router.push({ pathname: ROUTES.PROFILE })}
+					>
+						<View className="flex flex-row items-center">
+							<Avatar avatar={authUser?.avatar} />
+							<View className="flex flex-col items-start justify-center ml-2">
+								<Text className="text-xs font-rubik text-black-100">
+									{greeting}
+								</Text>
+								<Text className="text-base font-rubik-medium text-black-300">
+									{authUser?.name}
+								</Text>
+								<Text className="text-xs font-rubik text-black-100">
+									{authUser?.email}
+								</Text>
+							</View>
 						</View>
-					</View>
+					</TouchableOpacity>
 					<NotifBellButton onPress={() => featureNotAvailable()} />
 				</View>
 			</View>
@@ -149,7 +150,7 @@ export default function Home() {
 								<Text className="text-xl font-rubik-bold text-black-300">
 									Featured
 								</Text>
-								<TouchableOpacity>
+								<TouchableOpacity onPress={() => featureNotAvailable()}>
 									<Text className="text-base font-rubik-bold text-primary-300">
 										See all
 									</Text>
@@ -188,7 +189,7 @@ export default function Home() {
 								<Text className="text-xl font-rubik-bold text-black-300">
 									Our Recommendation
 								</Text>
-								<TouchableOpacity>
+								<TouchableOpacity onPress={() => featureNotAvailable()}>
 									<Text className="text-base font-rubik-bold text-primary-300">
 										See all
 									</Text>
