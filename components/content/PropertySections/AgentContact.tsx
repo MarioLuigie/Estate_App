@@ -1,21 +1,26 @@
 // modules
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 // lib
 import icons from '@/lib/constants/icons';
+import { featureNotAvailable } from '@/lib/tools';
 
 type AgentContactProps = {
-  agent: any;
-	isTitle?: boolean
-}
+	agent: any;
+	isTitle?: boolean;
+};
 
 export default function AgentContact({
-  agent,
-	isTitle=true,
+	agent,
+	isTitle = true,
 }: AgentContactProps) {
 	return (
 		<View className="w-full border-t border-primary-200 pt-2 mt-3">
-			{isTitle && <Text className="text-black-300 text-xl font-rubik-bold">Agent</Text>}
+			{isTitle && (
+				<Text className="text-black-300 text-xl font-rubik-bold">
+					Agent
+				</Text>
+			)}
 
 			<View className="flex flex-row items-center justify-between mt-4">
 				<View className="flex flex-row items-center">
@@ -34,13 +39,15 @@ export default function AgentContact({
 					</View>
 				</View>
 				{/* Agent contact */}
-				<View className="flex flex-row items-center gap-3">
-					<Image source={icons.chat} className="size-7" />
-					<Image source={icons.phone} className="size-7" />
+				<View className="flex flex-row items-center gap-5">
+					<TouchableOpacity onPress={() => featureNotAvailable('Chat')}>
+						<Image source={icons.chat} className="size-7" />
+					</TouchableOpacity>
+					<TouchableOpacity onPress={() => featureNotAvailable('Phone')}>
+						<Image source={icons.phone} className="size-7" />
+					</TouchableOpacity>
 				</View>
 			</View>
 		</View>
 	);
 }
-
-

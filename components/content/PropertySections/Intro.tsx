@@ -3,6 +3,9 @@ import React from 'react';
 import { View, Text, Image } from 'react-native';
 // lib
 import icons from '@/lib/constants/icons';
+import LikeButton from '@/components/ui/LikeButton';
+import { featureNotAvailable } from '@/lib/tools';
+import SendButton from '@/components/ui/SendButton';
 
 type IntroProps = {
 	property: any;
@@ -11,7 +14,19 @@ type IntroProps = {
 export default function Intro({ property }: IntroProps) {
 	return (
 		<>
-			<Text className="text-2xl font-rubik-extrabold">{property?.name}</Text>
+			<View className='flex flex-row justify-between items-center'>
+				<Text className="text-2xl font-rubik-extrabold">
+					{property?.name}
+				</Text>
+
+				<View className="flex flex-row items-center gap-4">
+					<LikeButton
+						propertyId={property.$id}
+						initialCount={property.likes}
+					/>
+					<SendButton onPress={() => featureNotAvailable('Email')} />
+				</View>
+			</View>
 
 			<View className="flex flex-row items-center gap-3">
 				<View className="flex flex-row items-center px-4 py-2 bg-primary-100 rounded-full">

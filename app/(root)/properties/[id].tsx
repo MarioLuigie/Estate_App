@@ -88,18 +88,10 @@ export default function PropertyDetails() {
 
           {/* BACK NAVIGATION + LikeButton */}
           <View
-            className="z-50 absolute px-5 py-2 bg-white/60"
+            className="z-50 absolute px-5 py-2 bg-white/60 w-full"
             style={{ top: insets.top + 16 }}
           >
-            <NavigateBack>
-              <View className="flex flex-row items-center gap-4">
-                <LikeButton
-                  propertyId={property.$id}
-                  initialCount={property.likes}
-                />
-                <SendButton onPress={() => featureNotAvailable()} />
-              </View>
-            </NavigateBack>
+            <NavigateBack />
           </View>
         </View>
 
