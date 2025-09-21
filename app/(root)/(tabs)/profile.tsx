@@ -116,7 +116,7 @@ export default function Profile() {
 					paddingBottom: insets.bottom + TABS_HEIGHT,
 				}}
 			>
-				<View className="flex flex-col mt-4">
+				<View className="flex flex-col">
 					<SettingsItem
 						icon={icons.calendar}
 						title="My Bookings"
