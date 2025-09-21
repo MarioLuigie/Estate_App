@@ -1,21 +1,17 @@
 import {
 	createLike,
 	deleteLike,
-	getLikeByUserAndProperty,
 } from '@/lib/actions/appwrite';
 import icons from '@/lib/constants/icons';
 import { useLikesStore } from '@/lib/zustand/likes-store';
-import React, { useEffect } from 'react';
 import { Image, Text, TouchableOpacity } from 'react-native';
 interface LikeButtonProps {
 	propertyId: string;
-	userId: string;
 	initialCount: number;
 }
 
 export default function LikeButton({
 	propertyId,
-	userId,
 	initialCount,
 }: LikeButtonProps) {
 	const { likes, setLike } = useLikesStore();
@@ -26,18 +22,6 @@ export default function LikeButton({
 	};
 
 	console.log("LikeButton.tsx:", likes)
-
-	// Sprawdzamy przy mount, czy user już polubił
-	// useEffect(() => {
-	// 	getLikeByUserAndProperty(userId, propertyId).then((like) => {
-	// 		if (like) {
-	// 			setLike(propertyId, true, likeState.count, like.$id);
-	// 		} else {
-	// 			setLike(propertyId, false, likeState.count, null);
-	// 		}
-	// 	});
-	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	// }, [userId, propertyId]);
 
 	const toggleLike = async () => {
 		if (likeState.isLiked) {
@@ -76,6 +60,18 @@ export default function LikeButton({
 		</TouchableOpacity>
 	);
 }
+
+	// Sprawdzamy przy mount, czy user już polubił
+	// useEffect(() => {
+	// 	getLikeByUserAndProperty(userId, propertyId).then((like) => {
+	// 		if (like) {
+	// 			setLike(propertyId, true, likeState.count, like.$id);
+	// 		} else {
+	// 			setLike(propertyId, false, likeState.count, null);
+	// 		}
+	// 	});
+	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
+	// }, [userId, propertyId]);
 
 // import React, { useEffect } from "react";
 // import { TouchableOpacity, Text, Image } from "react-native";

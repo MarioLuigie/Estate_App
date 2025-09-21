@@ -95,7 +95,6 @@ export default function PropertyDetails() {
               <View className="flex flex-row items-center gap-4">
                 <LikeButton
                   propertyId={property.$id}
-                  userId={currentUser.$id}
                   initialCount={property.likes}
                 />
                 <SendButton onPress={() => featureNotAvailable()} />

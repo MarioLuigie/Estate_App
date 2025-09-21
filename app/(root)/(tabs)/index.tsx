@@ -88,17 +88,6 @@ export default function Home() {
 		router.push(`${ROUTES.PROPERTIES}/${id}`);
 	};
 
-	const { data: currentUser } = useAppwrite({
-		fn: getCurrentUser,
-		params: { authId: authUser!.$id },
-	});
-
-	if (!currentUser) {
-		return null;
-	}
-
-	console.log("index.tsx | currentUserId:", currentUser.$id);
-
 	return (
 		<SafeAreaView className="h-full bg-white">
 			{!isSeedButtonHidden && (
@@ -139,7 +128,6 @@ export default function Home() {
 					<Card
 						property={item}
 						onPress={() => handleCardPress(item.$id)}
-						currentUserId={currentUser.$id}
 					/>
 				)}
 				refreshControl={
@@ -182,7 +170,6 @@ export default function Home() {
 										<FeaturedCard
 											property={item}
 											onPress={() => handleCardPress(item.$id)}
-											currentUserId={currentUser.$id}
 										/>
 									)}
 									showsHorizontalScrollIndicator={false}

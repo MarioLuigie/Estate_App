@@ -21,10 +21,9 @@ export interface Property extends Models.Document {
 interface Props {
 	property: Models.Document;
 	onPress?: () => void;
-	currentUserId: string;
 }
 
-export function FeaturedCard({ property, onPress, currentUserId }: Props) {
+export function FeaturedCard({ property, onPress }: Props) {
 	const { name, price, rating, address, image, $id, likes } =
 		property as unknown as Property;
 
@@ -76,7 +75,6 @@ export function FeaturedCard({ property, onPress, currentUserId }: Props) {
 					</Text>
 					<LikeButton
 						propertyId={$id}
-						userId={currentUserId}
 						initialCount={likes}
 					/>
 				</View>
@@ -85,7 +83,7 @@ export function FeaturedCard({ property, onPress, currentUserId }: Props) {
 	);
 }
 
-export function Card({ property, onPress, currentUserId }: Props) {
+export function Card({ property, onPress }: Props) {
 	const windowWidth = Dimensions.get('window').width;
 	const CARD_MARGIN = 12; // odstęp między kolumnami (ten sam co gap w FlatList)
 	const CARD_PADDING = 20; // padding FlatList (np. px-5 → 10px z każdej strony)
@@ -140,7 +138,6 @@ export function Card({ property, onPress, currentUserId }: Props) {
 					</Text>
 					<LikeButton
 						propertyId={$id}
-						userId={currentUserId}
 						initialCount={likes}
 					/>
 				</View>
