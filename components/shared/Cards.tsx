@@ -75,7 +75,6 @@ export function FeaturedCard({ property, onPress }: Props) {
 					</Text>
 					<LikeButton
 						propertyId={$id}
-						initialCount={likes}
 					/>
 				</View>
 			</View>
@@ -138,7 +137,6 @@ export function Card({ property, onPress }: Props) {
 					</Text>
 					<LikeButton
 						propertyId={$id}
-						initialCount={likes}
 					/>
 				</View>
 			</View>

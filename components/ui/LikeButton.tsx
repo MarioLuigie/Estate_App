@@ -1,30 +1,32 @@
-import {
-	createLike,
-	deleteLike,
-} from '@/lib/actions/appwrite';
+import { createLike, deleteLike } from '@/lib/actions/appwrite';
 import icons from '@/lib/constants/icons';
 import { useLikesStore } from '@/lib/zustand/likes-store';
 import { Image, Text, TouchableOpacity } from 'react-native';
 interface LikeButtonProps {
 	propertyId: string;
-	initialCount: number;
 }
 
 export default function LikeButton({
 	propertyId,
-	initialCount,
 }: LikeButtonProps) {
-	const { likes, setLike } = useLikesStore();
-	const likeState = likes[propertyId] || {
-		isLiked: false,
-		count: initialCount,
-		likeId: null,
-	};
+	// const { likes, setLike } = useLikesStore();
+	// const likeState = likes[propertyId] || {
+	// 	isLiked: false,
+	// 	count: initialCount,
+	// 	likeId: null,
+	// };
 
-	console.log("LikeButton.tsx:", likes)
+	const { likes, setLike } = useLikesStore();
+	const likeState = likes[propertyId];
+
+	// Jeśli jeszcze nie ma tego property w store (initCount się nie zdążył wykonać) → nie renderuj
+	if (!likeState) return null;
+
+	console.log('LikeButton.tsx:', likes);
 
 	const toggleLike = async () => {
 		if (likeState.isLiked) {
+			// optimistic update
 			setLike(propertyId, false, likeState.count - 1, null);
 
 			try {
@@ -32,10 +34,12 @@ export default function LikeButton({
 					await deleteLike(likeState.likeId);
 				}
 			} catch (err) {
+				// rollback
 				setLike(propertyId, true, likeState.count, likeState.likeId);
 				console.error('Error removing like', err);
 			}
 		} else {
+			// optimistic update
 			setLike(propertyId, true, likeState.count + 1, likeState.likeId);
 
 			try {
@@ -44,6 +48,7 @@ export default function LikeButton({
 					setLike(propertyId, true, likeState.count + 1, newLike.$id);
 				}
 			} catch (err) {
+				// rollback
 				setLike(propertyId, false, likeState.count, null);
 				console.error('Error adding like', err);
 			}
@@ -61,17 +66,17 @@ export default function LikeButton({
 	);
 }
 
-	// Sprawdzamy przy mount, czy user już polubił
-	// useEffect(() => {
-	// 	getLikeByUserAndProperty(userId, propertyId).then((like) => {
-	// 		if (like) {
-	// 			setLike(propertyId, true, likeState.count, like.$id);
-	// 		} else {
-	// 			setLike(propertyId, false, likeState.count, null);
-	// 		}
-	// 	});
-	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	// }, [userId, propertyId]);
+// Sprawdzamy przy mount, czy user już polubił
+// useEffect(() => {
+// 	getLikeByUserAndProperty(userId, propertyId).then((like) => {
+// 		if (like) {
+// 			setLike(propertyId, true, likeState.count, like.$id);
+// 		} else {
+// 			setLike(propertyId, false, likeState.count, null);
+// 		}
+// 	});
+// 	// eslint-disable-next-line react-hooks/exhaustive-deps
+// }, [userId, propertyId]);
 
 // import React, { useEffect } from "react";
 // import { TouchableOpacity, Text, Image } from "react-native";

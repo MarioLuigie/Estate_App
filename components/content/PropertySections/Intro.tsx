@@ -23,7 +23,6 @@ export default function Intro({ property }: IntroProps) {
 				<View className="flex flex-row items-center gap-4">
 					<LikeButton
 						propertyId={property.$id}
-						initialCount={property.likes}
 					/>
 					<SendButton onPress={() => featureNotAvailable('Email')} />
 				</View>
