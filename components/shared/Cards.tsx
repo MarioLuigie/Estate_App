@@ -28,11 +28,11 @@ export function FeaturedCard({ property, onPress, currentUserId }: Props) {
 	const { name, price, rating, address, image, $id, likes } =
 		property as unknown as Property;
 
-	const initCount = useLikesStore((s) => s.initCount);
+  const initCount = useLikesStore((s) => s.initCount);
 
-	useEffect(() => {
-		initCount($id, likes); // wrzuć initial count do store
-	}, [$id, likes, initCount]);
+  useEffect(() => {
+    initCount($id, likes); // wrzuć initial count do store
+  }, [$id, likes, initCount]);
 
 	return (
 		<TouchableOpacity
@@ -94,11 +94,11 @@ export function Card({ property, onPress, currentUserId }: Props) {
 	const { name, price, rating, address, image, $id, likes } =
 		property as unknown as Property;
 
-	const initCount = useLikesStore((s) => s.initCount);
+  const initCount = useLikesStore((s) => s.initCount);
 
-	useEffect(() => {
-		initCount($id, likes); // wrzuć initial count do store
-	}, [$id, likes, initCount]);
+  useEffect(() => {
+    initCount($id, likes); // wrzuć initial count do store
+  }, [$id, likes, initCount]);
 
 	return (
 		<TouchableOpacity
