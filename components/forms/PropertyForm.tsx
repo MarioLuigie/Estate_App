@@ -490,6 +490,7 @@ export default function PropertyForm({
 								paddingVertical: 8,
 								borderRadius: 20,
 								marginVertical: 4,
+								textAlignVertical: 'top',
 							}}
 							value={value}
 							onChangeText={onChange}
