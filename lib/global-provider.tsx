@@ -41,6 +41,8 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
 
 	const resetLikes = useLikesStore((s) => s.reset);
 	const setManyLikes = useLikesStore((s) => s.setManyLikes);
+	const setLike = useLikesStore((s) => s.setLike);
+	const likes = useLikesStore((s) => s.likes);
 
 	useEffect(() => {
 		let isMounted = true;
@@ -58,7 +60,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
 					likeId: like.$id,
 				}));
 
-				console.log(formatted)
+				console.log(formatted);
 
 				setManyLikes(formatted);
 			})();
@@ -69,7 +71,17 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
 		return () => {
 			isMounted = false;
 		};
-	}, [authUser]);
+	}, [authUser, setManyLikes, resetLikes]);
+
+	// Efekt dla dynamicznych property: jeśli jakiś propertyId nie istnieje w likes, dodaj go
+	useEffect(() => {
+		Object.keys(likes).forEach((propertyId) => {
+			const likeState = likes[propertyId];
+			if (!likeState) {
+				setLike(propertyId, false, 0, null);
+			}
+		});
+	}, [likes, setLike]);
 
 	return (
 		<GlobalContext.Provider
