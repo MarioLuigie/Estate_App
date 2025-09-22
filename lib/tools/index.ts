@@ -1,5 +1,7 @@
-import { Alert } from 'react-native';
+import { Alert, Linking } from 'react-native';
 import { countLikesForProperty } from '@/lib/actions/appwrite';
+import { ContactMethod } from '@/lib/constants/enums';
+
 
 type Coordinates = {
 	latitude: number;
@@ -228,3 +230,39 @@ export const formatDateTime = (dateString: string | Date): string => {
 		minute: '2-digit',
 	});
 };
+
+interface ContactOptions {
+  type: ContactMethod;
+  value: string;
+}
+
+export const contact = async ({ type, value }: ContactOptions) => {
+  let url = "";
+
+  switch (type) {
+    case "email":
+      url = `mailto:${value}`;
+      break;
+    case "phone":
+      url = `tel:${value}`;
+      break;
+    case "sms":
+      url = `sms:${value}`;
+      break;
+    default:
+      console.warn("Unsupported contact type");
+      return;
+  }
+
+  try {
+    const supported = await Linking.canOpenURL(url);
+    if (!supported) {
+      console.warn(`Cannot open ${type} app for: ${value}`);
+      return;
+    }
+    await Linking.openURL(url);
+  } catch (err) {
+    console.error(`Failed to open ${type} app:`, err);
+  }
+};
+
