@@ -2,7 +2,7 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 // lib
-import { getCurrentUser, getProperties } from '@/lib/actions/appwrite';
+import { getProperties } from '@/lib/actions/appwrite';
 import { customMapStyles } from '@/lib/colorsJS';
 import icons from '@/lib/constants/icons';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
@@ -28,14 +28,12 @@ import {
 } from 'react-native';
 import MapView from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useGlobalContext } from '@/lib/global-provider';
 
 export default function Explore() {
 	const propertiesNumb = 30;
 
 	const params = useLocalSearchParams<{ query?: string; filter?: string }>();
 	const insets = useSafeAreaInsets();
-	const { authUser } = useGlobalContext();
 	const [showMap, setShowMap] = useState<boolean>(!true);
 	const [refreshing, setRefreshing] = useState<boolean>(false);
 
@@ -46,8 +44,8 @@ export default function Explore() {
 	} = useAppwrite({
 		fn: getProperties,
 		params: {
-			filter: params.filter!,
-			query: params.query!,
+			filter: params.filter || '',
+			query: params.query || '',
 			limit: propertiesNumb,
 		},
 		skip: true,
@@ -56,8 +54,8 @@ export default function Explore() {
 	const onRefresh = useCallback(async () => {
 		setRefreshing(true);
 		await refetch({
-			filter: params.filter!,
-			query: params.query!,
+			filter: params.filter || '',
+			query: params.query || '',
 			limit: propertiesNumb,
 		});
 		setRefreshing(false);
@@ -65,21 +63,12 @@ export default function Explore() {
 
 	useEffect(() => {
 		refetch({
-			filter: params.filter!,
-			query: params.query!,
+			filter: params.filter || '',
+			query: params.query || '',
 			limit: propertiesNumb,
 		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [params.filter, params.query]);
-
-	const { data: currentUser } = useAppwrite({
-		fn: getCurrentUser,
-		params: { authId: authUser!.$id },
-	});
-
-	if (!currentUser) {
-		return null;
-	}
 
 	const handleCardPress = (id: string) => {
 		router.push(`/properties/${id}`);
@@ -120,7 +109,7 @@ export default function Explore() {
 
 			{/* FOUNDED PROPERTIES */}
 			<View className="px-5 mt-5 mb-3">
-				<FoundCounter data={properties} listTitle="Properties" />
+				<FoundCounter data={properties || []} listTitle="Properties" />
 			</View>
 
 			{/* PROPERTIES LIST */}
@@ -143,12 +132,11 @@ export default function Explore() {
 				</MapView>
 			) : (
 				<FlatList
-					data={properties}
+					data={properties || []}
 					renderItem={({ item }) => (
 						<Card
 							property={item}
 							onPress={() => handleCardPress(item.$id)}
-							currentUserId=""
 						/>
 					)}
 					showsVerticalScrollIndicator={false}

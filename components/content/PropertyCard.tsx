@@ -75,7 +75,7 @@ export default function PropertyCard({
 			{/* Treść */}
 			<View className="p-4">
 				{/* Nazwa nieruchomości */}
-				<Text className="text-lg font-semibold text-black-300 mb-1">
+				<Text className="text-lg font-semibold text-black-300 mb-1" numberOfLines={1}>
 					{property?.name}
 				</Text>
 
