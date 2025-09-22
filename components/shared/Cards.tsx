@@ -120,7 +120,7 @@ export function Card({ property, onPress }: Props) {
 			{/* INFOS */}
 			<View className="flex flex-col mt-2 justify-between" style={{minHeight: 85}}>
 				<View>
-					<Text className="text-base font-rubik-bold text-black-300">
+					<Text className="text-base font-rubik-bold text-black-300" numberOfLines={1}>
 						{name}
 					</Text>
 					<Text
