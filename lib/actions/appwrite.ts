@@ -345,6 +345,32 @@ export async function getPropertyById({ id }: { id: string }) {
 	}
 }
 
+export async function getPropertiesByIds(ids: string[]) {
+  if (!ids || ids.length === 0) return [];
+
+  try {
+    const buildQuery = [
+      Query.equal("$id", ids),
+      Query.select(["*", "image.*", "gallery.*", "reviews.*", "agent.*"]),
+    ];
+
+    const result = await databases.listDocuments(
+      config.databaseId!,
+      config.propertiesCollectionId!,
+      buildQuery
+    );
+
+    const parsedList = result?.documents.map(normalizeProperty);
+
+    const parsedListWithLikes = await addOwnLikesToProperty(parsedList);
+
+    return parsedListWithLikes;
+  } catch (error) {
+    console.error("getPropertiesByIds error:", error);
+    return [];
+  }
+}
+
 export async function getAgentById({ id }: { id: string }) {
 	try {
 		const result = await databases.getDocument(
