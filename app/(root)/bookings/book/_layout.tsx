@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 // components
 import NavigateBack from '@/components/shared/NavigateBack';
 
-export default function AddBookingLayout() {
+export default function BookBookingLayout() {
   const insets = useSafeAreaInsets();
 
   return (

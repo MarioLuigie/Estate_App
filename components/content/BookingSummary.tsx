@@ -3,6 +3,7 @@ import React from "react";
 import { Text, View } from "react-native";
 // components
 import Paper from "@/components/ui/Paper";
+import { formatDate } from "@/lib/tools";
 
 interface BookingSummaryProps {
   booking: {
@@ -28,7 +29,7 @@ export default function BookingSummary({ booking }: BookingSummaryProps) {
             Date:
           </Text>
           <Text className="text-gray-700 dark:text-gray-300">
-            {booking.startDate} - {booking.endDate}
+            {formatDate(booking.startDate)} - {formatDate(booking.endDate)}
           </Text>
         </View>
 
@@ -66,7 +67,7 @@ export default function BookingSummary({ booking }: BookingSummaryProps) {
             Created:
           </Text>
           <Text className="text-gray-700 dark:text-gray-300">
-            {booking.createdAt}
+            {formatDate(booking.createdAt)}
           </Text>
         </View>
       </View>

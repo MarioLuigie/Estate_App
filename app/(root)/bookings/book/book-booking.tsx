@@ -16,7 +16,7 @@ import { ScrollView, Text, View } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-export default function AddBooking() {
+export default function BookBooking() {
 	const { id } = useLocalSearchParams<{ id?: string }>();
 	const [agent, setAgent] = useState<any>(null);
 	const [agentLoading, setAgentLoading] = useState(false);
@@ -222,7 +222,7 @@ export default function AddBooking() {
 						title="Payment"
 						onPress={() =>
 							router.push({
-								pathname: ROUTES.BOOKINGS_ADD_BOOKING,
+								pathname: ROUTES.BOOKINGS_BOOK_BOOKING,
 								params: { id: property?.$id },
 							})
 						}
