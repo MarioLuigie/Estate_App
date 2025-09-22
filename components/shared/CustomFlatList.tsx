@@ -29,7 +29,7 @@ export function CustomFlatList<T>({
 	return (
 		<View className="flex-1">
 			<View className="flex flex-row justify-between items-center py-2">
-				<FoundCounter data={data} listTitle="Properties" />
+				<FoundCounter data={data} listTitle="Published Properties" />
 				{/* Toggle */}
 				<TouchableOpacity onPress={() => setIsGrid((prev) => !prev)}>
 					<MaterialIcons
