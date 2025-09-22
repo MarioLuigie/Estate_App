@@ -4,9 +4,11 @@ import { Text, TouchableOpacity, View } from 'react-native';
 type ToggleButtonsProps = {
 	value: boolean;
 	onChange: (val: boolean) => void;
+	primaryLabel: string;
+	secondaryLabel: string;
 };
 
-export default function ToggleButtons({ value, onChange }: ToggleButtonsProps) {
+export default function ToggleButtons({ value, onChange, primaryLabel, secondaryLabel }: ToggleButtonsProps) {
 	return (
 		<View className="flex flex-row bg-mygrey-200 rounded-xl p-1">
 			<TouchableOpacity
@@ -16,7 +18,7 @@ export default function ToggleButtons({ value, onChange }: ToggleButtonsProps) {
 				<Text
 					className={`text-center ${!value ? 'text-white' : 'text-black-300'}`}
 				>
-					List
+					{primaryLabel}
 				</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
@@ -26,7 +28,7 @@ export default function ToggleButtons({ value, onChange }: ToggleButtonsProps) {
 				<Text
 					className={`text-center ${value ? 'text-white' : 'text-black-300'}`}
 				>
-					Map
+					{secondaryLabel}
 				</Text>
 			</TouchableOpacity>
 		</View>

@@ -104,7 +104,7 @@ export default function Explore() {
 			</View>
 
 			<View className="px-5 mt-2">
-				<ToggleButtons value={showMap} onChange={setShowMap} />
+				<ToggleButtons value={showMap} onChange={setShowMap} primaryLabel='List' secondaryLabel='Map'/>
 			</View>
 
 			{/* FOUNDED PROPERTIES */}

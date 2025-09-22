@@ -16,6 +16,7 @@ import PropertyCard from '@/components/content/PropertyCard';
 import { CustomFlatList } from '@/components/shared/CustomFlatList';
 import CustomModal from '@/components/shared/CustomModal';
 import CustomTouchable from '@/components/ui/CustomTouchable';
+import ToggleButtons from '@/components/shared/ToggleButtons';
 
 export default function MyPropertiesScreen() {
 	const { authUser } = useGlobalContext();
@@ -25,6 +26,7 @@ export default function MyPropertiesScreen() {
 	const [deleteSuccessed, setDeleteSuccessed] = useState<number>(0);
 	const [deleteFailed, setDeleteFailed] = useState<number>(0);
 	const [refreshing, setRefreshing] = useState<boolean>(false);
+	const [isSold, setIsSold] = useState<boolean>(false);
 
 	const {
 		data: properties,
@@ -82,42 +84,64 @@ export default function MyPropertiesScreen() {
 
 	return (
 		<View className="flex-1 bg-white px-5 py-4">
-			<View className="flex gap-6">
-				{/* Add property button */}
-				<CustomTouchable
-					title="Add New Property"
-					onPress={() =>
-						router.push({ pathname: ROUTES.PROPERTIES_ADD_PROPERTY })
-					}
-					icon={<MaterialIcons name="add" size={24} color="white" />}
-				/>
-
-				{/* Remove all properties button */}
-				<CustomTouchable
-					title="Remove All Properties"
-					onPress={() => setDeleteAllVisible(true)}
-					containerStyle={{ backgroundColor: '#eee' }}
-					textStyle={{ color: '#7a7a7a' }}
+			<View className="mb-8">
+				{/* Select properties or sold properties */}
+				<ToggleButtons
+					value={isSold}
+					onChange={() => setIsSold((prev) => !prev)}
+					primaryLabel="Published"
+					secondaryLabel="Sold"
 				/>
 			</View>
 
-			<CustomFlatList
-				data={properties}
-				isLoading={propertiesLoading}
-				refreshControl={
-					<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-				}
-				renderItem={(item, isGrid) => (
-					<PropertyCard
-						property={item}
-						onPress={() => {
-							router.push(`${ROUTES.PROPERTIES}/${item?.$id}`);
-						}}
-						isGrid={isGrid}
-						setCardDeleted={setCardDeleted}
+			{!isSold ? (
+				<>
+					<View className="flex flex-row items-center gap-3 mb-4">
+						{/* Remove all properties button */}
+						<CustomTouchable
+							title="Remove All"
+							onPress={() => setDeleteAllVisible(true)}
+							containerStyle={{ backgroundColor: '#eee' }}
+							textStyle={{ color: '#7a7a7a' }}
+							className="flex-1"
+						/>
+						{/* Add property button */}
+						<CustomTouchable
+							title="Add New"
+							onPress={() =>
+								router.push({
+									pathname: ROUTES.PROPERTIES_ADD_PROPERTY,
+								})
+							}
+							icon={<MaterialIcons name="add" size={24} color="white" />}
+							className="flex-1"
+						/>
+					</View>
+
+					<CustomFlatList
+						data={properties}
+						isLoading={propertiesLoading}
+						refreshControl={
+							<RefreshControl
+								refreshing={refreshing}
+								onRefresh={onRefresh}
+							/>
+						}
+						renderItem={(item, isGrid) => (
+							<PropertyCard
+								property={item}
+								onPress={() => {
+									router.push(`${ROUTES.PROPERTIES}/${item?.$id}`);
+								}}
+								isGrid={isGrid}
+								setCardDeleted={setCardDeleted}
+							/>
+						)}
 					/>
-				)}
-			/>
+				</>
+			) : (
+				<View></View>
+			)}
 
 			<CustomModal
 				visible={deleteAllVisible}
