@@ -13,3 +13,9 @@ export enum PaymentMethod {
 	PAYPAL = 'paypal',
 	STRIPE = 'stripe',
 }
+
+export enum ContactMethod {
+	SMS = 'sms',
+	PHONE = 'phone',
+	EMAIL = 'email',
+}
