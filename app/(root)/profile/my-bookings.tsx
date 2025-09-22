@@ -1,6 +1,6 @@
 // modules
 import { router } from 'expo-router';
-import { FlatList, ScrollView, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useEffect, useState } from 'react';
@@ -80,22 +80,6 @@ export default function MyBookingsScreen() {
 						alignItems: 'center',
 					}}
 				/>
-
-				{/* <View className="flex gap-3">
-					{bookings.map((b) => {
-						const property = bookedProperties.find(
-							(p) => p.$id === b.property
-						);
-
-						return (
-							<BookingSummary
-								key={b.$id}
-								booking={b}
-								property={property}
-							/>
-						);
-					})}
-				</View> */}
 			</View>
 		</View>
 	);
