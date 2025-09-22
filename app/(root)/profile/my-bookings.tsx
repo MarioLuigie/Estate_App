@@ -1,6 +1,6 @@
 // modules
 import { router } from 'expo-router';
-import { ScrollView, View } from 'react-native';
+import { FlatList, ScrollView, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useEffect, useState } from 'react';
@@ -49,15 +49,39 @@ export default function MyBookingsScreen() {
 				onPress={() => router.push('/explore')}
 				title="Book more properties"
 				icon={<MaterialIcons name="search" size={24} color="white" />}
-				containerStyle={{marginBottom: 32}}
+				containerStyle={{ marginBottom: 32 }}
 			/>
 
-			<ScrollView
-				showsVerticalScrollIndicator={false}
-				contentContainerStyle={{ paddingBottom: insets.bottom }}
+			<View
+				// showsVerticalScrollIndicator={false}
+				// contentContainerStyle={{ paddingBottom: insets.bottom }}
 				className="flex-1"
+				style={{ paddingBottom: insets.bottom }}
 			>
-				<View className="flex gap-3">
+				<FlatList
+					showsVerticalScrollIndicator={false}
+					data={bookings ?? []}
+					renderItem={({ item }) => {
+						const property = bookedProperties.find(
+							(b) => b.$id === item.property
+						);
+						return (
+							<BookingSummary
+								key={item.$id}
+								booking={item}
+								property={property}
+							/>
+						);
+					}}
+					contentContainerStyle={{
+						display: 'flex',
+						flexDirection: 'column',
+						gap: 12,
+						alignItems: 'center',
+					}}
+				/>
+
+				{/* <View className="flex gap-3">
 					{bookings.map((b) => {
 						const property = bookedProperties.find(
 							(p) => p.$id === b.property
@@ -71,8 +95,8 @@ export default function MyBookingsScreen() {
 							/>
 						);
 					})}
-				</View>
-			</ScrollView>
+				</View> */}
+			</View>
 		</View>
 	);
 }
