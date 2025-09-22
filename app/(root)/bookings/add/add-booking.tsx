@@ -172,15 +172,17 @@ export default function AddBooking() {
 				}}
 				className="flex-1 bg-white dark:bg-black gap-2"
 			>
-				<PropertySummary
-					name={property?.name}
-					address={property?.address}
-					price={property?.price}
-					imageUrl={property?.image[0].image.url}
-					agent={agent}
-				/>
+				<View style={{ marginHorizontal: 12 }}>
+					<PropertySummary
+						name={property?.name}
+						address={property?.address}
+						price={property?.price}
+						imageUrl={property?.image[0].image.url}
+						agent={agent}
+					/>
+				</View>
 
-				<Paper>
+				<Paper style={{ marginHorizontal: 12 }}>
 					<Text className="text-black-300 text-xl font-rubik-bold dark:text-white mb-2">
 						Select a Date
 					</Text>

@@ -1,9 +1,16 @@
-import React from 'react';
-import { View } from 'react-native';
+import { StyleProp, View, ViewStyle } from 'react-native';
 
-export default function Paper({ children }: { children: React.ReactNode }) {
+interface PaperProps {
+	children: React.ReactNode;
+	style?: StyleProp<ViewStyle>;
+}
+
+export default function Paper({ children, style }: PaperProps) {
 	return (
-		<View className="mx-4 p-4 flex flex-col border border-zinc-200 bg-white dark:bg-black rounded-2xl shadow-xl overflow-hidden">
+		<View
+			style={style}
+			className="p-4 flex flex-col border border-zinc-200 bg-white dark:bg-black rounded-2xl shadow-xl overflow-hidden"
+		>
 			{children}
 		</View>
 	);

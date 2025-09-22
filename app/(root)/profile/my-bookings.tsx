@@ -5,6 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useEffect, useState } from 'react';
 import { getMyBookings } from '@/lib/actions/appwrite';
+import BookingSummary from '@/components/content/BookingSummary';
 
 export default function MyBookingsScreen() {
 	const insets = useSafeAreaInsets();
@@ -15,7 +16,7 @@ export default function MyBookingsScreen() {
 		const fetchMyBookingsList = async () => {
 			try {
 				const result = await getMyBookings();
-				result && setBookings(result); 
+				result && setBookings(result);
 			} catch (err) {
 				console.error('Failed to fetch bookings:', err);
 			}
@@ -41,13 +42,11 @@ export default function MyBookingsScreen() {
 				contentContainerStyle={{ paddingBottom: insets.bottom }}
 				className="flex-1"
 			>
-				{
-					bookings.map((b, i) => (<Text key={i}>{b.$id}</Text>))
-				}
-				{/* <Text className="text-9xl">MY BOOKINGS SCREEN</Text>
-				<Text className="text-9xl">MY BOOKINGS SCREEN</Text>
-				<Text className="text-9xl">MY BOOKINGS SCREEN</Text>
-				<Text className="text-9xl">MY BOOKINGS SCREEN</Text> */}
+				<View className='flex gap-3'>
+					{bookings.map((b) => (
+						<BookingSummary key={b.$id} booking={b} />
+					))}
+				</View>
 			</ScrollView>
 		</View>
 	);
