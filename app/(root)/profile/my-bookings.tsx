@@ -1,11 +1,12 @@
 // modules
 import { router } from 'expo-router';
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useEffect, useState } from 'react';
 import { getMyBookings, getPropertiesByIds } from '@/lib/actions/appwrite';
 import BookingSummary from '@/components/content/BookingSummary';
+import CustomTouchable from '@/components/ui/CustomTouchable';
 
 export default function MyBookingsScreen() {
 	const insets = useSafeAreaInsets();
@@ -44,15 +45,12 @@ export default function MyBookingsScreen() {
 
 	return (
 		<View className="flex-1 bg-white px-5 py-4">
-			<TouchableOpacity
-				className="bg-primary-300 py-2 px-4 rounded-lg mb-4 flex flex-row justify-center items-center gap-2"
+			<CustomTouchable
 				onPress={() => router.push('/explore')}
-			>
-				<MaterialIcons name="search" size={24} color="white" />
-				<Text className="text-white font-bold text-center">
-					Book more properties
-				</Text>
-			</TouchableOpacity>
+				title="Book more properties"
+				icon={<MaterialIcons name="search" size={24} color="white" />}
+				containerStyle={{marginBottom: 32}}
+			/>
 
 			<ScrollView
 				showsVerticalScrollIndicator={false}
