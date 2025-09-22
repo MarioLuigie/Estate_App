@@ -223,3 +223,6 @@ export function getPropertyFormDefaultValues(
 	}
 	return PROPERTY_FORM_DEFAULT_VALUES;
 }
+
+export const DEFAULT_PHONE = '+48123456789';
+export const DEFAULT_SUPPORT_EMAIL = 'default-support@estate.com';

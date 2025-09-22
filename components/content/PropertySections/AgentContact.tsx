@@ -5,6 +5,7 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import icons from '@/lib/constants/icons';
 import { contact, featureNotAvailable } from '@/lib/tools';
 import { ContactMethod } from '@/lib/constants/enums';
+import { DEFAULT_PHONE } from '@/lib/constants/data';
 
 type AgentContactProps = {
 	agent: any;
@@ -41,10 +42,10 @@ export default function AgentContact({
 				</View>
 				{/* Agent contact */}
 				<View className="flex flex-row items-center gap-5">
-					<TouchableOpacity onPress={() => featureNotAvailable('Chat')}>
+					<TouchableOpacity onPress={() => contact({type: ContactMethod.SMS, value: DEFAULT_PHONE})}>
 						<Image source={icons.chat} className="size-7" />
 					</TouchableOpacity>
-					<TouchableOpacity onPress={() => contact({type: ContactMethod.PHONE, value: '+48509312253'})}>
+					<TouchableOpacity onPress={() => contact({type: ContactMethod.PHONE, value: DEFAULT_PHONE})}>
 						<Image source={icons.phone} className="size-7" />
 					</TouchableOpacity>
 				</View>

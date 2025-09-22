@@ -33,7 +33,8 @@ import CustomTouchable from '@/components/ui/CustomTouchable';
 import { useLikesStore } from '@/lib/zustand/likes-store';
 import LikeButton from '@/components/ui/LikeButton';
 import SendButton from '@/components/ui/SendButton';
-import { featureNotAvailable } from '@/lib/tools';
+import { contact, featureNotAvailable } from '@/lib/tools';
+import { ContactMethod } from '@/lib/constants/enums';
 
 export default function PropertyDetails() {
 	const { id } = useLocalSearchParams<{ id?: string }>();
@@ -95,8 +96,6 @@ export default function PropertyDetails() {
 	// Jeśli jeszcze nie mamy currentUser lub property, renderujemy null
 	if (!currentUser || !property) return null;
 
-	console.log('ID$$$$', likes);
-
 	return (
 		<SafeAreaView>
 			<ScrollView
@@ -131,7 +130,7 @@ export default function PropertyDetails() {
 								<View className="flex flex-row items-center gap-4">
 									<LikeButton propertyId={property.$id} />
 									<SendButton
-										onPress={() => featureNotAvailable('Email')}
+										onPress={() => contact({ type: ContactMethod.EMAIL, value: agent.email})}
 									/>
 								</View>
 							</View>

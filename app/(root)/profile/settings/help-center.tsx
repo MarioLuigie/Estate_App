@@ -1,6 +1,7 @@
 // modules
 import CustomTouchable from '@/components/ui/CustomTouchable';
 import { colors } from '@/lib/colorsJS';
+import { DEFAULT_SUPPORT_EMAIL } from '@/lib/constants/data';
 import React, { useState } from 'react';
 import {
 	ScrollView,
@@ -39,7 +40,7 @@ export default function HelpCenterSettings() {
 	};
 
 	const contactSupport = () => {
-		Linking.openURL('mailto:demo-support@estate.com');
+		Linking.openURL(`mailto:${DEFAULT_SUPPORT_EMAIL}`);
 	};
 
 	return (
