@@ -3,7 +3,8 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 // lib
 import icons from '@/lib/constants/icons';
-import { featureNotAvailable } from '@/lib/tools';
+import { contact, featureNotAvailable } from '@/lib/tools';
+import { ContactMethod } from '@/lib/constants/enums';
 
 type AgentContactProps = {
 	agent: any;
@@ -43,7 +44,7 @@ export default function AgentContact({
 					<TouchableOpacity onPress={() => featureNotAvailable('Chat')}>
 						<Image source={icons.chat} className="size-7" />
 					</TouchableOpacity>
-					<TouchableOpacity onPress={() => featureNotAvailable('Phone')}>
+					<TouchableOpacity onPress={() => contact({type: ContactMethod.PHONE, value: '+48509312253'})}>
 						<Image source={icons.phone} className="size-7" />
 					</TouchableOpacity>
 				</View>

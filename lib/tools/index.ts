@@ -236,33 +236,49 @@ interface ContactOptions {
   value: string;
 }
 
-export const contact = async ({ type, value }: ContactOptions) => {
-  let url = "";
+/**
+ * Production-ready contact helper.
+ * 
+ * For email, phone, and SMS links:
+ *  - No runtime permission needed for simple mailto:, tel:, sms: URLs.
+ *  - If in future you want direct calls/SMS without opening native apps, 
+ *    add permissions in app.config.js:
+ *      android.permissions.push("CALL_PHONE", "SEND_SMS");
+ *      ios.infoPlist.NSContactsUsageDescription = "...";
+ */
+export const contact = ({ type, value }: ContactOptions) => {
+  let url = '';
 
   switch (type) {
-    case "email":
+    case 'email':
       url = `mailto:${value}`;
       break;
-    case "phone":
+    case 'phone':
       url = `tel:${value}`;
       break;
-    case "sms":
+    case 'sms':
       url = `sms:${value}`;
       break;
     default:
-      console.warn("Unsupported contact type");
+      console.warn('Unsupported contact type');
       return;
   }
 
   try {
-    const supported = await Linking.canOpenURL(url);
+    const supported = Linking.canOpenURL(url);
     if (!supported) {
-      console.warn(`Cannot open ${type} app for: ${value}`);
+      Alert.alert(
+        'Cannot open app',
+        `Your device cannot handle ${type} links for: ${value}`,
+        [{ text: 'OK' }]
+      );
       return;
     }
-    await Linking.openURL(url);
+    Linking.openURL(url);
   } catch (err) {
     console.error(`Failed to open ${type} app:`, err);
+    Alert.alert('Error', `Failed to open ${type} app.`);
   }
 };
+
 
