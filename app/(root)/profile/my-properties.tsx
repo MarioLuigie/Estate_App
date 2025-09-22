@@ -45,6 +45,7 @@ export default function MyPropertiesScreen() {
 		if (authUser?.$id) {
 			refetch({ userId: authUser.$id });
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [cardDeleted, authUser?.$id]);
 
 	const handleDeleteAll = async () => {
@@ -81,7 +82,7 @@ export default function MyPropertiesScreen() {
 
 	return (
 		<View className="flex-1 bg-white px-5 py-4">
-			<View className='flex gap-6'>
+			<View className="flex gap-6">
 				{/* Add property button */}
 				<CustomTouchable
 					title="Add New Property"
