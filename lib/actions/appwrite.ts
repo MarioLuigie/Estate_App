@@ -794,6 +794,23 @@ export async function addImageToStorage(file: {
 	}
 }
 
+export async function getMyBookings() {
+	try {
+		const authUser = await account.get();
+
+		const result = databases.listDocuments(
+			config.databaseId!,
+			config.bookingsCollectionId!,
+			[Query.equal('ownerId', authUser.$id)]
+		)
+
+		return (await result).documents;
+	} catch (error) {
+		console.error('Bookings not founded error:', error);
+		return null;
+	}
+}
+
 export async function getBookingsByPropertyId(propertyId: string) {
 	try {
 		const result = await databases.listDocuments(
