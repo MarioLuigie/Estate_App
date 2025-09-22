@@ -60,7 +60,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
 					likeId: like.$id,
 				}));
 
-				console.log(formatted);
+				// console.log(formatted);
 
 				setManyLikes(formatted);
 			})();

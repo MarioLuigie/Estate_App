@@ -112,8 +112,8 @@ export async function login() {
 
 		const currentAuthUser = await account.get();
 
-		console.log('Callback URL:', result.url);
-		console.log('Secret:', secret, 'UserId:', userId);
+		// console.log('Callback URL:', result.url);
+		// console.log('Secret:', secret, 'UserId:', userId);
 
 		const userDoc = await databases.listDocuments(
 			config.databaseId!,
@@ -294,7 +294,7 @@ export async function countLikesForProperty(propertyId: string) {
 			[Query.equal('property', propertyId), Query.limit(1)]
 		);
 
-		console.log('countLikesForProperty():', result.total);
+		// console.log('countLikesForProperty():', result.total);
 
 		return result.total;
 	} catch (error) {
