@@ -1,7 +1,5 @@
-import { Alert, Linking } from 'react-native';
-import { countLikesForProperty } from '@/lib/actions/actions.properties';
 import { ContactMethod } from '@/lib/constants/enums';
-
+import { Alert, Linking } from 'react-native';
 
 type Coordinates = {
 	latitude: number;
@@ -154,53 +152,51 @@ export function featureNotAvailable(title?: string) {
 }
 
 interface ContactOptions {
-  type: ContactMethod;
-  value: string;
+	type: ContactMethod;
+	value: string;
 }
 
 /**
  * Production-ready contact helper.
- * 
+ *
  * For email, phone, and SMS links:
  *  - No runtime permission needed for simple mailto:, tel:, sms: URLs.
- *  - If in future you want direct calls/SMS without opening native apps, 
+ *  - If in future you want direct calls/SMS without opening native apps,
  *    add permissions in app.config.js:
  *      android.permissions.push("CALL_PHONE", "SEND_SMS");
  *      ios.infoPlist.NSContactsUsageDescription = "...";
  */
 export const contact = ({ type, value }: ContactOptions) => {
-  let url = '';
+	let url = '';
 
-  switch (type) {
-    case 'email':
-      url = `mailto:${value}`;
-      break;
-    case 'phone':
-      url = `tel:${value}`;
-      break;
-    case 'sms':
-      url = `sms:${value}`;
-      break;
-    default:
-      console.warn('Unsupported contact type');
-      return;
-  }
+	switch (type) {
+		case 'email':
+			url = `mailto:${value}`;
+			break;
+		case 'phone':
+			url = `tel:${value}`;
+			break;
+		case 'sms':
+			url = `sms:${value}`;
+			break;
+		default:
+			console.warn('Unsupported contact type');
+			return;
+	}
 
-  try {
-    const supported = Linking.canOpenURL(url);
-    if (!supported) {
-      Alert.alert(
-        'Cannot open app',
-        `Your device cannot handle ${type} links for: ${value}`,
-        [{ text: 'OK' }]
-      );
-      return;
-    }
-    Linking.openURL(url);
-  } catch (err) {
-    console.error(`Failed to open ${type} app:`, err);
-    Alert.alert('Error', `Failed to open ${type} app.`);
-  }
+	try {
+		const supported = Linking.canOpenURL(url);
+		if (!supported) {
+			Alert.alert(
+				'Cannot open app',
+				`Your device cannot handle ${type} links for: ${value}`,
+				[{ text: 'OK' }]
+			);
+			return;
+		}
+		Linking.openURL(url);
+	} catch (err) {
+		console.error(`Failed to open ${type} app:`, err);
+		Alert.alert('Error', `Failed to open ${type} app.`);
+	}
 };
-
-

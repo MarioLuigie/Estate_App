@@ -14,8 +14,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
 	getAgentById,
 	getPropertyById,
-} from '@/lib/actions/actions.properties';
-import { getCurrentUser } from '@/lib/actions/actions.user';
+} from '@/lib/actions/properties.actions';
+import { getCurrentUser } from '@/lib/actions/user.actions';
 import images from '@/lib/constants/images';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
 import { ROUTES } from '@/lib/constants/paths';

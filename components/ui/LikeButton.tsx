@@ -1,7 +1,7 @@
 // modules
 import { Image, Text, TouchableOpacity } from 'react-native';
 // lib
-import { createLike, deleteLike } from '@/lib/actions/actions.properties';
+import { createLike, deleteLike } from '@/lib/actions/properties.actions';
 import icons from '@/lib/constants/icons';
 import { useLikesStore } from '@/lib/store/likes.store';
 interface LikeButtonProps {

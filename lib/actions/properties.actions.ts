@@ -1,13 +1,10 @@
 // modules
 import { ID, Permission, Query, Role } from 'react-native-appwrite';
 // lib
+import { createGallery, deleteGallery } from '@/lib/actions/galleries.actions';
 import * as Appwrite from '@/lib/services/appwrite';
+import { normalizeProperty, prepareImageForStorage } from '@/lib/tools/';
 import { uploadWithRetry } from '@/lib/utils/';
-import {
-	normalizeProperty,
-	prepareImageForStorage,
-} from '@/lib/tools/';
-import { createGallery, deleteGallery } from '@/lib/actions/actions.galleries';
 
 // HELPER
 export async function addOwnLikesToProperty(properties: any[]) {
@@ -166,7 +163,6 @@ export async function getPropertiesByIds(ids: string[]) {
 
 		// return parsedListWithLikes;
 		return parsedList;
-
 	} catch (error) {
 		console.error('getPropertiesByIds error:', error);
 		return [];

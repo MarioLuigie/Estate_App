@@ -1,8 +1,8 @@
 // modules
 import React, { createContext, ReactNode, useContext, useEffect } from 'react';
 // lib
-import { getLikesByUser } from '@/lib/actions/actions.properties';
-import { getCurrentAuthUser, getCurrentUser } from '@/lib/actions/actions.user';
+import { getLikesByUser } from '@/lib/actions/properties.actions';
+import { getCurrentAuthUser, getCurrentUser } from '@/lib/actions/user.actions';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
 import { useLikesStore } from '@/lib/store/likes.store';
 

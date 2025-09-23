@@ -1,8 +1,8 @@
 // modules
 import BookingSummary from '@/components/content/bookings/BookingSummary';
 import CustomTouchable from '@/components/ui/CustomTouchable';
-import { getMyBookings } from '@/lib/actions/actions.bookings';
-import { getPropertiesByIds } from '@/lib/actions/actions.properties';
+import { getMyBookings } from '@/lib/actions/bookings.actions';
+import { getPropertiesByIds } from '@/lib/actions/properties.actions';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';

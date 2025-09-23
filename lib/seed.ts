@@ -2,20 +2,19 @@
 import { Asset } from 'expo-asset';
 import { ID, Permission, Role } from 'react-native-appwrite';
 // lib
+import { createGallery } from '@/lib/actions/galleries.actions';
 import {
 	addImageToStorage,
 	getAddressFromCoordinates,
-} from '@/lib/actions/actions.properties';
-import {
-	createGallery,
-} from '@/lib/actions/actions.galleries';
-import {
-	config,
-	databases,
-} from '@/lib/services/appwrite';
-import { agentImages, propertiesImages, reviewImages } from '@/lib/tools/data-paths';
-import { getRandomCoordinatesNearMajorCities } from '@/lib/tools';
+} from '@/lib/actions/properties.actions';
 import { PaymentMethod, Status } from '@/lib/constants/enums';
+import { config, databases } from '@/lib/services/appwrite';
+import { getRandomCoordinatesNearMajorCities } from '@/lib/tools';
+import {
+	agentImages,
+	propertiesImages,
+	reviewImages,
+} from '@/lib/tools/data-paths';
 
 const COLLECTIONS = {
 	AGENT: config.agentsCollectionId,

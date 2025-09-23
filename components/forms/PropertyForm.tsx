@@ -23,17 +23,17 @@ import {
 	getAgents,
 	getCoordinatesFromAddress,
 	updateMyProperty,
-} from '@/lib/actions/actions.properties';
+} from '@/lib/actions/properties.actions';
+import { ActionTypes } from '@/lib/constants/enums';
+import icons from '@/lib/constants/icons';
+import { ROUTES } from '@/lib/constants/paths';
+import { useGlobalContext } from '@/lib/context/global-provider';
 import { customMapStyles } from '@/lib/tools/colorsJS';
 import {
 	facilities,
 	getPropertyFormDefaultValues,
 	types,
 } from '@/lib/tools/data';
-import { ActionTypes } from '@/lib/constants/enums';
-import icons from '@/lib/constants/icons';
-import { ROUTES } from '@/lib/constants/paths';
-import { useGlobalContext } from '@/lib/context/global-provider';
 import {
 	PropertyFormValues,
 	getPropertyFormSchema,
@@ -41,8 +41,8 @@ import {
 // components
 import PropertyMarker from '@/components/shared/PropertyMarker';
 import Select, { SelectOption } from '@/components/shared/SelectItem';
-import images from '@/lib/constants/images';
 import CustomTouchable from '@/components/ui/CustomTouchable';
+import images from '@/lib/constants/images';
 
 type PropertyFormProps = {
 	actionType: ActionTypes;

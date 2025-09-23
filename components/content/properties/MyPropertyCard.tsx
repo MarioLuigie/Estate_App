@@ -4,7 +4,7 @@ import { router } from 'expo-router';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 // lib
-import { deleteMyPropertyAtomic } from '@/lib/actions/actions.properties';
+import { deleteMyPropertyAtomic } from '@/lib/actions/properties.actions';
 import icons from '@/lib/constants/icons';
 // components
 import CustomModal from '@/components/shared/CustomModal';
@@ -75,7 +75,10 @@ export default function MyPropertyCard({
 			{/* Treść */}
 			<View className="p-4">
 				{/* Nazwa nieruchomości */}
-				<Text className="text-lg font-semibold text-black-300 mb-1" numberOfLines={1}>
+				<Text
+					className="text-lg font-semibold text-black-300 mb-1"
+					numberOfLines={1}
+				>
 					{property?.name}
 				</Text>
 

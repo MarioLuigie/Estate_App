@@ -7,7 +7,7 @@ import { RefreshControl, StyleSheet, Text, View } from 'react-native';
 import {
 	deleteAllPropertiesAtomic,
 	getMyProperties,
-} from '@/lib/actions/actions.properties';
+} from '@/lib/actions/properties.actions';
 import { ROUTES } from '@/lib/constants/paths';
 import { useGlobalContext } from '@/lib/context/global-provider';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
@@ -140,7 +140,7 @@ export default function MyPropertiesScreen() {
 					/>
 				</>
 			) : (
-				<View className='flex justify-center items-center h-full'>
+				<View className="flex justify-center items-center h-full">
 					<Text>Screen under construction</Text>
 				</View>
 			)}

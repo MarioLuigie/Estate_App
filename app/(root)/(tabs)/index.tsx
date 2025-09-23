@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import {
 	getLatestProperties,
 	getProperties,
-} from '@/lib/actions/actions.properties';
+} from '@/lib/actions/properties.actions';
 import { REC_PROPERTIES_LIMIT, TABS_HEIGHT } from '@/lib/constants/layout';
 import { useGlobalContext } from '@/lib/context/global-provider';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';

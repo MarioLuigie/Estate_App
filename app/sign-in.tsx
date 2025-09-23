@@ -15,7 +15,7 @@ import {
 	useSafeAreaInsets,
 } from 'react-native-safe-area-context';
 // lib
-import { login } from '@/lib/actions/actions.sign-in';
+import { login } from '@/lib/actions/sign-in.actions';
 import icons from '@/lib/constants/icons';
 import images from '@/lib/constants/images';
 import { ROUTES } from '@/lib/constants/paths';

@@ -1,15 +1,15 @@
 import PropertySummary from '@/components/content/properties/PropertySummary';
 import CustomTouchable from '@/components/ui/CustomTouchable';
 import Paper from '@/components/ui/Paper';
+import { getBookingsByPropertyId } from '@/lib/actions/bookings.actions';
 import {
 	getAgentById,
 	getPropertyById,
-} from '@/lib/actions/actions.properties';
-import { getBookingsByPropertyId } from '@/lib/actions/actions.bookings';
-import { colors } from '@/lib/tools/colorsJS';
+} from '@/lib/actions/properties.actions';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
 import { ROUTES } from '@/lib/constants/paths';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
+import { colors } from '@/lib/tools/colorsJS';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
