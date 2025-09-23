@@ -6,7 +6,7 @@ import icons from '@/lib/constants/icons';
 import images from '@/lib/constants/images';
 // components
 import LikeButton from '@/components/ui/LikeButton';
-import { useLikesStore } from '@/lib/store/likes-store';
+import { useLikesStore } from '@/lib/store/likes.store';
 import { useEffect } from 'react';
 
 export interface Property extends Models.Document {

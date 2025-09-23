@@ -33,7 +33,7 @@ import CustomTouchable from '@/components/ui/CustomTouchable';
 import LikeButton from '@/components/ui/LikeButton';
 import SendButton from '@/components/ui/SendButton';
 import { ContactMethod } from '@/lib/constants/enums';
-import { useLikesStore } from '@/lib/store/likes-store';
+import { useLikesStore } from '@/lib/store/likes.store';
 import { contact } from '@/lib/tools';
 
 export default function PropertyDetails() {

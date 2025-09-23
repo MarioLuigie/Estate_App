@@ -4,7 +4,7 @@ import React, { createContext, ReactNode, useContext, useEffect } from 'react';
 import { getLikesByUser } from '@/lib/actions/actions.properties';
 import { getCurrentAuthUser, getCurrentUser } from '@/lib/actions/actions.user';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
-import { useLikesStore } from '@/lib/store/likes-store';
+import { useLikesStore } from '@/lib/store/likes.store';
 
 interface GlobalContextType {
 	isLoggedIn: boolean;
