@@ -105,6 +105,7 @@ export async function logout() {
 			sessionId: 'current',
 		});
 		// throw new Error();
+		return true;
 	} catch (error) {
 		console.error('Logout error:', error);
 		throw error;

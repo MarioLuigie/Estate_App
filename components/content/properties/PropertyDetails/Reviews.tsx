@@ -2,7 +2,7 @@
 import icons from '@/lib/constants/icons';
 import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
-import Comment from '@/components/content/Comment';
+import Comment from '@/components/content/properties/Comment';
 
 type ReviewsProps = {
 	property: any;

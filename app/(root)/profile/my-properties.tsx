@@ -12,7 +12,7 @@ import { ROUTES } from '@/lib/constants/paths';
 import { useGlobalContext } from '@/lib/context/global-provider';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
 // components
-import PropertyCard from '@/components/content/PropertyCard';
+import PropertyCard from '@/components/content/properties/PropertyCard';
 import { CustomFlatList } from '@/components/shared/CustomFlatList';
 import CustomModal from '@/components/shared/CustomModal';
 import ToggleButtons from '@/components/shared/ToggleButtons';

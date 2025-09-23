@@ -1,13 +1,13 @@
 // modules
-import { router } from 'expo-router';
-import { FlatList, View } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useEffect, useState } from 'react';
-import { getPropertiesByIds } from '@/lib/actions/actions.properties';
-import { getMyBookings } from '@/lib/actions/actions.bookings';
-import BookingSummary from '@/components/content/BookingSummary';
+import BookingSummary from '@/components/content/bookings/BookingSummary';
 import CustomTouchable from '@/components/ui/CustomTouchable';
+import { getMyBookings } from '@/lib/actions/actions.bookings';
+import { getPropertiesByIds } from '@/lib/actions/actions.properties';
+import { MaterialIcons } from '@expo/vector-icons';
+import { router } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { FlatList, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function MyBookingsScreen() {
 	const insets = useSafeAreaInsets();

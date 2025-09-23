@@ -2,13 +2,13 @@
 import React from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 // components
-import Paper from '@/components/ui/Paper';
-import { formatDate } from '@/lib/utils';
-import AgentContact from './PropertySections/AgentContact';
-import { router } from 'expo-router';
-import { ROUTES } from '@/lib/constants/paths';
 import Label from '@/components/ui/Label';
+import Paper from '@/components/ui/Paper';
 import { Status } from '@/lib/constants/enums';
+import { ROUTES } from '@/lib/constants/paths';
+import { formatDate } from '@/lib/utils';
+import { router } from 'expo-router';
+import AgentContact from '../AgentContact';
 
 interface BookingSummaryProps {
 	booking: {
@@ -36,7 +36,7 @@ export default function BookingSummary({
 
 			<View className="flex flex-row items-start justify-between">
 				<View className="space-y-2">
-					<View className='flex flex-col gap-2 mb-4'>
+					<View className="flex flex-col gap-2 mb-4">
 						{/* Dates */}
 						<View className="flex-row items-center">
 							<Text className="font-semibold text-black dark:text-white w-24">

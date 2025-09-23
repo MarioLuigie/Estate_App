@@ -1,4 +1,4 @@
-import PropertySummary from '@/components/content/PropertySummary';
+import PropertySummary from '@/components/content/properties/PropertySummary';
 import CustomTouchable from '@/components/ui/CustomTouchable';
 import Paper from '@/components/ui/Paper';
 import {
