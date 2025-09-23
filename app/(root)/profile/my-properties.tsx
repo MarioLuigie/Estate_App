@@ -7,7 +7,7 @@ import { RefreshControl, StyleSheet, Text, View } from 'react-native';
 import {
 	deleteAllPropertiesAtomic,
 	getMyProperties,
-} from '@/lib/actions/appwrite';
+} from '@/lib/actions/actions.properties';
 import { ROUTES } from '@/lib/constants/paths';
 import { useGlobalContext } from '@/lib/global-provider';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';

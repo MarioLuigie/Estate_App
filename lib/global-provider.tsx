@@ -4,8 +4,10 @@ import React, { createContext, ReactNode, useContext, useEffect } from 'react';
 import {
 	getCurrentAuthUser,
 	getCurrentUser,
+} from '@/lib/actions/actions.user';
+import {
 	getLikesByUser,
-} from '@/lib/actions/appwrite';
+} from '@/lib/actions/actions.properties';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
 import { useLikesStore } from '@/lib/zustand/likes-store';
 

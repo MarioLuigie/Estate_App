@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 // lib
-import { logout } from '@/lib/actions/appwrite';
+import { logout } from '@/lib/actions/actions.sign-in';
 import { settings } from '@/lib/constants/data';
 import icons from '@/lib/constants/icons';
 import { TABS_HEIGHT } from '@/lib/constants/layout';

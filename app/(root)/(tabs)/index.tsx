@@ -2,7 +2,7 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 // lib
-import { getLatestProperties, getProperties } from '@/lib/actions/appwrite';
+import { getLatestProperties, getProperties } from '@/lib/actions/actions.properties';
 import { REC_PROPERTIES_LIMIT, TABS_HEIGHT } from '@/lib/constants/layout';
 import { useGlobalContext } from '@/lib/global-provider';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';

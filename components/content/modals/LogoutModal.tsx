@@ -1,4 +1,4 @@
-import { logout } from '@/lib/actions/appwrite';
+import { logout } from '@/lib/actions/actions.sign-in';
 import { ROUTES } from '@/lib/constants/paths';
 import { useGlobalContext } from '@/lib/global-provider';
 import { router } from 'expo-router';

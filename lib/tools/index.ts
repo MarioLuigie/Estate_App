@@ -1,5 +1,5 @@
 import { Alert, Linking } from 'react-native';
-import { countLikesForProperty } from '@/lib/actions/appwrite';
+import { countLikesForProperty } from '@/lib/actions/actions.properties';
 import { ContactMethod } from '@/lib/constants/enums';
 
 

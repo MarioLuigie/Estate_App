@@ -4,11 +4,15 @@ import { ID, Permission, Role } from 'react-native-appwrite';
 // lib
 import {
 	addImageToStorage,
-	config,
-	createGallery,
-	databases,
 	getAddressFromCoordinates,
-} from '@/lib/actions/appwrite';
+} from '@/lib/actions/actions.properties';
+import {
+	createGallery,
+} from '@/lib/actions/actions.galleries';
+import {
+	config,
+	databases,
+} from '@/lib/services/appwrite';
 import { agentImages, propertiesImages, reviewImages } from '@/lib/data';
 import { getRandomCoordinatesNearMajorCities } from '@/lib/tools';
 import { PaymentMethod, Status } from '@/lib/constants/enums';

@@ -3,7 +3,7 @@ import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 // lib
-import { getPropertyById } from '@/lib/actions/appwrite';
+import { getPropertyById } from '@/lib/actions/actions.properties';
 import { ActionTypes } from '@/lib/constants/enums';
 // components
 import PropertyForm from '@/components/forms/PropertyForm';

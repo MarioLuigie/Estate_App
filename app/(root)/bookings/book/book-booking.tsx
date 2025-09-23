@@ -3,9 +3,9 @@ import CustomTouchable from '@/components/ui/CustomTouchable';
 import Paper from '@/components/ui/Paper';
 import {
 	getAgentById,
-	getBookingsByPropertyId,
 	getPropertyById,
-} from '@/lib/actions/appwrite';
+} from '@/lib/actions/actions.properties';
+import { getBookingsByPropertyId } from '@/lib/actions/actions.bookings';
 import { colors } from '@/lib/colorsJS';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
 import { ROUTES } from '@/lib/constants/paths';

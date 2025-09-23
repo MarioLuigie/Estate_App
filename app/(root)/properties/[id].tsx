@@ -12,10 +12,12 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 // lib
 import {
-	getAgentById,
 	getCurrentUser,
+} from '@/lib/actions/actions.user';
+import {
+	getAgentById,
 	getPropertyById,
-} from '@/lib/actions/appwrite';
+} from '@/lib/actions/actions.properties';
 import images from '@/lib/constants/images';
 import { useGlobalContext } from '@/lib/global-provider';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
@@ -33,7 +35,7 @@ import CustomTouchable from '@/components/ui/CustomTouchable';
 import { useLikesStore } from '@/lib/zustand/likes-store';
 import LikeButton from '@/components/ui/LikeButton';
 import SendButton from '@/components/ui/SendButton';
-import { contact, featureNotAvailable } from '@/lib/tools';
+import { contact } from '@/lib/tools';
 import { ContactMethod } from '@/lib/constants/enums';
 
 export default function PropertyDetails() {

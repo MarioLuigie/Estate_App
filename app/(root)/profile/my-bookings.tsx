@@ -4,7 +4,8 @@ import { FlatList, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useEffect, useState } from 'react';
-import { getMyBookings, getPropertiesByIds } from '@/lib/actions/appwrite';
+import { getPropertiesByIds } from '@/lib/actions/actions.properties';
+import { getMyBookings } from '@/lib/actions/actions.bookings';
 import BookingSummary from '@/components/content/BookingSummary';
 import CustomTouchable from '@/components/ui/CustomTouchable';
 

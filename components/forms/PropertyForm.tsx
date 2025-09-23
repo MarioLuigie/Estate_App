@@ -23,7 +23,7 @@ import {
 	getAgents,
 	getCoordinatesFromAddress,
 	updateMyProperty,
-} from '@/lib/actions/appwrite';
+} from '@/lib/actions/actions.properties';
 import { customMapStyles } from '@/lib/colorsJS';
 import {
 	facilities,

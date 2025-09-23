@@ -28,7 +28,7 @@ export default function BookingSummary({
 	return (
 		<Paper>
 			<Text
-				className="text-black-300 text-xl font-rubik-bold pb-3"
+				className="text-black-200 text-xl font-rubik-bold pb-2"
 				numberOfLines={1}
 			>
 				{property?.name}
@@ -36,7 +36,7 @@ export default function BookingSummary({
 
 			<View className="flex flex-row items-start justify-between">
 				<View className="space-y-2">
-					<View className='flex flex-col gap-2 mb-6'>
+					<View className='flex flex-col gap-2 mb-4'>
 						{/* Dates */}
 						<View className="flex-row items-center">
 							<Text className="font-semibold text-black dark:text-white w-24">
@@ -69,7 +69,7 @@ export default function BookingSummary({
 						</View>
 					</View>
 
-					<View className="flex- flex-row justify-between items-center bg-red-300 w-full">
+					<View className="flex- flex-row justify-between items-center w-full">
 						<View>
 							{/* Total Price */}
 							<View className="flex-row">
@@ -102,7 +102,7 @@ export default function BookingSummary({
 								source={{ uri: property?.image[0].image.url }}
 								className="w-full h-full rounded-xl"
 								resizeMode="cover"
-								style={{ opacity: 0.5 }}
+								style={{ opacity: 0.8 }}
 							/>
 						</TouchableOpacity>
 					</View>

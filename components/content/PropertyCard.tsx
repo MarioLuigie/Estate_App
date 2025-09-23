@@ -4,7 +4,7 @@ import { router } from 'expo-router';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 // lib
-import { deleteMyPropertyAtomic } from '@/lib/actions/appwrite';
+import { deleteMyPropertyAtomic } from '@/lib/actions/actions.properties';
 import icons from '@/lib/constants/icons';
 // components
 import CustomModal from '@/components/shared/CustomModal';
