@@ -2,15 +2,15 @@
 import React from 'react';
 import {
 	StyleProp,
-	TextStyle,
-	ViewStyle,
-	Text,
-	TouchableOpacity,
 	StyleSheet,
+	Text,
+	TextStyle,
+	TouchableOpacity,
 	TouchableOpacityProps,
+	ViewStyle,
 } from 'react-native';
 // lib
-import { colors } from '@/lib/tools/colorsJS';
+import { colors } from '@/lib/tools/colors-js';
 
 type CustomTouchableProps = {
 	title?: string;

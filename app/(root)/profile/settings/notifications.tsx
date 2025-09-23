@@ -1,13 +1,13 @@
 // modules
-import { colors } from '@/lib/tools/colorsJS';
+import { colors } from '@/lib/tools/colors-js';
 import React, { useState } from 'react';
 import {
-	ScrollView,
-	Text,
-	View,
-	Switch,
-	TouchableOpacity,
 	Alert,
+	ScrollView,
+	Switch,
+	Text,
+	TouchableOpacity,
+	View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 

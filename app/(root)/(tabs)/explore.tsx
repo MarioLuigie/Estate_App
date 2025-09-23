@@ -6,7 +6,7 @@ import { getProperties } from '@/lib/actions/properties.actions';
 import icons from '@/lib/constants/icons';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
-import { customMapStyles } from '@/lib/tools/colorsJS';
+import { customMapStyles } from '@/lib/tools/colors-js';
 // components
 import { Card } from '@/components/content/properties/PropertyCards';
 import EmptyState from '@/components/shared/EmptyState';

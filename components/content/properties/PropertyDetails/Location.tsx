@@ -1,9 +1,9 @@
 // modules
 import PropertyMarker from '@/components/shared/PropertyMarker';
-import { customMapStyles } from '@/lib/tools/colorsJS';
 import icons from '@/lib/constants/icons';
+import { customMapStyles } from '@/lib/tools/colors-js';
 import React from 'react';
-import { View, Text, Image, ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Image, Text, View } from 'react-native';
 import MapView from 'react-native-maps';
 
 type LocationProps = {

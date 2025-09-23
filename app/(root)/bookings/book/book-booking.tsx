@@ -9,7 +9,7 @@ import {
 import { TABS_HEIGHT } from '@/lib/constants/layout';
 import { ROUTES } from '@/lib/constants/paths';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
-import { colors } from '@/lib/tools/colorsJS';
+import { colors } from '@/lib/tools/colors-js';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';

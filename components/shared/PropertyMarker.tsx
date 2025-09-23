@@ -1,8 +1,8 @@
 // modules
-import { View, StyleSheet, Image } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import { Marker } from 'react-native-maps';
 // lib
-import { colors } from '@/lib/tools/colorsJS';
+import { colors } from '@/lib/tools/colors-js';
 
 export default function PropertyMarker({
 	settings,
@@ -31,7 +31,7 @@ export default function PropertyMarker({
 							style={styles.markerImage}
 						/>
 					) : (
-						<View className='w-[50px] h-[50px] bg-primary-300 rounded-full'></View>
+						<View className="w-[50px] h-[50px] bg-primary-300 rounded-full"></View>
 					)}
 				</View>
 

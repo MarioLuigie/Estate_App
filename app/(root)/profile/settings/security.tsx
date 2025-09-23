@@ -1,15 +1,15 @@
 // modules
 import CustomTouchable from '@/components/ui/CustomTouchable';
-import { colors } from '@/lib/tools/colorsJS';
+import { colors } from '@/lib/tools/colors-js';
 import React, { useState } from 'react';
 import {
+	Alert,
 	ScrollView,
+	Switch,
 	Text,
-	View,
 	TextInput,
 	TouchableOpacity,
-	Alert,
-	Switch,
+	View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
