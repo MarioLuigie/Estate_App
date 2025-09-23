@@ -13,8 +13,11 @@ import seed from '@/lib/seed';
 import { featureNotAvailable } from '@/lib/tools';
 import { getTimeGreeting } from '@/lib/utils';
 // components
+import {
+	Card,
+	FeaturedCard,
+} from '@/components/content/properties/PropertyCards';
 import Avatar from '@/components/shared/Avatar';
-import { Card, FeaturedCard } from '@/components/shared/Cards';
 import EmptyState from '@/components/shared/EmptyState';
 import Filters from '@/components/shared/Filters';
 import Search from '@/components/shared/Search';

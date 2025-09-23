@@ -3,12 +3,12 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 // lib
 import { getProperties } from '@/lib/actions/actions.properties';
-import { customMapStyles } from '@/lib/tools/colorsJS';
 import icons from '@/lib/constants/icons';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
+import { customMapStyles } from '@/lib/tools/colorsJS';
 // components
-import { Card } from '@/components/shared/Cards';
+import { Card } from '@/components/content/properties/PropertyCards';
 import EmptyState from '@/components/shared/EmptyState';
 import Filters from '@/components/shared/Filters';
 import FoundCounter from '@/components/shared/FoundCounter';
@@ -104,7 +104,12 @@ export default function Explore() {
 			</View>
 
 			<View className="px-5 mt-2">
-				<ToggleButtons value={showMap} onChange={setShowMap} primaryLabel='List' secondaryLabel='Map'/>
+				<ToggleButtons
+					value={showMap}
+					onChange={setShowMap}
+					primaryLabel="List"
+					secondaryLabel="Map"
+				/>
 			</View>
 
 			{/* FOUNDED PROPERTIES */}
