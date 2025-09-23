@@ -24,12 +24,12 @@ import {
 	getCoordinatesFromAddress,
 	updateMyProperty,
 } from '@/lib/actions/actions.properties';
-import { customMapStyles } from '@/lib/colorsJS';
+import { customMapStyles } from '@/lib/tools/colorsJS';
 import {
 	facilities,
 	getPropertyFormDefaultValues,
 	types,
-} from '@/lib/constants/data';
+} from '@/lib/tools/data';
 import { ActionTypes } from '@/lib/constants/enums';
 import icons from '@/lib/constants/icons';
 import { ROUTES } from '@/lib/constants/paths';
@@ -42,7 +42,7 @@ import {
 import PropertyMarker from '@/components/shared/PropertyMarker';
 import Select, { SelectOption } from '@/components/shared/SelectItem';
 import images from '@/lib/constants/images';
-import CustomTouchable from '../ui/CustomTouchable';
+import CustomTouchable from '@/components/ui/CustomTouchable';
 
 type PropertyFormProps = {
 	actionType: ActionTypes;
