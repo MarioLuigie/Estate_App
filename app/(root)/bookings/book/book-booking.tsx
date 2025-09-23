@@ -139,27 +139,62 @@ export default function BookBooking() {
 	// };
 
 	// oznaczenia w kalendarzu
-	const markedDates = {
+	// const markedDates = {
+	// 	...blockedDates,
+	// 	...(selectedRange.start
+	// 		? {
+	// 				[selectedRange.start]: {
+	// 					startingDay: true,
+	// 					color: colors.primary[300],
+	// 					textColor: 'white',
+	// 				},
+	// 			}
+	// 		: {}),
+	// 	...(selectedRange.end
+	// 		? {
+	// 				[selectedRange.end]: {
+	// 					endingDay: true,
+	// 					color: colors.primary[300],
+	// 					textColor: 'white',
+	// 				},
+	// 			}
+	// 		: {}),
+	// };
+
+	// oznaczenia w kalendarzu z pełnym zakresem
+	const markedDates: Record<string, any> = {
 		...blockedDates,
-		...(selectedRange.start
-			? {
-					[selectedRange.start]: {
-						startingDay: true,
-						color: colors.primary[300],
-						textColor: 'white',
-					},
-				}
-			: {}),
-		...(selectedRange.end
-			? {
-					[selectedRange.end]: {
-						endingDay: true,
-						color: colors.primary[300],
-						textColor: 'white',
-					},
-				}
-			: {}),
 	};
+
+	if (selectedRange.start) {
+		markedDates[selectedRange.start] = {
+			startingDay: true,
+			color: colors.primary[300],
+			textColor: 'white',
+		};
+	}
+
+	if (selectedRange.end) {
+		markedDates[selectedRange.end] = {
+			endingDay: true,
+			color: colors.primary[300],
+			textColor: 'white',
+		};
+
+		// oznaczenie dni pomiędzy
+		let current = new Date(selectedRange.start!);
+		const end = new Date(selectedRange.end);
+		current.setDate(current.getDate() + 1); // dzień po starcie
+
+		while (current < end) {
+			const key = current.toISOString().split('T')[0];
+			markedDates[key] = {
+				color: colors.primary[300],
+				textColor: 'white',
+			};
+			current.setDate(current.getDate() + 1);
+		}
+	}
 
 	return (
 		<View className="flex-1 relative">
@@ -219,7 +254,7 @@ export default function BookBooking() {
 					</View>
 
 					<CustomTouchable
-						title="Payment"
+						title="Checkout"
 						onPress={() =>
 							router.push({
 								pathname: ROUTES.BOOKINGS_BOOK_BOOKING,

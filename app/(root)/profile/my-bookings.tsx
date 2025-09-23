@@ -47,7 +47,7 @@ export default function MyBookingsScreen() {
 		<View className="flex-1 bg-white px-5 py-4">
 			<CustomTouchable
 				onPress={() => router.push('/explore')}
-				title="Book more properties"
+				title="Book More"
 				icon={<MaterialIcons name="search" size={24} color="white" />}
 				containerStyle={{ marginBottom: 32 }}
 			/>

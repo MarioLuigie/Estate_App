@@ -114,7 +114,7 @@ export default memo(function Label({
 
 	// derive defaults
 	const defaultBg =
-		backgroundColor ?? (variant === 'solid' ? '#f0f0f0' : 'transparent'); // dark gray fallback
+		backgroundColor ?? (variant === 'solid' ? '#f3f3f3' : 'transparent'); // dark gray fallback
 	const defaultBorder =
 		borderColor ?? (variant === 'outline' ? '#D1D5DB' : 'transparent');
 	const defaultText =
