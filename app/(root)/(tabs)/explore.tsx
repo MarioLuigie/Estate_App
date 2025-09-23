@@ -3,7 +3,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 // lib
 import { getProperties } from '@/lib/actions/actions.properties';
-import { customMapStyles } from '@/lib/colorsJS';
+import { customMapStyles } from '@/lib/tools/colorsJS';
 import icons from '@/lib/constants/icons';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';

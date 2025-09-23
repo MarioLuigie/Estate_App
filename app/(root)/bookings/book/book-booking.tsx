@@ -6,7 +6,7 @@ import {
 	getPropertyById,
 } from '@/lib/actions/actions.properties';
 import { getBookingsByPropertyId } from '@/lib/actions/actions.bookings';
-import { colors } from '@/lib/colorsJS';
+import { colors } from '@/lib/tools/colorsJS';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
 import { ROUTES } from '@/lib/constants/paths';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
