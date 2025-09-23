@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { PaymentMethod } from '@/lib/constants/enums';
 
 interface BookingStore {
 	startDate?: string;
@@ -6,10 +7,10 @@ interface BookingStore {
 	fullname: string;
 	email: string;
 	phone: string;
-	paymentMethod?: 'paypal' | 'card';
+	paymentMethod?: PaymentMethod.PAYPAL | 'card';
 	setDates: (start: string, end: string) => void;
 	setUserData: (fullname: string, email: string, phone: string) => void;
-	setPaymentMethod: (method: 'paypal' | 'card') => void;
+	setPaymentMethod: (method: PaymentMethod.PAYPAL | 'card') => void;
 	reset: () => void;
 }
 
