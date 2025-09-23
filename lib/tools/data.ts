@@ -1,8 +1,8 @@
 // lib
-import { ActionTypes } from './enums';
-import icons from './icons';
-import images from './images';
-import { ROUTES } from './paths';
+import { ActionTypes } from '@/lib/constants/enums';
+import icons from '@/lib/constants/icons';
+import images from '@/lib/constants/images';
+import { ROUTES } from '@/lib/constants/paths';
 
 export const cards = [
 	{
