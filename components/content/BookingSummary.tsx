@@ -3,7 +3,7 @@ import React from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 // components
 import Paper from '@/components/ui/Paper';
-import { formatDate } from '@/lib/tools';
+import { formatDate } from '@/lib/utils';
 import AgentContact from './PropertySections/AgentContact';
 import { router } from 'expo-router';
 import { ROUTES } from '@/lib/constants/paths';

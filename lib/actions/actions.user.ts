@@ -6,7 +6,7 @@ import {
 import * as Appwrite from '@/lib/services/appwrite';
 import {
   arrayBufferToBase64,
-} from '@/lib/tools/';
+} from '@/lib/utils/';
 
 // READ USER
 export async function getCurrentAuthUser() {

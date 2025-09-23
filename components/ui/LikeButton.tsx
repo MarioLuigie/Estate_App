@@ -3,7 +3,7 @@ import { Image, Text, TouchableOpacity } from 'react-native';
 // lib
 import { createLike, deleteLike } from '@/lib/actions/actions.properties';
 import icons from '@/lib/constants/icons';
-import { useLikesStore } from '@/lib/zustand/likes-store';
+import { useLikesStore } from '@/lib/store/likes-store';
 interface LikeButtonProps {
 	propertyId: string;
 }

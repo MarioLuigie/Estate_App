@@ -33,8 +33,8 @@ import CustomTouchable from '@/components/ui/CustomTouchable';
 import LikeButton from '@/components/ui/LikeButton';
 import SendButton from '@/components/ui/SendButton';
 import { ContactMethod } from '@/lib/constants/enums';
+import { useLikesStore } from '@/lib/store/likes-store';
 import { contact } from '@/lib/tools';
-import { useLikesStore } from '@/lib/zustand/likes-store';
 
 export default function PropertyDetails() {
 	const { id } = useLocalSearchParams<{ id?: string }>();

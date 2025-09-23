@@ -1,13 +1,13 @@
 // modules
+import { Dimensions, Image, Text, TouchableOpacity, View } from 'react-native';
 import { Models } from 'react-native-appwrite';
-import { Image, Text, TouchableOpacity, View, Dimensions } from 'react-native';
 // lib
 import icons from '@/lib/constants/icons';
 import images from '@/lib/constants/images';
 // components
 import LikeButton from '@/components/ui/LikeButton';
+import { useLikesStore } from '@/lib/store/likes-store';
 import { useEffect } from 'react';
-import { useLikesStore } from '@/lib/zustand/likes-store';
 
 export interface Property extends Models.Document {
 	image: { image: { url: string; fileId: string } }[];
@@ -27,11 +27,11 @@ export function FeaturedCard({ property, onPress }: Props) {
 	const { name, price, rating, address, image, $id, likes } =
 		property as unknown as Property;
 
-  const initCount = useLikesStore((s) => s.initCount);
+	const initCount = useLikesStore((s) => s.initCount);
 
-  useEffect(() => {
-    initCount($id, likes); // wrzuć initial count do store
-  }, [$id, likes, initCount]);
+	useEffect(() => {
+		initCount($id, likes); // wrzuć initial count do store
+	}, [$id, likes, initCount]);
 
 	return (
 		<TouchableOpacity
@@ -73,9 +73,7 @@ export function FeaturedCard({ property, onPress }: Props) {
 					<Text className="text-xl font-rubik-extrabold text-white">
 						${price}
 					</Text>
-					<LikeButton
-						propertyId={$id}
-					/>
+					<LikeButton propertyId={$id} />
 				</View>
 			</View>
 		</TouchableOpacity>
@@ -91,11 +89,11 @@ export function Card({ property, onPress }: Props) {
 	const { name, price, rating, address, image, $id, likes } =
 		property as unknown as Property;
 
-  const initCount = useLikesStore((s) => s.initCount);
+	const initCount = useLikesStore((s) => s.initCount);
 
-  useEffect(() => {
-    initCount($id, likes); // wrzuć initial count do store
-  }, [$id, likes, initCount]);
+	useEffect(() => {
+		initCount($id, likes); // wrzuć initial count do store
+	}, [$id, likes, initCount]);
 
 	return (
 		<TouchableOpacity
@@ -118,9 +116,15 @@ export function Card({ property, onPress }: Props) {
 			/>
 
 			{/* INFOS */}
-			<View className="flex flex-col mt-2 justify-between" style={{minHeight: 85}}>
+			<View
+				className="flex flex-col mt-2 justify-between"
+				style={{ minHeight: 85 }}
+			>
 				<View>
-					<Text className="text-base font-rubik-bold text-black-300" numberOfLines={1}>
+					<Text
+						className="text-base font-rubik-bold text-black-300"
+						numberOfLines={1}
+					>
 						{name}
 					</Text>
 					<Text
@@ -135,9 +139,7 @@ export function Card({ property, onPress }: Props) {
 					<Text className="text-base font-rubik-bold text-primary-300">
 						${price}
 					</Text>
-					<LikeButton
-						propertyId={$id}
-					/>
+					<LikeButton propertyId={$id} />
 				</View>
 			</View>
 		</TouchableOpacity>

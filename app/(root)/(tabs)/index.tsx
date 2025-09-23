@@ -10,7 +10,8 @@ import { REC_PROPERTIES_LIMIT, TABS_HEIGHT } from '@/lib/constants/layout';
 import { useGlobalContext } from '@/lib/context/global-provider';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
 import seed from '@/lib/seed';
-import { featureNotAvailable, getTimeGreeting } from '@/lib/tools';
+import { featureNotAvailable } from '@/lib/tools';
+import { getTimeGreeting } from '@/lib/utils';
 // components
 import Avatar from '@/components/shared/Avatar';
 import { Card, FeaturedCard } from '@/components/shared/Cards';

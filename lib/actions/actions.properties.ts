@@ -2,10 +2,10 @@
 import { ID, Permission, Query, Role } from 'react-native-appwrite';
 // lib
 import * as Appwrite from '@/lib/services/appwrite';
+import { uploadWithRetry } from '@/lib/utils/';
 import {
 	normalizeProperty,
 	prepareImageForStorage,
-	uploadWithRetry,
 	addOwnLikesToProperty,
 } from '@/lib/tools/';
 import { createGallery, deleteGallery } from '@/lib/actions/actions.galleries';
@@ -629,17 +629,6 @@ async function deleteImageFromStorageWithRetry(
 	return false;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 export async function countLikesForProperty(propertyId: string) {
 	try {
 		const result = await Appwrite.databases.listDocuments(
@@ -656,17 +645,6 @@ export async function countLikesForProperty(propertyId: string) {
 		return 0;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
 
 export async function deleteLike(likeId: string) {
 	try {
@@ -705,5 +683,3 @@ export async function deleteLikes(likes: any[]) {
 		return { success: false, error };
 	}
 }
-
-

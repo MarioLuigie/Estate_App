@@ -1,15 +1,10 @@
 // modules
 import React, { createContext, ReactNode, useContext, useEffect } from 'react';
 // lib
-import {
-	getCurrentAuthUser,
-	getCurrentUser,
-} from '@/lib/actions/actions.user';
-import {
-	getLikesByUser,
-} from '@/lib/actions/actions.properties';
+import { getLikesByUser } from '@/lib/actions/actions.properties';
+import { getCurrentAuthUser, getCurrentUser } from '@/lib/actions/actions.user';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
-import { useLikesStore } from '@/lib/zustand/likes-store';
+import { useLikesStore } from '@/lib/store/likes-store';
 
 interface GlobalContextType {
 	isLoggedIn: boolean;

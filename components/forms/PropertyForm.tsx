@@ -37,7 +37,7 @@ import { useGlobalContext } from '@/lib/context/global-provider';
 import {
 	PropertyFormValues,
 	getPropertyFormSchema,
-} from '@/lib/utils/validators';
+} from '@/lib/validators/validators';
 // components
 import PropertyMarker from '@/components/shared/PropertyMarker';
 import Select, { SelectOption } from '@/components/shared/SelectItem';
