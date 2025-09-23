@@ -140,7 +140,9 @@ export default function MyPropertiesScreen() {
 					/>
 				</>
 			) : (
-				<View></View>
+				<View className='flex justify-center items-center h-full'>
+					<Text>Screen under construction</Text>
+				</View>
 			)}
 
 			<CustomModal
