@@ -13,7 +13,7 @@ import {
 	config,
 	databases,
 } from '@/lib/services/appwrite';
-import { agentImages, propertiesImages, reviewImages } from '@/lib/data';
+import { agentImages, propertiesImages, reviewImages } from '@/lib/tools/data-paths';
 import { getRandomCoordinatesNearMajorCities } from '@/lib/tools';
 import { PaymentMethod, Status } from '@/lib/constants/enums';
 
