@@ -132,18 +132,18 @@ export function normalizeProperty(doc: any) {
 	};
 }
 
-export async function addOwnLikesToProperty(properties: any[]) {
-	try {
-		return await Promise.all(
-			properties.map(async (p) => {
-				const likesCount = await countLikesForProperty(p.$id);
-				return { ...p, likes: likesCount };
-			})
-		);
-	} catch (error) {
-		console.error(`Problem with adding likes into property id`, error);
-	}
-}
+// export async function addOwnLikesToProperty(properties: any[]) {
+// 	try {
+// 		return await Promise.all(
+// 			properties.map(async (p) => {
+// 				const likesCount = await countLikesForProperty(p.$id);
+// 				return { ...p, likes: likesCount };
+// 			})
+// 		);
+// 	} catch (error) {
+// 		console.error(`Problem with adding likes into property id`, error);
+// 	}
+// }
 
 export function featureNotAvailable(title?: string) {
 	const messageTitle = title ? `-> ${title}` : '';

@@ -6,9 +6,41 @@ import { uploadWithRetry } from '@/lib/utils/';
 import {
 	normalizeProperty,
 	prepareImageForStorage,
-	addOwnLikesToProperty,
 } from '@/lib/tools/';
 import { createGallery, deleteGallery } from '@/lib/actions/actions.galleries';
+
+// HELPER
+export async function addOwnLikesToProperty(properties: any[]) {
+	try {
+		if (!properties.length) return [];
+
+		// 1. Zbierz wszystkie ID property
+		const propertyIds = properties.map((p) => p.$id);
+
+		// 2. Pobierz wszystkie lajki dla tych ID jednym zapytaniem
+		const likesResult = await Appwrite.databases.listDocuments(
+			Appwrite.config.databaseId!,
+			Appwrite.config.likesCollectionId!,
+			[Query.equal('property', propertyIds)] // Query.in -> Appwrite automatycznie przyjmuje array
+		);
+
+		// 3. Policz lajki per propertyId
+		const likesCountMap: Record<string, number> = {};
+		likesResult.documents.forEach((doc) => {
+			const pid = doc.property;
+			likesCountMap[pid] = (likesCountMap[pid] || 0) + 1;
+		});
+
+		// 4. Wzbogac properties o liczbę lajków
+		return properties.map((p) => ({
+			...p,
+			likes: likesCountMap[p.$id] || 0,
+		}));
+	} catch (error) {
+		console.error(`Problem with adding likes into property`, error);
+		return properties.map((p) => ({ ...p, likes: 0 }));
+	}
+}
 
 // READ PROPERTIES
 export async function getProperties({
@@ -112,6 +144,7 @@ export async function getPropertyById({ id }: { id: string }) {
 	}
 }
 
+// For bookings list - dosnt need likes for displaying - remove addOwnLikesToProperty for optimalization request
 export async function getPropertiesByIds(ids: string[]) {
 	if (!ids || ids.length === 0) return [];
 
@@ -129,9 +162,11 @@ export async function getPropertiesByIds(ids: string[]) {
 
 		const parsedList = result?.documents.map(normalizeProperty);
 
-		const parsedListWithLikes = await addOwnLikesToProperty(parsedList);
+		// const parsedListWithLikes = await addOwnLikesToProperty(parsedList);
 
-		return parsedListWithLikes;
+		// return parsedListWithLikes;
+		return parsedList;
+
 	} catch (error) {
 		console.error('getPropertiesByIds error:', error);
 		return [];
