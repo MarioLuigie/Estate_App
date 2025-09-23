@@ -12,16 +12,14 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 // lib
 import {
-	getCurrentUser,
-} from '@/lib/actions/actions.user';
-import {
 	getAgentById,
 	getPropertyById,
 } from '@/lib/actions/actions.properties';
+import { getCurrentUser } from '@/lib/actions/actions.user';
 import images from '@/lib/constants/images';
-import { useGlobalContext } from '@/lib/global-provider';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
 import { ROUTES } from '@/lib/constants/paths';
+import { useGlobalContext } from '@/lib/context/global-provider';
 // components
 import AgentContact from '@/components/content/PropertySections/AgentContact';
 import Facilities from '@/components/content/PropertySections/Facilities';
@@ -32,11 +30,11 @@ import Overview from '@/components/content/PropertySections/Overview';
 import Reviews from '@/components/content/PropertySections/Reviews';
 import NavigateBack from '@/components/shared/NavigateBack';
 import CustomTouchable from '@/components/ui/CustomTouchable';
-import { useLikesStore } from '@/lib/zustand/likes-store';
 import LikeButton from '@/components/ui/LikeButton';
 import SendButton from '@/components/ui/SendButton';
-import { contact } from '@/lib/tools';
 import { ContactMethod } from '@/lib/constants/enums';
+import { contact } from '@/lib/tools';
+import { useLikesStore } from '@/lib/zustand/likes-store';
 
 export default function PropertyDetails() {
 	const { id } = useLocalSearchParams<{ id?: string }>();
@@ -132,7 +130,12 @@ export default function PropertyDetails() {
 								<View className="flex flex-row items-center gap-4">
 									<LikeButton propertyId={property.$id} />
 									<SendButton
-										onPress={() => contact({ type: ContactMethod.EMAIL, value: agent.email})}
+										onPress={() =>
+											contact({
+												type: ContactMethod.EMAIL,
+												value: agent.email,
+											})
+										}
 									/>
 								</View>
 							</View>

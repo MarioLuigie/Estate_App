@@ -19,7 +19,7 @@ import { login } from '@/lib/actions/actions.sign-in';
 import icons from '@/lib/constants/icons';
 import images from '@/lib/constants/images';
 import { ROUTES } from '@/lib/constants/paths';
-import { useGlobalContext } from '@/lib/global-provider';
+import { useGlobalContext } from '@/lib/context/global-provider';
 
 export default function SignIn() {
 	const { isLoggedIn, loading, refetch } = useGlobalContext();

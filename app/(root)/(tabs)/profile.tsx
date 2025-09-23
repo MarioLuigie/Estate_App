@@ -18,7 +18,7 @@ import { settings } from '@/lib/constants/data';
 import icons from '@/lib/constants/icons';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
 import { ROUTES } from '@/lib/constants/paths';
-import { useGlobalContext } from '@/lib/global-provider';
+import { useGlobalContext } from '@/lib/context/global-provider';
 // components
 import CustomModal from '@/components/shared/CustomModal';
 import NotifBellButton from '@/components/ui/NotifBellButton';

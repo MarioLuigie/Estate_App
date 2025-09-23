@@ -1,6 +1,6 @@
 import { logout } from '@/lib/actions/actions.sign-in';
 import { ROUTES } from '@/lib/constants/paths';
-import { useGlobalContext } from '@/lib/global-provider';
+import { useGlobalContext } from '@/lib/context/global-provider';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {

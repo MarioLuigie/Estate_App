@@ -9,14 +9,14 @@ import {
 	getMyProperties,
 } from '@/lib/actions/actions.properties';
 import { ROUTES } from '@/lib/constants/paths';
-import { useGlobalContext } from '@/lib/global-provider';
+import { useGlobalContext } from '@/lib/context/global-provider';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
 // components
 import PropertyCard from '@/components/content/PropertyCard';
 import { CustomFlatList } from '@/components/shared/CustomFlatList';
 import CustomModal from '@/components/shared/CustomModal';
-import CustomTouchable from '@/components/ui/CustomTouchable';
 import ToggleButtons from '@/components/shared/ToggleButtons';
+import CustomTouchable from '@/components/ui/CustomTouchable';
 
 export default function MyPropertiesScreen() {
 	const { authUser } = useGlobalContext();

@@ -2,9 +2,12 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 // lib
-import { getLatestProperties, getProperties } from '@/lib/actions/actions.properties';
+import {
+	getLatestProperties,
+	getProperties,
+} from '@/lib/actions/actions.properties';
 import { REC_PROPERTIES_LIMIT, TABS_HEIGHT } from '@/lib/constants/layout';
-import { useGlobalContext } from '@/lib/global-provider';
+import { useGlobalContext } from '@/lib/context/global-provider';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
 import seed from '@/lib/seed';
 import { featureNotAvailable, getTimeGreeting } from '@/lib/tools';
@@ -15,6 +18,7 @@ import EmptyState from '@/components/shared/EmptyState';
 import Filters from '@/components/shared/Filters';
 import Search from '@/components/shared/Search';
 import NotifBellButton from '@/components/ui/NotifBellButton';
+import { ROUTES } from '@/lib/constants/paths';
 import {
 	Button,
 	FlatList,
@@ -25,7 +29,6 @@ import {
 	View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ROUTES } from '@/lib/constants/paths';
 
 export default function Home() {
 	const { authUser } = useGlobalContext();

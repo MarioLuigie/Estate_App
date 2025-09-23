@@ -33,7 +33,7 @@ import {
 import { ActionTypes } from '@/lib/constants/enums';
 import icons from '@/lib/constants/icons';
 import { ROUTES } from '@/lib/constants/paths';
-import { useGlobalContext } from '@/lib/global-provider';
+import { useGlobalContext } from '@/lib/context/global-provider';
 import {
 	PropertyFormValues,
 	getPropertyFormSchema,
