@@ -12,7 +12,7 @@ import { ROUTES } from '@/lib/constants/paths';
 import { useGlobalContext } from '@/lib/context/global-provider';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
 // components
-import PropertyCard from '@/components/content/properties/PropertyCard';
+import MyPropertyCard from '@/components/content/properties/MyPropertyCard';
 import { CustomFlatList } from '@/components/shared/CustomFlatList';
 import CustomModal from '@/components/shared/CustomModal';
 import ToggleButtons from '@/components/shared/ToggleButtons';
@@ -128,7 +128,7 @@ export default function MyPropertiesScreen() {
 							/>
 						}
 						renderItem={(item, isGrid) => (
-							<PropertyCard
+							<MyPropertyCard
 								property={item}
 								onPress={() => {
 									router.push(`${ROUTES.PROPERTIES}/${item?.$id}`);

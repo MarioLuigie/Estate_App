@@ -11,19 +11,19 @@ import CustomModal from '@/components/shared/CustomModal';
 import IconButton from '@/components/ui/IconButton';
 import { ROUTES } from '@/lib/constants/paths';
 
-interface PropertyCardProps {
+interface MyPropertyCardProps {
 	property: any;
 	onPress: () => void;
 	isGrid?: boolean;
 	setCardDeleted?: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function PropertyCard({
+export default function MyPropertyCard({
 	property,
 	onPress,
 	isGrid,
 	setCardDeleted,
-}: PropertyCardProps) {
+}: MyPropertyCardProps) {
 	const [deleteVisible, setDeleteVisible] = useState<boolean>(false);
 
 	const handleEdit = () => {
