@@ -33,7 +33,7 @@ export default function BookBooking() {
 		end?: string;
 	}>({});
 
-	console.log('add-booking.tsx', selectedRange);
+	// console.log('book-booking.tsx', selectedRange);
 
 	// pobranie agenta
 	useEffect(() => {

@@ -1,7 +1,6 @@
 // modules
 import CustomTouchable from '@/components/ui/CustomTouchable';
-import { colors } from '@/lib/colorsJS';
-import { DEFAULT_SUPPORT_EMAIL } from '@/lib/constants/data';
+import { DEFAULT_SUPPORT_EMAIL } from '@/lib/tools/data';
 import React, { useState } from 'react';
 import {
 	ScrollView,

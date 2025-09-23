@@ -5,6 +5,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 // lib
 import { GlobalProvider } from '@/lib/context/global-provider';
+// import "@/lib/services/fetchLogger";
 // styles
 import './globals.css';
 

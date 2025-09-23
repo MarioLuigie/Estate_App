@@ -1,5 +1,5 @@
 // modules
-import { colors } from '@/lib/colorsJS';
+import { colors } from '@/lib/tools/colorsJS';
 import React, { useState } from 'react';
 import {
 	ScrollView,

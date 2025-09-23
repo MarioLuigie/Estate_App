@@ -3,7 +3,7 @@ import React from 'react';
 import { View, Text, Image } from 'react-native';
 // lib
 import icons from '@/lib/constants/icons';
-import { facilities } from '@/lib/constants/data';
+import { facilities } from '@/lib/tools/data';
 
 type FacilitiesProps = {
 	property: any;

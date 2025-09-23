@@ -8,10 +8,9 @@ import {
 	TouchableOpacity,
 	StyleSheet,
 	TouchableOpacityProps,
-	View,
 } from 'react-native';
 // lib
-import { colors } from '@/lib/colorsJS';
+import { colors } from '@/lib/tools/colorsJS';
 
 type CustomTouchableProps = {
 	title?: string;

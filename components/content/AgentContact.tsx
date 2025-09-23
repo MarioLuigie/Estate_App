@@ -3,9 +3,9 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 // lib
 import icons from '@/lib/constants/icons';
-import { contact, featureNotAvailable } from '@/lib/tools';
+import { contact } from '@/lib/tools';
 import { ContactMethod } from '@/lib/constants/enums';
-import { DEFAULT_PHONE } from '@/lib/constants/data';
+import { DEFAULT_PHONE } from '@/lib/tools/data';
 
 type AgentContactProps = {
 	agent: any;

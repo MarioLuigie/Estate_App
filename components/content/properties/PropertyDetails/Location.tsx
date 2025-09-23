@@ -1,6 +1,6 @@
 // modules
 import PropertyMarker from '@/components/shared/PropertyMarker';
-import { customMapStyles } from '@/lib/colorsJS';
+import { customMapStyles } from '@/lib/tools/colorsJS';
 import icons from '@/lib/constants/icons';
 import React from 'react';
 import { View, Text, Image, ActivityIndicator } from 'react-native';

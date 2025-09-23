@@ -5,16 +5,13 @@ import {
 	Text,
 	View,
 	TextInput,
-	Button,
 	Image,
 	TouchableOpacity,
 	Platform,
-	Switch,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 import CustomTouchable from '@/components/ui/CustomTouchable';
-import { colors } from '@/lib/colorsJS';
 
 export default function ProfileSettings() {
 	const insets = useSafeAreaInsets();

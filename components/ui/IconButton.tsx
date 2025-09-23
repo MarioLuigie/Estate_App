@@ -8,7 +8,7 @@ import {
 	TouchableOpacityProps,
 } from 'react-native';
 // lib
-import { colors } from '@/lib/colorsJS';
+import { colors } from '@/lib/tools/colorsJS';
 
 type IconButtonProps = {
 	onPress: () => void;

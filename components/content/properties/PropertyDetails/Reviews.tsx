@@ -1,7 +1,9 @@
 // modules
-import icons from '@/lib/constants/icons';
 import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
+// lib
+import icons from '@/lib/constants/icons';
+// components
 import Comment from '@/components/content/properties/Comment';
 
 type ReviewsProps = {

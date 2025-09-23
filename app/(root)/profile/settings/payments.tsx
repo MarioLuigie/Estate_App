@@ -1,6 +1,5 @@
 // modules
 import CustomTouchable from '@/components/ui/CustomTouchable';
-import { colors } from '@/lib/colorsJS';
 import React, { useState } from 'react';
 import {
 	ScrollView,
