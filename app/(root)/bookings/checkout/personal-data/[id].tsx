@@ -22,6 +22,7 @@ export default function PersonalData() {
       >
         <View style={{ marginHorizontal: 12 }}>
           <Text>PERSONAL DATA FORM</Text>
+          <Text>{id}</Text>
         </View>
       </ScrollView>
 
@@ -35,7 +36,7 @@ export default function PersonalData() {
             title="Checkout"
             onPress={() =>
               router.push(
-                `${ROUTES.BOOKINGS_CHECKOUT_BOOKING}?property=${id}`
+                `${ROUTES.BOOKINGS_CHECKOUT_PAYMENT_METHOD}/${id}`
               )
             }
           />

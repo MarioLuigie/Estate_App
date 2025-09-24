@@ -16,7 +16,7 @@ import { ScrollView, Text, View } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-export default function BookBooking() {
+export default function BookingsCheckout() {
 	const { id } = useLocalSearchParams<{ id?: string }>();
 	const [agent, setAgent] = useState<any>(null);
 	const [agentLoading, setAgentLoading] = useState(false);
@@ -257,7 +257,7 @@ export default function BookBooking() {
 						title="Checkout"
 						onPress={() =>
 							router.push(
-								`${ROUTES.BOOKINGS_CHECKOUT_BOOKING}?property=${property.$id}`
+								`${ROUTES.BOOKINGS_CHECKOUT_PERSONAL_DATA}/${property.$id}`
 							)
 						}
 					/>

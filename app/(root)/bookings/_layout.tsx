@@ -16,7 +16,8 @@ export default function BookBookingLayout() {
         style={{ marginTop: insets.top + 16 }}
       >
         {/* BACK NAVIGATION */}
-        <NavigateBack title={'Book Property'} />
+        <NavigateBack title='Booking Property' />
+        {/* <NavigateBack title={'Book Property'} /> */}
       </View>
 
       {/* MAIN CONTENT */}

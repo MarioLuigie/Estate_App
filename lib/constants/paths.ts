@@ -20,5 +20,8 @@ export const ROUTES = {
 	PROPERTIES_UPDATE_PROPERTY: '/properties/update' as const,
 	// bookings routes
 	BOOKINGS: '/bookings' as const,
-	BOOKINGS_CHECKOUT_BOOKING: '/bookings/checkout/checkout-booking' as const,
+	BOOKINGS_CHECKOUT: '/bookings/checkout' as const,
+	BOOKINGS_CHECKOUT_PERSONAL_DATA: '/bookings/checkout/personal-data' as const,
+	BOOKINGS_CHECKOUT_PAYMENT_METHOD: '/bookings/checkout/payment-method' as const,
+	BOOKINGS_CHECKOUT_CONFIRM: '/bookings/checkout/confirm' as const,
 } as const;
