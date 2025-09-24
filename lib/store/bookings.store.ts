@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { PaymentMethod } from '@/lib/constants/enums';
 
-interface BookingStore {
+interface BookingsStore {
 	startDate?: string;
 	endDate?: string;
 	fullname: string;
@@ -14,7 +14,7 @@ interface BookingStore {
 	reset: () => void;
 }
 
-export const useBookingStore = create<BookingStore>((set) => ({
+export const useBookingsStore = create<BookingsStore>((set) => ({
 	startDate: undefined,
 	endDate: undefined,
 	fullname: '',

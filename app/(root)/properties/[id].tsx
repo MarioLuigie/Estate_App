@@ -35,6 +35,7 @@ import SendButton from '@/components/ui/SendButton';
 import { ContactMethod } from '@/lib/constants/enums';
 import { useLikesStore } from '@/lib/store/likes.store';
 import { contact } from '@/lib/tools';
+import { useCurrentPropertiesDetailsStore } from '@/lib/store/current-properties-details.store';
 
 export default function PropertyDetails() {
 	const { id } = useLocalSearchParams<{ id?: string }>();
@@ -47,32 +48,34 @@ export default function PropertyDetails() {
 	const [agent, setAgent] = useState<any>(null);
 	const [agentLoading, setAgentLoading] = useState(false);
 
-	const likes = useLikesStore((s) => s.likes);
-
-	// Pobieramy property dopiero gdy mamy id
-	// useEffect(() => {
-	//   if (!id) return;
-
-	//   getPropertyById({ id })
-	//     .then(setProperty)
-	//     .catch(console.error);
-	// }, [id]);
+	// const likes = useLikesStore((s) => s.likes);
+	const setCurrentPropertyDetails = useCurrentPropertiesDetailsStore(
+		(s) => s.setCurrentPropertiesDetails
+	);
+		const currentPropertyDetailsState = useCurrentPropertiesDetailsStore(
+		(s) => s.currentPropertiesDetails[id!]
+	);
 
 	useEffect(() => {
 		if (!id) return;
 
-		getPropertyById({ id })
-			.then((property) => {
-				setProperty(property); // ustawienie property w lokalnym stanie
+		if (!currentPropertyDetailsState) {
+			getPropertyById({ id })
+				.then((property) => {
+					setProperty(property); // ustawienie property w lokalnym stanie
+					setCurrentPropertyDetails(property)
+				})
+				.catch(console.error);
+		} else {
+			setProperty(currentPropertyDetailsState);
+		}
 
-				const likesState = useLikesStore.getState().likes;
-				if (!likesState[id]) {
-					// jeśli nie ma wpisu w stanie likes, dodaj nowy
-					useLikesStore.getState().setLike(id, false, 0, null);
-				}
-			})
-			.catch(console.error);
-	}, [id]);
+		const likesState = useLikesStore.getState().likes;
+		if (!likesState[id]) {
+			// jeśli nie ma wpisu w stanie likes, dodaj nowy
+			useLikesStore.getState().setLike(id, false, 0, null);
+		}
+	}, [id, currentPropertyDetailsState]);
 
 	// Pobieramy currentUser dopiero gdy mamy authUser
 	useEffect(() => {
@@ -176,9 +179,7 @@ export default function PropertyDetails() {
 					<CustomTouchable
 						title="Book Now"
 						onPress={() =>
-							router.push(
-								`${ROUTES.BOOKINGS_CHECKOUT}/${property.$id}`
-							)
+							router.push(`${ROUTES.BOOKINGS_CHECKOUT}/${property.$id}`)
 						}
 					/>
 				</View>
