@@ -256,10 +256,9 @@ export default function BookBooking() {
 					<CustomTouchable
 						title="Checkout"
 						onPress={() =>
-							router.push({
-								pathname: ROUTES.BOOKINGS_BOOK_BOOKING,
-								params: { id: property?.$id },
-							})
+							router.push(
+								`${ROUTES.BOOKINGS_ADD_BOOKING}?property=${property.$id}`
+							)
 						}
 					/>
 				</View>

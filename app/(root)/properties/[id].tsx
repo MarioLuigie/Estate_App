@@ -176,10 +176,9 @@ export default function PropertyDetails() {
 					<CustomTouchable
 						title="Book Now"
 						onPress={() =>
-							router.push({
-								pathname: ROUTES.BOOKINGS_BOOK_BOOKING,
-								params: { id: property.$id },
-							})
+							router.push(
+								`${ROUTES.BOOKINGS_ADD_BOOKING}?property=${property.$id}`
+							)
 						}
 					/>
 				</View>
@@ -359,7 +358,7 @@ export default function PropertyDetails() {
 // 						title="Book Now"
 // 						onPress={() =>
 // 							router.push({
-// 								pathname: ROUTES.BOOKINGS_BOOK_BOOKING,
+// 								pathname: ROUTES.BOOKINGS_ADD_BOOKING,
 // 								params: { id: property?.$id },
 // 							})
 // 						}
