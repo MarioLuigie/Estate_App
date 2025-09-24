@@ -86,6 +86,7 @@ export async function login() {
 					fullName: currentAuthUser.name,
 					email: currentAuthUser.email,
 					createdAt: currentAuthUser.$createdAt,
+					phone: null,
 				}
 			);
 		}
