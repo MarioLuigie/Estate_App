@@ -20,5 +20,5 @@ export const ROUTES = {
 	PROPERTIES_UPDATE_PROPERTY: '/properties/update' as const,
 	// bookings routes
 	BOOKINGS: '/bookings' as const,
-	BOOKINGS_ADD_BOOKING: '/bookings/add/checkout-booking' as const,
+	BOOKINGS_CHECKOUT_BOOKING: '/bookings/checkout/checkout-booking' as const,
 } as const;

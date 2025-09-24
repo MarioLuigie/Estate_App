@@ -177,7 +177,7 @@ export default function PropertyDetails() {
 						title="Book Now"
 						onPress={() =>
 							router.push(
-								`${ROUTES.BOOKINGS_ADD_BOOKING}?property=${property.$id}`
+								`${ROUTES.BOOKINGS_CHECKOUT_BOOKING}?property=${property.$id}`
 							)
 						}
 					/>

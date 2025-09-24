@@ -257,7 +257,7 @@ export default function BookBooking() {
 						title="Checkout"
 						onPress={() =>
 							router.push(
-								`${ROUTES.BOOKINGS_ADD_BOOKING}?property=${property.$id}`
+								`${ROUTES.BOOKINGS_CHECKOUT_BOOKING}?property=${property.$id}`
 							)
 						}
 					/>
