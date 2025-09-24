@@ -296,12 +296,10 @@ async function seed() {
 					totalPrice: 1000,
 					paymentMethod: PaymentMethod.PAYPAL,
 					transactionId: '',
-					guestDetails: '',
 					createdAt: new Date(
 						Date.now() -
 							Math.floor(Math.random() * 30 * 24 * 60 * 60 * 1000)
 					),
-					propertySnapshot: '',
 				}
 			);
 

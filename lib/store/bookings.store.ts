@@ -1,36 +1,44 @@
 import { create } from 'zustand';
-import { PaymentMethod } from '@/lib/constants/enums';
+import { PaymentMethod, Status } from '@/lib/constants/enums';
 
 interface BookingsStore {
-	startDate?: string;
-	endDate?: string;
-	fullname: string;
+	ownerId: string;
+	startDate: Date | null;
+	endDate: Date | null;
+	status: Status;
+	totalPrice: number;
+	paymentMethod: PaymentMethod;
+	transactionId: string;
+	createdAt: Date | null;
+	property: any;
+	fullName: string;
 	email: string;
 	phone: string;
-	paymentMethod?: PaymentMethod.PAYPAL | 'card';
-	setDates: (start: string, end: string) => void;
+	setDates: (start: Date, end: Date) => void;
 	setUserData: (fullname: string, email: string, phone: string) => void;
-	setPaymentMethod: (method: PaymentMethod.PAYPAL | 'card') => void;
+	setPaymentMethod: (method: PaymentMethod) => void;
 	reset: () => void;
 }
 
-export const useBookingsStore = create<BookingsStore>((set) => ({
-	startDate: undefined,
-	endDate: undefined,
-	fullname: '',
+const defaultBookingState = {
+	ownerId: '',
+	startDate: null,
+	endDate: null,
+	status: Status.PENDING,
+	totalPrice: 0,
+	paymentMethod: PaymentMethod.PAYPAL,
+	transactionId: '',
+	createdAt: null,
+	property: null,
+	fullName: '',
 	email: '',
 	phone: '',
-	paymentMethod: undefined,
+};
+
+export const useBookingsStore = create<BookingsStore>((set) => ({
+	...defaultBookingState,
 	setDates: (start, end) => set({ startDate: start, endDate: end }),
-	setUserData: (fullname, email, phone) => set({ fullname, email, phone }),
+	setUserData: (fullName, email, phone) => set({ fullName, email, phone }),
 	setPaymentMethod: (method) => set({ paymentMethod: method }),
-	reset: () =>
-		set({
-			startDate: undefined,
-			endDate: undefined,
-			fullname: '',
-			email: '',
-			phone: '',
-			paymentMethod: undefined,
-		}),
+	reset: () => set(defaultBookingState),
 }));
