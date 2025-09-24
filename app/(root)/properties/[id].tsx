@@ -20,6 +20,10 @@ import images from '@/lib/constants/images';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
 import { ROUTES } from '@/lib/constants/paths';
 import { useGlobalContext } from '@/lib/context/global-provider';
+import { ContactMethod } from '@/lib/constants/enums';
+import { useLikesStore } from '@/lib/store/likes.store';
+import { contact } from '@/lib/tools';
+import { useCurrentPropertiesDetailsStore } from '@/lib/store/current-properties-details.store';
 // components
 import AgentContact from '@/components/content/AgentContact';
 import Facilities from '@/components/content/properties/PropertyDetails/Facilities';
@@ -32,10 +36,6 @@ import NavigateBack from '@/components/shared/NavigateBack';
 import CustomTouchable from '@/components/ui/CustomTouchable';
 import LikeButton from '@/components/ui/LikeButton';
 import SendButton from '@/components/ui/SendButton';
-import { ContactMethod } from '@/lib/constants/enums';
-import { useLikesStore } from '@/lib/store/likes.store';
-import { contact } from '@/lib/tools';
-import { useCurrentPropertiesDetailsStore } from '@/lib/store/current-properties-details.store';
 
 export default function PropertyDetails() {
 	const { id } = useLocalSearchParams<{ id?: string }>();
