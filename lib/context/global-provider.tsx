@@ -11,6 +11,7 @@ interface GlobalContextType {
 	authUser: User | null;
 	loading: boolean;
 	refetch: (newParams?: Record<string, string | number>) => Promise<void>;
+	user: any | null;
 }
 
 interface User {
@@ -41,12 +42,15 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
 	const setLike = useLikesStore((s) => s.setLike);
 	const likes = useLikesStore((s) => s.likes);
 
+	const { data: user } = useAppwrite({
+		fn: () => getCurrentUser({ authId: authUser!.$id }),
+	});
+
 	useEffect(() => {
 		let isMounted = true;
 
 		if (authUser) {
 			(async () => {
-				const user = await getCurrentUser({ authId: authUser.$id });
 				if (!user || !isMounted) return;
 
 				const userLikes = await getLikesByUser(user.$id);
@@ -68,7 +72,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
 		return () => {
 			isMounted = false;
 		};
-	}, [authUser, setManyLikes, resetLikes]);
+	}, [authUser, user, setManyLikes, resetLikes]);
 
 	// Efekt dla dynamicznych property: jeśli jakiś propertyId nie istnieje w likes, dodaj go
 	useEffect(() => {
@@ -82,7 +86,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
 
 	return (
 		<GlobalContext.Provider
-			value={{ isLoggedIn, authUser: mappedUser, loading, refetch }}
+			value={{ isLoggedIn, authUser: mappedUser, user, loading, refetch }}
 		>
 			{children}
 		</GlobalContext.Provider>

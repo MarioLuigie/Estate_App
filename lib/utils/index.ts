@@ -1,3 +1,5 @@
+import Constants from 'expo-constants';
+
 // Rebuild array buffer into object
 export function arrayBufferToBase64(buffer: ArrayBuffer) {
 	let binary = '';
@@ -75,3 +77,32 @@ export const formatDateTime = (dateString: string | Date): string => {
 		minute: '2-digit',
 	});
 };
+
+export function normalizePhoneNumber(phone: string): string {
+	let cleaned = phone.trim().replace(/\s+/g, ''); // usuń spacje
+
+	// zamień 00 na +
+	if (cleaned.startsWith('00')) {
+		cleaned = '+' + cleaned.slice(2);
+	}
+	return cleaned;
+}
+
+export function normalizePolishPhoneNumber(value: string) {
+  if (!value) return '';
+  // Usuń wszystko, co nie jest cyfrą
+  let digits = value.replace(/\D/g, '');
+
+  // Zamień prefiks 00 na +
+  if (digits.startsWith('00')) {
+    digits = '+' + digits.slice(2);
+  } else if (digits.startsWith('48')) {
+    digits = '+48' + digits.slice(2);
+  } else if (!digits.startsWith('+48')) {
+    digits = '+48' + digits;
+  }
+
+  return digits;
+}
+
+export const polishPhoneRegex = /^\+48\d{9}$/;

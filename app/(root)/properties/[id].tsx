@@ -52,7 +52,7 @@ export default function PropertyDetails() {
 	const setCurrentPropertyDetails = useCurrentPropertiesDetailsStore(
 		(s) => s.setCurrentPropertiesDetails
 	);
-		const currentPropertyDetailsState = useCurrentPropertiesDetailsStore(
+	const currentPropertyDetailsState = useCurrentPropertiesDetailsStore(
 		(s) => s.currentPropertiesDetails[id!]
 	);
 
@@ -63,7 +63,7 @@ export default function PropertyDetails() {
 			getPropertyById({ id })
 				.then((property) => {
 					setProperty(property); // ustawienie property w lokalnym stanie
-					setCurrentPropertyDetails(property)
+					setCurrentPropertyDetails(property);
 				})
 				.catch(console.error);
 		} else {

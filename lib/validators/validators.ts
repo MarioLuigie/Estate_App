@@ -2,6 +2,7 @@
 import { z } from 'zod';
 // lib
 import { ActionTypes } from '@/lib/constants/enums';
+import { normalizePolishPhoneNumber, polishPhoneRegex } from '@/lib/utils';
 
 export const CreatePropertyFormSchema = z.object({
 	name: z.string().min(3, 'Name must be at least 3 characters'),
@@ -41,3 +42,17 @@ export function getPropertyFormSchema(actionType: ActionTypes) {
 			return UpdatePropertyFormSchema;
 	}
 }
+
+export const PersonalDataFormSchema = z.object({
+	fullName: z.string().min(3, 'Name must be at least 3 characters'),
+	email: z.string().email('Invalid email'),
+	phone: z
+		.string()
+		.min(1, 'Phone is required')
+		.transform((val) => normalizePolishPhoneNumber(val))
+		.refine((val) => polishPhoneRegex.test(val), {
+			message: 'Invalid Polish phone number',
+		}),
+});
+
+export type PersonalDataFormValues = z.infer<typeof PersonalDataFormSchema>;

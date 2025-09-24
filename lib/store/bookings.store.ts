@@ -23,17 +23,22 @@ interface BookingsStore {
 		ownerId: string
 	) => void;
 	setPaymentMethod: (method: PaymentMethod) => void;
-	setRest: (rest: Rest) => void;
+	setProperty: (property: string) => void;
+	setTotalPrice: (totalPrice: number) => void;
+	setTransactionId: (transactionId: string) => void;
+	setStatus: (status: Status) => void;
+	setCreatedAt: (createdAt: Date) => void;
+	// setRest: (rest: Rest) => void;
 	reset: () => void;
 }
 
-interface Rest {
-	property: string;
-	totalPrice: number;
-	transactionId: string;
-	status: Status;
-	createdAt: Date;
-}
+// interface Rest {
+// 	property: string;
+// 	totalPrice: number;
+// 	transactionId: string;
+// 	status: Status;
+// 	createdAt: Date;
+// }
 
 const defaultBookingState = {
 	ownerId: '',
@@ -56,6 +61,11 @@ export const useBookingsStore = create<BookingsStore>((set) => ({
 	setUserData: (fullName, email, phone, ownerId) =>
 		set({ fullName, email, phone, ownerId }),
 	setPaymentMethod: (method) => set({ paymentMethod: method }),
-	setRest: (rest) => set((state) => ({ ...state, ...rest })),
+	setProperty: (property) => set({ property }),
+	setTotalPrice: (totalPrice) => set({ totalPrice }),
+	setTransactionId: (transactionId) => set({ transactionId }),
+	setStatus: (status) => set({ status }),
+	setCreatedAt: (createdAt) => set({ createdAt }),
+	// setRest: (rest) => set((state) => ({ ...state, ...rest })),
 	reset: () => set(defaultBookingState),
 }));

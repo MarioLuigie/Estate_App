@@ -6,9 +6,11 @@ import {
 	getAgentById,
 	getPropertyById,
 } from '@/lib/actions/properties.actions';
+import { Status } from '@/lib/constants/enums';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
 import { ROUTES } from '@/lib/constants/paths';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
+import { useBookingsStore } from '@/lib/store/bookings.store';
 import { colors } from '@/lib/tools/colors-js';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
@@ -21,6 +23,13 @@ export default function BookingsCheckout() {
 	const [agent, setAgent] = useState<any>(null);
 	const [agentLoading, setAgentLoading] = useState(false);
 	const insets = useSafeAreaInsets();
+	const setDates = useBookingsStore((state) => state.setDates);
+	const setProperty = useBookingsStore((state) => state.setProperty);
+	const setStatus = useBookingsStore((state) => state.setStatus);
+	const {
+		startDate,
+		endDate,
+	} = useBookingsStore((state) => state);
 
 	const { data: property } = useAppwrite({
 		fn: getPropertyById,
@@ -114,53 +123,6 @@ export default function BookingsCheckout() {
 		}
 	};
 
-	// const handleDayPress = (day: any) => {
-	// 	if (!selectedRange.start || (selectedRange.start && selectedRange.end)) {
-	// 		// nowy wybór od początku
-	// 		setSelectedRange({ start: day.dateString, end: undefined });
-	// 	} else {
-	// 		// ustaw koniec zakresu
-	// 		const startDate = new Date(selectedRange.start);
-	// 		const endDate = new Date(day.dateString);
-
-	// 		if (endDate < startDate) {
-	// 			// odwrócenie
-	// 			setSelectedRange({
-	// 				start: day.dateString,
-	// 				end: selectedRange.start,
-	// 			});
-	// 		} else {
-	// 			setSelectedRange({
-	// 				start: selectedRange.start,
-	// 				end: day.dateString,
-	// 			});
-	// 		}
-	// 	}
-	// };
-
-	// oznaczenia w kalendarzu
-	// const markedDates = {
-	// 	...blockedDates,
-	// 	...(selectedRange.start
-	// 		? {
-	// 				[selectedRange.start]: {
-	// 					startingDay: true,
-	// 					color: colors.primary[300],
-	// 					textColor: 'white',
-	// 				},
-	// 			}
-	// 		: {}),
-	// 	...(selectedRange.end
-	// 		? {
-	// 				[selectedRange.end]: {
-	// 					endingDay: true,
-	// 					color: colors.primary[300],
-	// 					textColor: 'white',
-	// 				},
-	// 			}
-	// 		: {}),
-	// };
-
 	// oznaczenia w kalendarzu z pełnym zakresem
 	const markedDates: Record<string, any> = {
 		...blockedDates,
@@ -195,6 +157,25 @@ export default function BookingsCheckout() {
 			current.setDate(current.getDate() + 1);
 		}
 	}
+
+	const handleCheckout = () => {
+		if (!selectedRange.start || !selectedRange.end) {
+			alert('Please select a valid date range before proceeding.');
+			return;
+		}
+
+		// konwersja string → Date
+		const startDate = new Date(selectedRange.start);
+		const endDate = new Date(selectedRange.end);
+
+		setDates(startDate, endDate);
+		setProperty(property.$id);
+		setStatus(Status.PENDING);
+
+		router.push(`${ROUTES.BOOKINGS_CHECKOUT_PERSONAL_DATA}/${property.$id}`);
+	};
+
+	console.log('CHECHOUT:', startDate, endDate);
 
 	return (
 		<View className="flex-1 relative">
@@ -253,16 +234,56 @@ export default function BookingsCheckout() {
 						</Text>
 					</View>
 
-					<CustomTouchable
-						title="Checkout"
-						onPress={() =>
-							router.push(
-								`${ROUTES.BOOKINGS_CHECKOUT_PERSONAL_DATA}/${property.$id}`
-							)
-						}
-					/>
+					<CustomTouchable title="Checkout" onPress={handleCheckout} />
 				</View>
 			</View>
 		</View>
 	);
 }
+
+// const handleDayPress = (day: any) => {
+// 	if (!selectedRange.start || (selectedRange.start && selectedRange.end)) {
+// 		// nowy wybór od początku
+// 		setSelectedRange({ start: day.dateString, end: undefined });
+// 	} else {
+// 		// ustaw koniec zakresu
+// 		const startDate = new Date(selectedRange.start);
+// 		const endDate = new Date(day.dateString);
+
+// 		if (endDate < startDate) {
+// 			// odwrócenie
+// 			setSelectedRange({
+// 				start: day.dateString,
+// 				end: selectedRange.start,
+// 			});
+// 		} else {
+// 			setSelectedRange({
+// 				start: selectedRange.start,
+// 				end: day.dateString,
+// 			});
+// 		}
+// 	}
+// };
+
+// oznaczenia w kalendarzu
+// const markedDates = {
+// 	...blockedDates,
+// 	...(selectedRange.start
+// 		? {
+// 				[selectedRange.start]: {
+// 					startingDay: true,
+// 					color: colors.primary[300],
+// 					textColor: 'white',
+// 				},
+// 			}
+// 		: {}),
+// 	...(selectedRange.end
+// 		? {
+// 				[selectedRange.end]: {
+// 					endingDay: true,
+// 					color: colors.primary[300],
+// 					textColor: 'white',
+// 				},
+// 			}
+// 		: {}),
+// };
