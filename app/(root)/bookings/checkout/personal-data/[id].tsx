@@ -11,9 +11,11 @@ import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function PersonalData() {
-  const { id } = useLocalSearchParams();
+	const { id } = useLocalSearchParams();
 	const insets = useSafeAreaInsets();
-	const { startDate, endDate, property, status } = useBookingsStore((state) => state);
+	const { startDate, endDate, property, status } = useBookingsStore(
+		(state) => state
+	);
 
 	const { authUser } = useGlobalContext();
 	const { data: user } = useAppwrite({
@@ -54,7 +56,9 @@ export default function PersonalData() {
 					<CustomTouchable
 						title="Continue"
 						onPress={() =>
-							router.push(`${ROUTES.BOOKINGS_CHECKOUT_PAYMENT_METHOD}/${id}`)
+							router.push(
+								`${ROUTES.BOOKINGS_CHECKOUT_PAYMENT_METHOD}/${id}`
+							)
 						}
 					/>
 				</View>

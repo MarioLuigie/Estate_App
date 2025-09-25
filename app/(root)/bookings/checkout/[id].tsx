@@ -42,8 +42,6 @@ export default function BookingsCheckout() {
 		end?: string;
 	}>({});
 
-	// console.log('book-booking.tsx', selectedRange);
-
 	// pobranie agenta
 	useEffect(() => {
 		if (!property?.agent) return;
@@ -174,8 +172,6 @@ export default function BookingsCheckout() {
 
 		router.push(`${ROUTES.BOOKINGS_CHECKOUT_PERSONAL_DATA}/${property.$id}`);
 	};
-
-	console.log('CHECHOUT:', startDate, endDate);
 
 	return (
 		<View className="flex-1 relative">

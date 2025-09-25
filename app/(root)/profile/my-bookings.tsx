@@ -17,8 +17,6 @@ export default function MyBookingsScreen() {
 
 	const bookedPropertiesIds = bookings.map((b) => b.property);
 
-	// console.log('my-bookings.tsx:', bookedPropertiesIds);
-
 	useEffect(() => {
 		const bookedProperties = async () => {
 			try {

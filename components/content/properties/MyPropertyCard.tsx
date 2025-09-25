@@ -39,8 +39,6 @@ export default function MyPropertyCard({
 		setCardDeleted && setCardDeleted(result);
 	};
 
-	// console.log("PropertyCard:", property)
-
 	return (
 		<TouchableOpacity
 			className={`bg-white rounded-xl shadow-md overflow-hidden mb-4 border border-mygrey-300 relative ${isGrid ? 'flex-1' : 'w-full'}`}

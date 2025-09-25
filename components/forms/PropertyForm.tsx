@@ -88,15 +88,6 @@ export default function PropertyForm({
 	const [submitting, setSubmitting] = useState(false);
 	const facilitiesSelected = watch('facilities');
 	const typeSelected = watch('type');
-	// const rating = watch('rating');
-	// const coords = {
-	// 	latitude: watch('latitude'),
-	// 	longitude: watch('longitude'),
-	// };
-
-	// useEffect(() => {
-	// 	console.log('Errors:', errors);
-	// }, [errors]);
 
 	useEffect(() => {
 		const fetchAgents = async () => {
@@ -159,9 +150,6 @@ export default function PropertyForm({
 			};
 
 			mapRef?.current?.animateToRegion(region, 1000); // 1000ms animacji
-
-			// console.log('Place marked on map successfully');
-			// console.log('Map ref current', mapRef.current);
 		}
 	};
 
@@ -233,9 +221,6 @@ export default function PropertyForm({
 
 				setImageState(image.uri);
 				setValue('image', [imageToUpload]);
-
-				// console.log('IMAGE URI:', image.uri);
-				// console.log('IMAGE:', image);
 			}
 		} catch (error) {
 			console.error('Image picker error:', error);
@@ -272,8 +257,6 @@ export default function PropertyForm({
 					reset();
 					setImageState('');
 				}
-
-				// console.log('Property added:', createdProperty);
 			}
 
 			// UPDATE PRODUCT

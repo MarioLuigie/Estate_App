@@ -78,8 +78,6 @@ export async function getProperties({
 
 		const parsedListWithLikes = await addOwnLikesToProperty(parsedList);
 
-		// console.log('getProperties():', parsedListWithLikes![2]);
-
 		return parsedListWithLikes;
 	} catch (error) {
 		console.error(error);
@@ -460,8 +458,6 @@ export async function createLike(propertyId: string) {
 			}
 		);
 
-		console.log('createLike(): Like created successfully!');
-
 		return result;
 	} catch (error) {
 		console.error('Like not created error:', error);
@@ -487,9 +483,6 @@ export async function updateMyProperty(data: any) {
 	const currentImageId =
 		'image' in (newImage || {}) ? newImage.image.fileId : null;
 	const isImageChanged = oldImageId !== currentImageId;
-
-	console.log(oldImageId);
-	console.log(currentImageId);
 
 	if (!isImageChanged) {
 		try {

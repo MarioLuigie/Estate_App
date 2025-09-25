@@ -76,9 +76,6 @@ export default function MyPropertiesScreen() {
 			setTimeout(() => {
 				setDeleteSummary(true);
 			}, 500);
-
-			console.log(successed.length);
-			console.log(failed.length);
 		}
 	};
 
