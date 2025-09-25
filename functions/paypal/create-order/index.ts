@@ -1,3 +1,5 @@
+import { client, databases } from '@/functions/appwrite-client';
+
 interface CreateOrderInput {
   amount: number;
   currency: string;
@@ -17,10 +19,7 @@ export default async function createOrder(event: any, context: any) {
       intent: 'CAPTURE',
       purchase_units: [
         {
-          amount: {
-            currency_code: currency,
-            value: amount.toFixed(2),
-          },
+          amount: { currency_code: currency, value: amount.toFixed(2) },
           custom_id: bookingId
         }
       ]
@@ -28,6 +27,7 @@ export default async function createOrder(event: any, context: any) {
   });
 
   const data = await response.json();
+
   return {
     statusCode: 200,
     body: JSON.stringify(data),

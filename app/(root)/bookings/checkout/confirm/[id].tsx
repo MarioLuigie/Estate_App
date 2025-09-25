@@ -7,9 +7,11 @@ import { useAppwrite } from '@/lib/hooks/useAppwrite';
 import { useBookingsStore } from '@/lib/store/bookings.store';
 import { formatDateTime } from '@/lib/utils';
 import { router, useLocalSearchParams } from 'expo-router';
-import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { useState } from 'react';
+import { View, Text, ScrollView, Alert } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { createPaypalOrder, capturePaypalOrder } from '@/lib/api/paypal.api';
+import { databases, config } from '@/lib/services/appwrite';
 
 export default function ConfirmPlaceOrderScreen() {
 	const { id } = useLocalSearchParams<{ id?: string }>();
@@ -17,6 +19,8 @@ export default function ConfirmPlaceOrderScreen() {
 
 	const setCreatedAt = useBookingsStore((state) => state.setCreatedAt);
 	const setTransactionId = useBookingsStore((state) => state.setTransactionId);
+
+	  const [loading, setLoading] = useState(false);
 
 	const {
 		startDate,
@@ -34,16 +38,6 @@ export default function ConfirmPlaceOrderScreen() {
 		fn: () => getPropertyById({ id: property }),
 	});
 
-	// const [agent, setAgent] = React.useState<any>(null);
-
-	// React.useEffect(() => {
-	// 	if (propertyData?.agent) {
-	// 		getAgentById({ id: propertyData.agent })
-	// 			.then(setAgent)
-	// 			.catch(console.error);
-	// 	}
-	// }, [propertyData]);
-
 	const booking = {
 		startDate,
 		endDate,
@@ -56,6 +50,43 @@ export default function ConfirmPlaceOrderScreen() {
 		paymentMethod,
 		createdAt: formatDateTime(new Date()),
 	};
+
+	// const handlePlaceOrder = async () => {
+	// 	try {
+	// 		setLoading(true);
+
+	// 		// 1️⃣ Tworzymy zamówienie PayPal przez Appwrite Function
+	// 		const paypalOrder = await createPaypalOrder(
+	// 			booking.totalPrice,
+	// 			booking.id
+	// 		);
+
+	// 		// 2️⃣ Otwórz okno płatności PayPal
+	// 		// W React Native możesz użyć WebView lub paczki np. react-native-paypal
+	// 		// Pseudokod:
+	// 		const success = await openPaypalWebview(paypalOrder.links[1].href);
+	// 		if (!success) throw new Error('User canceled or payment failed');
+
+	// 		// 3️⃣ Capture order przez Appwrite Function
+	// 		const captureResult = await capturePaypalOrder(paypalOrder.id);
+
+	// 		// 4️⃣ Zapisz booking do Appwrite
+	// 		await databases.createDocument(
+	// 			config.databaseId,
+	// 			config.bookingsCollectionId,
+	// 			booking.id,
+	// 			{ ...booking, status: 'paid', paypalOrderId: paypalOrder.id }
+	// 		);
+
+	// 		// 5️⃣ Przekieruj po sukcesie
+	// 		router.push(ROUTES.PROFILE_MY_BOOKINGS);
+	// 	} catch (err: any) {
+	// 		console.error(err);
+	// 		Alert.alert('Payment error', err.message || 'Something went wrong');
+	// 	} finally {
+	// 		setLoading(false);
+	// 	}
+	// };
 
 	return (
 		<View className="flex-1 relative">
