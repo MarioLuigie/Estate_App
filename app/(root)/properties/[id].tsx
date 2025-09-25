@@ -38,7 +38,13 @@ import LikeButton from '@/components/ui/LikeButton';
 import SendButton from '@/components/ui/SendButton';
 
 export default function PropertyDetails() {
-	const { id } = useLocalSearchParams<{ id?: string }>();
+	const { id, wasUpdated } = useLocalSearchParams<{
+		id?: string;
+		wasUpdated?: string;
+	}>();
+
+	console.log('WAS UPDATED PROPERTY DETAILS:', wasUpdated);
+
 	const insets = useSafeAreaInsets();
 	const { authUser } = useGlobalContext();
 	const windowHeight = Dimensions.get('window').height;
@@ -56,14 +62,20 @@ export default function PropertyDetails() {
 		(s) => s.currentPropertiesDetails[id!]
 	);
 
+	const [wasUpdatedHandled, setWasUpdatedHandled] = useState(false);
+
 	useEffect(() => {
 		if (!id) return;
 
-		if (!currentPropertyDetailsState) {
+		if (
+			!currentPropertyDetailsState ||
+			(wasUpdated === 'true' && !wasUpdatedHandled)
+		) {
 			getPropertyById({ id })
 				.then((property) => {
 					setProperty(property); // ustawienie property w lokalnym stanie
 					setCurrentPropertyDetails(property);
+					setWasUpdatedHandled(true);
 				})
 				.catch(console.error);
 		} else {

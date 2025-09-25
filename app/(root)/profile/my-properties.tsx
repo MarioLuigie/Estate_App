@@ -1,6 +1,6 @@
 // modules
 import { MaterialIcons } from '@expo/vector-icons';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { RefreshControl, StyleSheet, Text, View } from 'react-native';
 // lib
@@ -19,6 +19,7 @@ import ToggleButtons from '@/components/shared/ToggleButtons';
 import CustomTouchable from '@/components/ui/CustomTouchable';
 
 export default function MyPropertiesScreen() {
+	const { updatedId } = useLocalSearchParams();
 	const { authUser } = useGlobalContext();
 	const [cardDeleted, setCardDeleted] = useState<boolean>(false);
 	const [deleteAllVisible, setDeleteAllVisible] = useState<boolean>(false);
@@ -128,7 +129,8 @@ export default function MyPropertiesScreen() {
 							<MyPropertyCard
 								property={item}
 								onPress={() => {
-									router.push(`${ROUTES.PROPERTIES}/${item?.$id}`);
+									const wasUpdated = updatedId === item?.$id ? 'true' : 'false';
+									router.push(`${ROUTES.PROPERTIES}/${item?.$id}?wasUpdated=${wasUpdated}`);
 								}}
 								isGrid={isGrid}
 								setCardDeleted={setCardDeleted}

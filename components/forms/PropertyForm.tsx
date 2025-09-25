@@ -46,13 +46,11 @@ import images from '@/lib/constants/images';
 
 type PropertyFormProps = {
 	actionType: ActionTypes;
-	id?: string;
 	property?: any;
 };
 
 export default function PropertyForm({
 	actionType,
-	id,
 	property,
 }: PropertyFormProps) {
 	const { authUser } = useGlobalContext();
@@ -264,7 +262,7 @@ export default function PropertyForm({
 				const updatedProperty = await updateMyProperty(data);
 
 				if (updatedProperty) {
-					router.push({ pathname: ROUTES.PROFILE_MY_PROPERTIES });
+					router.push({ pathname: ROUTES.PROFILE_MY_PROPERTIES, params: { updatedId: `${updatedProperty.$id}` } });
 					reset();
 					setImageState('');
 				}
