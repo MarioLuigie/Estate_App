@@ -1,12 +1,10 @@
 // modules
 import { zodResolver } from '@hookform/resolvers/zod';
-import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Text, TextInput, View } from 'react-native';
 // lib
 import { updateCurrentUser } from '@/lib/actions/user.actions';
-import { ROUTES } from '@/lib/constants/paths';
 import { useGlobalContext } from '@/lib/context/global-provider';
 import {
 	PersonalDataFormValues,
@@ -15,14 +13,20 @@ import {
 import { PERSONAL_DATA_FORM_DEFAULT_VALUES } from '@/lib/tools/data';
 // components
 import CustomTouchable from '@/components/ui/CustomTouchable';
+import { useBookingsStore } from '@/lib/store/bookings.store';
 
 type PersonalDataFormProps = {
 	profile?: any;
+	redirectUser: () => void;
 };
 
-export default function PersonalDataForm({ profile }: PersonalDataFormProps) {
+export default function PersonalDataForm({
+	profile,
+	redirectUser,
+}: PersonalDataFormProps) {
 	const { authUser } = useGlobalContext();
 	const [isError, setIsError] = useState<boolean>(false);
+	const setUserData = useBookingsStore((state) => state.setUserData);
 
 	const {
 		control,
@@ -51,11 +55,27 @@ export default function PersonalDataForm({ profile }: PersonalDataFormProps) {
 		setSubmitting(true);
 		try {
 			if (!authUser) return;
+			// Sprawdzenie, czy dane faktycznie się zmieniły względem początkowego profilu
+			const hasChanged = Object.keys(profile).some(
+				(key) => (data as any)[key] !== (profile as any)[key]
+			);
 
-			// UPDATE PROFILE
+			if (!hasChanged) {
+				// Nic się nie zmieniło, ustawiamy dane u rodzica i kończymy
+				setUserData(data.fullName, data.email, data.phone, authUser.id);
+				redirectUser();
+				return;
+			}
+			// Jeśli coś się zmieniło → update w API
 			const updatedProfile = await updateCurrentUser(data);
 			if (updatedProfile) {
-				router.push({ pathname: ROUTES.PROFILE_MY_PROPERTIES });
+				setUserData(
+					updatedProfile.fullName,
+					updatedProfile.email,
+					updatedProfile.phone,
+					updatedProfile.authId
+				);
+				redirectUser();
 				reset();
 			}
 
@@ -68,7 +88,7 @@ export default function PersonalDataForm({ profile }: PersonalDataFormProps) {
 	};
 
 	return (
-		<View className="py-4 bg-white">
+		<View className="py-4 bg-white px-2">
 			{/* Full Name */}
 			<Controller
 				control={control}
@@ -166,7 +186,7 @@ export default function PersonalDataForm({ profile }: PersonalDataFormProps) {
 					className="text-white font-bold text-center"
 					style={{ fontSize: 15 }}
 				>
-					{submitting ? 'Submitting...' : 'Update'}
+					{submitting ? 'Submitting...' : 'Continue'}
 				</Text>
 			</CustomTouchable>
 		</View>

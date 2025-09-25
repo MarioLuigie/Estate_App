@@ -200,3 +200,20 @@ export const contact = ({ type, value }: ContactOptions) => {
 		Alert.alert('Error', `Failed to open ${type} app.`);
 	}
 };
+
+// Funkcja pomocnicza
+export function calculateTotalPrice(start?: string, end?: string, pricePerNight?: number) {
+	if (!start || !end || !pricePerNight) return 0;
+
+	const startDate = new Date(start);
+	const endDate = new Date(end);
+
+	// różnica w czasie (ms)
+	const diffTime = endDate.getTime() - startDate.getTime();
+
+	// liczba nocy (pełne doby)
+	const nights = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+	return nights * pricePerNight;
+}
+

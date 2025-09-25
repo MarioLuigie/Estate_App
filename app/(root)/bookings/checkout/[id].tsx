@@ -17,6 +17,7 @@ import React, { useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { calculateTotalPrice } from '@/lib/tools';
 
 export default function BookingsCheckout() {
 	const { id } = useLocalSearchParams<{ id?: string }>();
@@ -26,10 +27,9 @@ export default function BookingsCheckout() {
 	const setDates = useBookingsStore((state) => state.setDates);
 	const setProperty = useBookingsStore((state) => state.setProperty);
 	const setStatus = useBookingsStore((state) => state.setStatus);
-	const {
-		startDate,
-		endDate,
-	} = useBookingsStore((state) => state);
+	const { startDate, endDate } = useBookingsStore((state) => state);
+	const setTotalPrice = useBookingsStore((state) => state.setTotalPrice);
+	const { totalPrice } = useBookingsStore((state) => state);
 
 	const { data: property } = useAppwrite({
 		fn: getPropertyById,
@@ -120,6 +120,20 @@ export default function BookingsCheckout() {
 			});
 		}
 	};
+
+	// przelicz cenę przy każdej zmianie zakresu lub ceny nieruchomości
+	useEffect(() => {
+		if (selectedRange.start && selectedRange.end && property?.price) {
+			const newTotal = calculateTotalPrice(
+				selectedRange.start,
+				selectedRange.end,
+				property.price
+			);
+			setTotalPrice(newTotal);
+		} else {
+			setTotalPrice(0);
+		}
+	}, [selectedRange, property?.price, setTotalPrice]);
 
 	// oznaczenia w kalendarzu z pełnym zakresem
 	const markedDates: Record<string, any> = {
@@ -226,7 +240,7 @@ export default function BookingsCheckout() {
 							numberOfLines={1}
 							className="text-primary-300 text-start text-2xl font-rubik-bold"
 						>
-							${property?.price}
+							${totalPrice}
 						</Text>
 					</View>
 

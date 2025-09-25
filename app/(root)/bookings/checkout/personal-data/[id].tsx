@@ -7,13 +7,13 @@ import { useGlobalContext } from '@/lib/context/global-provider';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
 import { useBookingsStore } from '@/lib/store/bookings.store';
 import { router, useLocalSearchParams } from 'expo-router';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function PersonalData() {
 	const { id } = useLocalSearchParams();
 	const insets = useSafeAreaInsets();
-	const { startDate, endDate, property, status } = useBookingsStore(
+	const { startDate, endDate, property, status, totalPrice } = useBookingsStore(
 		(state) => state
 	);
 
@@ -23,16 +23,22 @@ export default function PersonalData() {
 	});
 
 	const profile = {
-		id: user?.$id ?? '',
 		fullName: user?.fullName ?? '',
 		email: user?.email ?? '',
 		phone: user?.phone ?? '',
 	};
 
-	console.log('PERSONAL DATA', startDate, endDate, property, status);
+	console.log('PERSONAL DATA PD', startDate, endDate, property, status, totalPrice);
+
+	const handleRedirectUser = () => {
+		router.push(`${ROUTES.BOOKINGS_CHECKOUT_PAYMENT_METHOD}/${id}`);
+	};
 
 	return (
 		<View className="flex-1 relative">
+			<Text className="font-rubik-medium text-black text-xl mt-5 px-5">
+				Confirm personal data
+			</Text>
 			<ScrollView
 				showsVerticalScrollIndicator={false}
 				contentContainerStyle={{
@@ -43,7 +49,10 @@ export default function PersonalData() {
 				className="flex-1 bg-white dark:bg-black gap-2"
 			>
 				<View style={{ marginHorizontal: 12 }}>
-					<PersonalDataForm profile={profile} />
+					<PersonalDataForm
+						profile={profile}
+						redirectUser={handleRedirectUser}
+					/>
 				</View>
 			</ScrollView>
 
@@ -52,16 +61,7 @@ export default function PersonalData() {
 				className="flex flex-row items-center bg-[#ffffffea] w-full border-t border-r border-l border-primary-200 px-5"
 				style={{ marginBottom: insets.bottom, height: TABS_HEIGHT }}
 			>
-				<View className="flex flex-row items-center justify-between gap-10 w-full">
-					<CustomTouchable
-						title="Continue"
-						onPress={() =>
-							router.push(
-								`${ROUTES.BOOKINGS_CHECKOUT_PAYMENT_METHOD}/${id}`
-							)
-						}
-					/>
-				</View>
+				<View className="flex flex-row items-center justify-between gap-10 w-full"></View>
 			</View>
 		</View>
 	);
