@@ -43,14 +43,14 @@ export default function BookingsCheckout() {
 	}>({});
 
 	// pobranie agenta
-	useEffect(() => {
-		if (!property?.agent) return;
+	// useEffect(() => {
+	// 	if (!property?.agent) return;
 
-		setAgentLoading(true);
-		getAgentById({ id: property.agent })
-			.then((res) => setAgent(res))
-			.finally(() => setAgentLoading(false));
-	}, [property?.agent]);
+	// 	setAgentLoading(true);
+	// 	getAgentById({ id: property.agent })
+	// 		.then((res) => setAgent(res))
+	// 		.finally(() => setAgentLoading(false));
+	// }, [property?.agent]);
 
 	// pobranie rezerwacji i zablokowanie terminów
 	useEffect(() => {
@@ -204,7 +204,7 @@ export default function BookingsCheckout() {
 						address={property?.address}
 						price={property?.price}
 						imageUrl={property?.image[0].image.url}
-						agent={agent}
+						agent={property?.agent}
 					/>
 				</View>
 

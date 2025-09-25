@@ -119,7 +119,7 @@ export async function getPropertyById({ id }: { id: string }) {
 			Appwrite.config.databaseId!,
 			Appwrite.config.propertiesCollectionId!,
 			id,
-			[Query.select(['*', 'gallery.*', 'reviews.*', 'image.*'])] // '*' = wszystkie własne pola rekordu
+			[Query.select(['*', 'gallery.*', 'reviews.*', 'image.*', 'agent.*'])] // '*' = wszystkie własne pola rekordu
 			// 'gallery.*', 'reviews.*', 'agent.*' = pełne obiekty relacji
 		);
 

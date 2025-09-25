@@ -1,9 +1,6 @@
 import BookingSummary from '@/components/content/bookings/BookingSummary';
 import CustomTouchable from '@/components/ui/CustomTouchable';
-import {
-	getAgentById,
-	getPropertyById,
-} from '@/lib/actions/properties.actions';
+import { getPropertyById } from '@/lib/actions/properties.actions';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
 import { ROUTES } from '@/lib/constants/paths';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
@@ -37,15 +34,15 @@ export default function ConfirmPlaceOrderScreen() {
 		fn: () => getPropertyById({ id: property }),
 	});
 
-	const [agent, setAgent] = React.useState<any>(null);
+	// const [agent, setAgent] = React.useState<any>(null);
 
-	React.useEffect(() => {
-		if (propertyData?.agent) {
-			getAgentById({ id: propertyData.agent })
-				.then(setAgent)
-				.catch(console.error);
-		}
-	}, [propertyData]);
+	// React.useEffect(() => {
+	// 	if (propertyData?.agent) {
+	// 		getAgentById({ id: propertyData.agent })
+	// 			.then(setAgent)
+	// 			.catch(console.error);
+	// 	}
+	// }, [propertyData]);
 
 	const booking = {
 		startDate,
@@ -88,10 +85,10 @@ export default function ConfirmPlaceOrderScreen() {
 				className="flex-1 bg-white dark:bg-black gap-2 px-2"
 			>
 				<View style={{ marginHorizontal: 12 }}>
-					{propertyData && agent && (
+					{propertyData && (
 						<BookingSummary
 							booking={booking}
-							property={{ ...propertyData, agent }}
+							property={{ ...propertyData, agent: propertyData.agent }}
 						/>
 					)}
 

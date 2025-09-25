@@ -97,14 +97,14 @@ export default function PropertyDetails() {
 	}, [authUser]);
 
 	// Pobieramy agenta dopiero gdy property jest dostępne
-	useEffect(() => {
-		if (!property?.agent) return;
+	// useEffect(() => {
+	// 	if (!property?.agent) return;
 
-		setAgentLoading(true);
-		getAgentById({ id: property.agent })
-			.then(setAgent)
-			.finally(() => setAgentLoading(false));
-	}, [property?.agent]);
+	// 	setAgentLoading(true);
+	// 	getAgentById({ id: property.agent })
+	// 		.then(setAgent)
+	// 		.finally(() => setAgentLoading(false));
+	// }, [property?.agent]);
 
 	// Jeśli jeszcze nie mamy currentUser lub property, renderujemy null
 	if (!currentUser || !property) return null;
@@ -159,7 +159,7 @@ export default function PropertyDetails() {
 				{/* PROPERTY SECTIONS */}
 				<View className="px-5 my-7 flex gap-2">
 					<Intro property={property} />
-					<AgentContact agent={agent} />
+					<AgentContact agent={property?.agent} />
 					<Overview property={property} />
 					<Facilities property={property} />
 					<Gallery property={property} />
