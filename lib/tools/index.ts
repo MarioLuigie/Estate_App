@@ -202,9 +202,19 @@ export const contact = ({ type, value }: ContactOptions) => {
 };
 
 // Funkcja pomocnicza
-export function calculateTotalPrice(start?: string, end?: string, pricePerNight?: number) {
+export function calculateTotalPrice(
+	start?: string,
+	end?: string,
+	pricePerNight?: number
+) {
 	if (!start || !end || !pricePerNight) return 0;
 
+	const nights = calculateNights(start, end);
+
+	return nights * pricePerNight;
+}
+
+export function calculateNights(start: string, end: string) {
 	const startDate = new Date(start);
 	const endDate = new Date(end);
 
@@ -214,6 +224,5 @@ export function calculateTotalPrice(start?: string, end?: string, pricePerNight?
 	// liczba nocy (pełne doby)
 	const nights = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-	return nights * pricePerNight;
+	return nights;
 }
-

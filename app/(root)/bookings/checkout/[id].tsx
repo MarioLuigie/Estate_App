@@ -2,9 +2,7 @@ import PropertySummary from '@/components/content/properties/PropertySummary';
 import CustomTouchable from '@/components/ui/CustomTouchable';
 import Paper from '@/components/ui/Paper';
 import { getBookingsByPropertyId } from '@/lib/actions/bookings.actions';
-import {
-	getPropertyById,
-} from '@/lib/actions/properties.actions';
+import { getPropertyById } from '@/lib/actions/properties.actions';
 import { Status } from '@/lib/constants/enums';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
 import { ROUTES } from '@/lib/constants/paths';
@@ -16,7 +14,7 @@ import React, { useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { calculateTotalPrice } from '@/lib/tools';
+import { calculateNights, calculateTotalPrice } from '@/lib/tools';
 
 export default function BookingsCheckoutScreen() {
 	const { id } = useLocalSearchParams<{ id?: string }>();
@@ -240,6 +238,20 @@ export default function BookingsCheckoutScreen() {
 							className="text-primary-300 text-start text-2xl font-rubik-bold"
 						>
 							${totalPrice}
+						</Text>
+					</View>
+
+					<View className="flex flex-col items-start">
+						<Text className="text-black-200 text-xs font-rubik-medium">
+							Nights
+						</Text>
+						<Text
+							numberOfLines={1}
+							className="text-primary-300 text-start text-2xl font-rubik-bold"
+						>
+							{selectedRange.start &&
+								selectedRange.end &&
+								calculateNights(selectedRange.start, selectedRange.end)}
 						</Text>
 					</View>
 
