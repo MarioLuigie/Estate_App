@@ -57,19 +57,6 @@ export default function ConfirmPlaceOrderScreen() {
 		createdAt: formatDateTime(new Date()),
 	};
 
-	console.log(
-		'PERSONAL DATA PM',
-		startDate,
-		endDate,
-		property,
-		status,
-		totalPrice,
-		fullName,
-		email,
-		phone,
-		paymentMethod
-	);
-
 	return (
 		<View className="flex-1 relative">
 			<Text className="font-rubik-medium text-black text-xl mt-5 px-5">
@@ -91,9 +78,6 @@ export default function ConfirmPlaceOrderScreen() {
 							property={{ ...propertyData, agent: propertyData.agent }}
 						/>
 					)}
-
-					<Text>CONFIRM AND PLACE ORDER</Text>
-					<Text>{id}</Text>
 				</View>
 			</ScrollView>
 

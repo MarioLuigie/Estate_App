@@ -4,7 +4,6 @@ import { TABS_HEIGHT } from '@/lib/constants/layout';
 import { ROUTES } from '@/lib/constants/paths';
 import { useGlobalContext } from '@/lib/context/global-provider';
 import { useAppwrite } from '@/lib/hooks/useAppwrite';
-import { useBookingsStore } from '@/lib/store/bookings.store';
 import { router, useLocalSearchParams } from 'expo-router';
 import { ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -12,17 +11,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 export default function PersonalDataScreen() {
 	const { id } = useLocalSearchParams();
 	const insets = useSafeAreaInsets();
-	const { startDate, endDate, property, status, totalPrice } =
-		useBookingsStore((state) => state);
-
-	console.log(
-		'PERSONAL DATA PD',
-		startDate,
-		endDate,
-		property,
-		status,
-		totalPrice
-	);
 
 	const { authUser } = useGlobalContext();
 	const { data: user } = useAppwrite({

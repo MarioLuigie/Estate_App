@@ -1,14 +1,13 @@
 // modules
 import React from 'react';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Text, View } from 'react-native';
 // components
 import Label from '@/components/ui/Label';
 import Paper from '@/components/ui/Paper';
 import { PaymentMethod, Status } from '@/lib/constants/enums';
-import { ROUTES } from '@/lib/constants/paths';
 import { formatDate } from '@/lib/utils';
-import { router } from 'expo-router';
 import AgentContact from '../AgentContact';
+import { calculateNights } from '@/lib/tools';
 
 interface BookingSummaryProps {
 	booking: {
@@ -78,10 +77,25 @@ export default function BookingSummary({
 							{/* Total Price */}
 							<View className="flex-row">
 								<Text className="font-rubik-light text-black dark:text-white w-24">
-									Total price:
+									Total Price:
 								</Text>
 								<Text className="font-rubik-light text-gray-700 dark:text-gray-300">
 									${booking.totalPrice}
+								</Text>
+							</View>
+
+							{/* Total Nights */}
+							<View className="flex-row">
+								<Text className="font-rubik-light text-black dark:text-white w-24">
+									Nights:
+								</Text>
+								<Text className="font-rubik-light text-gray-700 dark:text-gray-300">
+									{booking.startDate &&
+										booking.endDate &&
+										calculateNights(
+											String(booking.startDate),
+											String(booking.endDate)
+										)}
 								</Text>
 							</View>
 
@@ -91,14 +105,12 @@ export default function BookingSummary({
 									Booked at:
 								</Text>
 								<Text className="font-rubik-light text-gray-700 dark:text-gray-300">
-									{formatDate(booking.createdAt)}
+									{booking.createdAt}
 								</Text>
 							</View>
 						</View>
 
-						<View
-							style={{ width: 50, height: 50 }}
-						>
+						<View style={{ width: 50, height: 50 }}>
 							<Image
 								source={{ uri: property?.image[0].image.url }}
 								className="w-full h-full rounded-xl"
