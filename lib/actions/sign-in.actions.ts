@@ -7,7 +7,7 @@ import {
 	OAuthProvider,
 	Query,
 } from 'react-native-appwrite';
-// modules
+// lib
 import * as Appwrite from '@/lib/services/appwrite'
 
 // LOGIN

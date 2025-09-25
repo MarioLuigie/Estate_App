@@ -1,7 +1,6 @@
 // modules
 import { ID, Permission, Role } from 'react-native-appwrite';
-import Constants from 'expo-constants';
-// lib
+// modules
 import * as Appwrite from '@/lib/services/appwrite';
 
 // CREATE GALLERY

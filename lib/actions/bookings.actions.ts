@@ -1,56 +1,64 @@
 // modules
-import {
-  Query,
-} from 'react-native-appwrite';
+import { ID, Query } from 'react-native-appwrite';
+import Constants from 'expo-constants';
 // lib
 import * as Appwrite from '@/lib/services/appwrite';
+import * as Mock from '@/lib/actions/mock/bookings.mock';
+import { Mode } from '@/lib/constants/enums';
+
+const USE_API = Constants.expoConfig?.extra?.auth?.NODE_ENV === Mode.PRODUCTION;
 
 // READ BOOKINGS
 export async function getMyBookings() {
-  try {
-    const authUser = await Appwrite.account.get();
+	try {
+		if (USE_API) {
+			const authUser = await Appwrite.account.get();
 
-    const result = Appwrite.databases.listDocuments(
-      Appwrite.config.databaseId!,
-      Appwrite.config.bookingsCollectionId!,
-      [Query.equal('ownerId', authUser.$id)]
-    )
+			const result = Appwrite.databases.listDocuments(
+				Appwrite.config.databaseId!,
+				Appwrite.config.bookingsCollectionId!,
+				[Query.equal('ownerId', authUser.$id)]
+			);
 
-    return (await result).documents;
-  } catch (error) {
-    console.error('Bookings not founded error:', error);
-    return null;
-  }
+			return (await result).documents;
+		} else {
+			return await Mock.getMyBookings();
+		}
+	} catch (error) {
+		console.error('Bookings not founded error:', error);
+		return null;
+	}
 }
 
 export async function getBookingsByPropertyId(propertyId: string) {
-  try {
-    const result = await Appwrite.databases.listDocuments(
-      Appwrite.config.databaseId!,
-      Appwrite.config.bookingsCollectionId!,
-      [Query.equal('property', propertyId)]
-    );
+	try {
+		const result = await Appwrite.databases.listDocuments(
+			Appwrite.config.databaseId!,
+			Appwrite.config.bookingsCollectionId!,
+			[Query.equal('property', propertyId)]
+		);
 
-    return result.documents;
-  } catch (error) {
-    console.error('Bookings not founded error:', error);
-    return null;
-  }
+		return result.documents;
+	} catch (error) {
+		console.error('Bookings not founded error:', error);
+		return null;
+	}
 }
 
 // CREATE BOOKING
 export async function createBooking(data: any) {
-  try {
-    const result = await Appwrite.databases.createDocument(
-      Appwrite.config.databaseId!,
-      Appwrite.config.bookingsCollectionId!,
-      data,
-      [] // permissions
-    );
+	try {
+		const result = await Appwrite.databases.createDocument(
+			Appwrite.config.databaseId!,
+			Appwrite.config.bookingsCollectionId!,
+      ID.unique(),
+			data,
+			[] // permissions
+		);
 
-    return result;
-  } catch (error) {
-    console.error('Bookings not founded error:', error);
-    return null;
-  }
+		return result;
+	} catch (error) {
+		console.error('Bookings not founded error:', error);
+		return null;
+	}
 }

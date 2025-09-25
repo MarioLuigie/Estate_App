@@ -96,6 +96,7 @@ export default {
 				"projectId": "aef3a0fb-3c0a-4f80-a3e3-d7ec8cb8a5b3"
 			},
 			"auth": {
+				"NODE_ENV": process.env.NODE_ENV,
 				"appwriteProjectId": process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID,
 				"redirectScheme": `appwrite-callback-${process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID}`,
 				"appwriteEndpoint": process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT,

@@ -1,6 +1,5 @@
 // modules
 import { ID, Permission, Query, Role } from 'react-native-appwrite';
-import Constants from 'expo-constants';
 // lib
 import { createGallery, deleteGallery } from '@/lib/actions/galleries.actions';
 import * as Appwrite from '@/lib/services/appwrite';

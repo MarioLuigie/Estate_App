@@ -19,3 +19,8 @@ export enum ContactMethod {
 	PHONE = 'phone',
 	EMAIL = 'email',
 }
+
+export enum Mode {
+	PRODUCTION = 'production',
+	DEV = 'dev'
+}
