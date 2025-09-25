@@ -10,7 +10,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-export default function PersonalData() {
+export default function PersonalDataScreen() {
 	const { id } = useLocalSearchParams();
 	const insets = useSafeAreaInsets();
 	const { startDate, endDate, property, status, totalPrice } = useBookingsStore(

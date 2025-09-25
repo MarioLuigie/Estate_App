@@ -1,15 +1,25 @@
+import BookingSummary from '@/components/content/bookings/BookingSummary';
 import CustomTouchable from '@/components/ui/CustomTouchable';
+import {
+	getAgentById,
+	getPropertyById,
+} from '@/lib/actions/properties.actions';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
 import { ROUTES } from '@/lib/constants/paths';
+import { useAppwrite } from '@/lib/hooks/useAppwrite';
 import { useBookingsStore } from '@/lib/store/bookings.store';
+import { formatDateTime } from '@/lib/utils';
 import { router, useLocalSearchParams } from 'expo-router';
 import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-export default function ConfirmPlaceOrder() {
+export default function ConfirmPlaceOrderScreen() {
 	const { id } = useLocalSearchParams<{ id?: string }>();
 	const insets = useSafeAreaInsets();
+
+	const setCreatedAt = useBookingsStore((state) => state.setCreatedAt);
+	const setTransactionId = useBookingsStore((state) => state.setTransactionId);
 
 	const {
 		startDate,
@@ -22,6 +32,33 @@ export default function ConfirmPlaceOrder() {
 		phone,
 		paymentMethod,
 	} = useBookingsStore((state) => state);
+
+	const { data: propertyData } = useAppwrite({
+		fn: () => getPropertyById({ id: property }),
+	});
+
+	const [agent, setAgent] = React.useState<any>(null);
+
+	React.useEffect(() => {
+		if (propertyData?.agent) {
+			getAgentById({ id: propertyData.agent })
+				.then(setAgent)
+				.catch(console.error);
+		}
+	}, [propertyData]);
+
+	const booking = {
+		startDate,
+		endDate,
+		property,
+		status,
+		totalPrice,
+		fullName,
+		email,
+		phone,
+		paymentMethod,
+		createdAt: formatDateTime(new Date()),
+	};
 
 	console.log(
 		'PERSONAL DATA PM',
@@ -51,6 +88,13 @@ export default function ConfirmPlaceOrder() {
 				className="flex-1 bg-white dark:bg-black gap-2 px-2"
 			>
 				<View style={{ marginHorizontal: 12 }}>
+					{propertyData && agent && (
+						<BookingSummary
+							booking={booking}
+							property={{ ...propertyData, agent }}
+						/>
+					)}
+
 					<Text>CONFIRM AND PLACE ORDER</Text>
 					<Text>{id}</Text>
 				</View>

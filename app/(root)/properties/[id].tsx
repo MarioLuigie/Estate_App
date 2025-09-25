@@ -43,8 +43,6 @@ export default function PropertyDetails() {
 		wasUpdated?: string;
 	}>();
 
-	console.log('WAS UPDATED PROPERTY DETAILS:', wasUpdated);
-
 	const insets = useSafeAreaInsets();
 	const { authUser } = useGlobalContext();
 	const windowHeight = Dimensions.get('window').height;

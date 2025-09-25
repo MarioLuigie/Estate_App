@@ -4,7 +4,7 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 // components
 import Label from '@/components/ui/Label';
 import Paper from '@/components/ui/Paper';
-import { Status } from '@/lib/constants/enums';
+import { PaymentMethod, Status } from '@/lib/constants/enums';
 import { ROUTES } from '@/lib/constants/paths';
 import { formatDate } from '@/lib/utils';
 import { router } from 'expo-router';
@@ -12,11 +12,15 @@ import AgentContact from '../AgentContact';
 
 interface BookingSummaryProps {
 	booking: {
-		startDate: string;
-		endDate: string;
+		startDate: Date | null;
+		endDate: Date | null;
 		status: string;
 		totalPrice: number;
 		createdAt: string;
+		paymentMethod?: PaymentMethod;
+		fullName?: string;
+		email?: string;
+		phone?: string;
 	};
 	property: any;
 }
@@ -44,8 +48,8 @@ export default function BookingSummary({
 							</Text>
 							<Label>
 								<Text className="text-gray-700 dark:text-gray-300">
-									{formatDate(booking.startDate)} -{' '}
-									{formatDate(booking.endDate)}
+									{formatDate(booking!.startDate!)} -{' '}
+									{formatDate(booking!.endDate!)}
 								</Text>
 							</Label>
 						</View>
