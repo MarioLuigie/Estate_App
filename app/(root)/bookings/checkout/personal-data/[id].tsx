@@ -1,5 +1,4 @@
 import PersonalDataForm from '@/components/forms/PersonalDataForm';
-import CustomTouchable from '@/components/ui/CustomTouchable';
 import { getCurrentUser } from '@/lib/actions/user.actions';
 import { TABS_HEIGHT } from '@/lib/constants/layout';
 import { ROUTES } from '@/lib/constants/paths';
@@ -13,8 +12,16 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 export default function PersonalDataScreen() {
 	const { id } = useLocalSearchParams();
 	const insets = useSafeAreaInsets();
-	const { startDate, endDate, property, status, totalPrice } = useBookingsStore(
-		(state) => state
+	const { startDate, endDate, property, status, totalPrice } =
+		useBookingsStore((state) => state);
+
+	console.log(
+		'PERSONAL DATA PD',
+		startDate,
+		endDate,
+		property,
+		status,
+		totalPrice
 	);
 
 	const { authUser } = useGlobalContext();
@@ -27,8 +34,6 @@ export default function PersonalDataScreen() {
 		email: user?.email ?? '',
 		phone: user?.phone ?? '',
 	};
-
-	console.log('PERSONAL DATA PD', startDate, endDate, property, status, totalPrice);
 
 	const handleRedirectUser = () => {
 		router.push(`${ROUTES.BOOKINGS_CHECKOUT_PAYMENT_METHOD}/${id}`);

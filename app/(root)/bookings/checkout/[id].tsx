@@ -3,7 +3,6 @@ import CustomTouchable from '@/components/ui/CustomTouchable';
 import Paper from '@/components/ui/Paper';
 import { getBookingsByPropertyId } from '@/lib/actions/bookings.actions';
 import {
-	getAgentById,
 	getPropertyById,
 } from '@/lib/actions/properties.actions';
 import { Status } from '@/lib/constants/enums';
@@ -19,7 +18,7 @@ import { Calendar } from 'react-native-calendars';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { calculateTotalPrice } from '@/lib/tools';
 
-export default function BookingsCheckout() {
+export default function BookingsCheckoutScreen() {
 	const { id } = useLocalSearchParams<{ id?: string }>();
 	const [agent, setAgent] = useState<any>(null);
 	const [agentLoading, setAgentLoading] = useState(false);

@@ -17,20 +17,28 @@ export default function PaymentMethodScreen() {
 	const [selectedMethod, setSelectedMethod] =
 		useState<PaymentMethod>(paymentMethod);
 
-	const { startDate, endDate, property, status, totalPrice, fullName, email, phone } =
-		useBookingsStore((state) => state);
+	const {
+		startDate,
+		endDate,
+		property,
+		status,
+		totalPrice,
+		fullName,
+		email,
+		phone,
+	} = useBookingsStore((state) => state);
 
-		console.log(
-			'PERSONAL DATA PM',
-			startDate,
-			endDate,
-			property,
-			status,
-			totalPrice,
-			fullName,
-			email,
-			phone
-		);
+	console.log(
+		'PERSONAL DATA PM',
+		startDate,
+		endDate,
+		property,
+		status,
+		totalPrice,
+		fullName,
+		email,
+		phone
+	);
 
 	const handleSelectMethod = (method: PaymentMethod) => {
 		setSelectedMethod(method);

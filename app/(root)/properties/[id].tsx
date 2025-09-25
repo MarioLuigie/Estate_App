@@ -12,7 +12,6 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 // lib
 import {
-	getAgentById,
 	getPropertyById,
 } from '@/lib/actions/properties.actions';
 import { getCurrentUser } from '@/lib/actions/user.actions';
@@ -146,7 +145,7 @@ export default function PropertyDetails() {
 										onPress={() =>
 											contact({
 												type: ContactMethod.EMAIL,
-												value: agent.email,
+												value: property?.agent.email,
 											})
 										}
 									/>

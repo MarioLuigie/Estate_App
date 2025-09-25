@@ -27,12 +27,11 @@ export default function PersonalDataForm({
 	const { authUser } = useGlobalContext();
 	const [isError, setIsError] = useState<boolean>(false);
 	const setUserData = useBookingsStore((state) => state.setUserData);
+	const [submitting, setSubmitting] = useState(false);
 
 	const {
 		control,
 		handleSubmit,
-		setValue,
-		watch,
 		reset,
 		formState: { errors },
 	} = useForm<PersonalDataFormValues>({
@@ -45,8 +44,6 @@ export default function PersonalDataForm({
 			reset(profile);
 		}
 	}, [profile, reset]);
-
-	const [submitting, setSubmitting] = useState(false);
 
 	// --- Submit ---
 	const onSubmit: SubmitHandler<PersonalDataFormValues> = async (

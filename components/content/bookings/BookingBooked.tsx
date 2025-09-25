@@ -10,7 +10,7 @@ import { formatDate } from '@/lib/utils';
 import { router } from 'expo-router';
 import AgentContact from '../AgentContact';
 
-interface BookingSummaryProps {
+interface BookingBookedProps {
 	booking: {
 		startDate: Date | null;
 		endDate: Date | null;
@@ -25,10 +25,10 @@ interface BookingSummaryProps {
 	property: any;
 }
 
-export default function BookingSummary({
+export default function BookingBooked({
 	booking,
 	property,
-}: BookingSummaryProps) {
+}: BookingBookedProps) {
 	return (
 		<Paper>
 			<Text
@@ -96,8 +96,11 @@ export default function BookingSummary({
 							</View>
 						</View>
 
-						<View
+						<TouchableOpacity
 							style={{ width: 50, height: 50 }}
+							onPress={() =>
+								router.push(`${ROUTES.PROPERTIES}/${property?.$id}`)
+							}
 						>
 							<Image
 								source={{ uri: property?.image[0].image.url }}
@@ -105,7 +108,7 @@ export default function BookingSummary({
 								resizeMode="cover"
 								style={{ opacity: 0.8 }}
 							/>
-						</View>
+						</TouchableOpacity>
 					</View>
 				</View>
 			</View>

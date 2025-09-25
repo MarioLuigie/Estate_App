@@ -1,5 +1,5 @@
 // modules
-import BookingSummary from '@/components/content/bookings/BookingSummary';
+import BookingBooked from '@/components/content/bookings/BookingBooked';
 import CustomTouchable from '@/components/ui/CustomTouchable';
 import { getMyBookings } from '@/lib/actions/bookings.actions';
 import { getPropertiesByIds } from '@/lib/actions/properties.actions';
@@ -65,7 +65,7 @@ export default function MyBookingsScreen() {
 							(b) => b.$id === item.property
 						);
 						return (
-							<BookingSummary
+							<BookingBooked
 								key={item.$id}
 								booking={item}
 								property={property}
