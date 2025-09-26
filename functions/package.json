@@ -1,15 +1,13 @@
 {
-  "name": "create-order",
+  "name": "functions",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "build": "tsc index.ts --esModuleInterop --skipLibCheck --outDir dist",
-    "start": "node dist/index.js"
+    "build": "tsc -p tsconfig.json"
   },
-  "dependencies": {
-    "node-appwrite": "^19.1.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "typescript": "^5.8.3"
   }
 }
+
