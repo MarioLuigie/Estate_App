@@ -12,7 +12,6 @@ export default async function createOrder(event: any, context: any) {
 	try {
     console.log("EVENT:", event);
     console.log("EVENT:", event.req.body);
-    console.log("EVENT:", event.req.body.data.amount);
 
 		const rawInput = event.req.body || event.payload || '{}';
 		const parsed = JSON.parse(rawInput);
@@ -21,16 +20,7 @@ export default async function createOrder(event: any, context: any) {
 		console.log('Parsed input:', parsed);
 
 		const { amount, currency, bookingId, returnUrl, cancelUrl } =
-			parsed as CreateOrderInput;
-
-		// walidacja
-		if (typeof amount !== 'number')
-			throw new Error(`Invalid amount: ${amount}`);
-		if (!currency) throw new Error(`Invalid currency: ${currency}`);
-		if (!bookingId) throw new Error(`Missing bookingId`);
-
-		console.log('event.body:', event.body);
-		console.log('event.payload:', event.payload);
+			parsed.data as CreateOrderInput;
 
 		// walidacja
 		if (typeof amount !== 'number')
