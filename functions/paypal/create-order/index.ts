@@ -11,10 +11,10 @@ interface CreateOrderInput {
 export default async function createOrder(event: any, context: any) {
 	try {
     console.log("EVENT:", event);
-    console.log("EVENT:", event.body);
-    console.log("EVENT:", event.payload);
+    console.log("EVENT:", event.req.body);
+    console.log("EVENT:", event.req.body.data.amount);
 
-		const rawInput = event.body || event.payload || '{}';
+		const rawInput = event.req.body || event.payload || '{}';
 		const parsed = JSON.parse(rawInput);
 
 		// logujemy co naprawdę mamy
