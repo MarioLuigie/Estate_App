@@ -5,7 +5,7 @@ const functions = new Functions(client);
 
 export async function createPaypalOrder(total: number, bookingId: string, currency: string = "USD") {
   const execution = await functions.createExecution(
-    "create-order",
+    "68d66cb800384019b45c",
     JSON.stringify({ amount: total, currency, bookingId }),
     false
   );
@@ -17,7 +17,7 @@ export async function createPaypalOrder(total: number, bookingId: string, curren
 
 export async function capturePaypalOrder(orderId: string) {
   const execution = await functions.createExecution(
-    "capture-order",
+    "68d6bb17c4fffffb04c3",
     JSON.stringify({ orderId }),
     false
   );
