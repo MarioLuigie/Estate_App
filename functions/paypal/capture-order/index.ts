@@ -6,7 +6,7 @@ interface CaptureOrderInput {
 
 
 export default async function captureOrder(event: any, context: any) {
-  const { orderId } = JSON.parse(event.body) as CaptureOrderInput;
+  const { orderId } = JSON.parse(event.req.body) as CaptureOrderInput;
   
   const accessToken = await getAccessToken();
   
