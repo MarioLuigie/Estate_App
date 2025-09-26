@@ -12,9 +12,13 @@ export default async function createOrder(event: any, context: any) {
 	try {
 		// fallback: event.body może być undefined w React Native SDK
 		const bodyStr = event.body || event.payload || '{}';
-		const { amount, currency, bookingId, returnUrl, cancelUrl } = JSON.parse(
-			bodyStr
-		) as CreateOrderInput;
+    const { amount, currency, bookingId, returnUrl, cancelUrl } = JSON.parse(bodyStr).data as CreateOrderInput;
+		// const { amount, currency, bookingId, returnUrl, cancelUrl } = JSON.parse(
+		// 	bodyStr
+		// ) as CreateOrderInput;
+
+		console.log('event.body:', event.body);
+		console.log('event.payload:', event.payload);
 
 		// walidacja
 		if (typeof amount !== 'number')
