@@ -63,10 +63,17 @@ export default function PropertyForm({
 	const mapRef = useRef<MapView>(null);
 
 	const PropertyFormSchema = getPropertyFormSchema(actionType);
-	const PropertyFormDefaultValues = getPropertyFormDefaultValues(
+	let PropertyFormDefaultValues = getPropertyFormDefaultValues(
 		actionType,
 		property
 	);
+
+	if (actionType === ActionTypes.UPDATE) {
+		PropertyFormDefaultValues = {
+			...PropertyFormDefaultValues,
+			agent: PropertyFormDefaultValues.agent.$id,
+		};
+	}
 
 	const isCreating = actionType === ActionTypes.CREATE;
 	const isUpdating = actionType === ActionTypes.UPDATE;
@@ -82,6 +89,7 @@ export default function PropertyForm({
 		resolver: zodResolver(PropertyFormSchema),
 		defaultValues: PropertyFormDefaultValues,
 	});
+	console.log('AGENT DATA EMPTY?', PropertyFormDefaultValues.agent);
 
 	const [submitting, setSubmitting] = useState(false);
 	const facilitiesSelected = watch('facilities');
@@ -262,7 +270,10 @@ export default function PropertyForm({
 				const updatedProperty = await updateMyProperty(data);
 
 				if (updatedProperty) {
-					router.push({ pathname: ROUTES.PROFILE_MY_PROPERTIES, params: { updatedId: `${updatedProperty.$id}` } });
+					router.push({
+						pathname: ROUTES.PROFILE_MY_PROPERTIES,
+						params: { updatedId: `${updatedProperty.$id}` },
+					});
 					reset();
 					setImageState('');
 				}
