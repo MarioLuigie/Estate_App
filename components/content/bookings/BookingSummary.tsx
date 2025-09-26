@@ -13,7 +13,7 @@ interface BookingSummaryProps {
 	booking: {
 		startDate: Date | null;
 		endDate: Date | null;
-		status: string;
+		status: Status;
 		totalPrice: number;
 		createdAt: string;
 		paymentMethod?: PaymentMethod;

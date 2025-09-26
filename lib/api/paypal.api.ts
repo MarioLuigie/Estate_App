@@ -5,7 +5,7 @@ const functions = new Functions(client);
 
 export async function createPaypalOrder(total: number, bookingId: string, currency: string = "USD") {
   const execution = await functions.createExecution(
-    "create-order", // ID Twojej Appwrite Function w konsoli
+    "create-order",
     JSON.stringify({ amount: total, currency, bookingId }),
     false
   );
@@ -17,7 +17,7 @@ export async function createPaypalOrder(total: number, bookingId: string, curren
 
 export async function capturePaypalOrder(orderId: string) {
   const execution = await functions.createExecution(
-    "capture-order", // ID Twojej Appwrite Function w konsoli
+    "capture-order",
     JSON.stringify({ orderId }),
     false
   );
@@ -26,6 +26,36 @@ export async function capturePaypalOrder(orderId: string) {
 
   return JSON.parse(execution.responseBody);
 }
+
+
+// import { client } from "@/lib/services/appwrite";
+// import { Functions } from "react-native-appwrite";
+
+// const functions = new Functions(client);
+
+// export async function createPaypalOrder(total: number, bookingId: string, currency: string = "USD") {
+//   const execution = await functions.createExecution(
+//     "create-order", // ID Twojej Appwrite Function w konsoli
+//     JSON.stringify({ amount: total, currency, bookingId }),
+//     false
+//   );
+
+//   if (!execution.responseBody) throw new Error("Empty response from function");
+
+//   return JSON.parse(execution.responseBody);
+// }
+
+// export async function capturePaypalOrder(orderId: string) {
+//   const execution = await functions.createExecution(
+//     "capture-order", // ID Twojej Appwrite Function w konsoli
+//     JSON.stringify({ orderId }),
+//     false
+//   );
+
+//   if (!execution.responseBody) throw new Error("Empty response from function");
+
+//   return JSON.parse(execution.responseBody);
+// }
 
 
 // import { client } from "@/lib/services/appwrite";
