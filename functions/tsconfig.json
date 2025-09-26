@@ -1,12 +1,14 @@
 {
-	"compilerOptions": {
-		"target": "ES2020",
-		"module": "CommonJS",
-		"rootDir": "./",
-		"outDir": "./dist",
-		"esModuleInterop": true,
-		"strict": true,
-		"skipLibCheck": true
-	},
-	"include": ["paypal/**/*.ts"]
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "CommonJS",
+    "outDir": "./dist",
+    "rootDir": "./",
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "types": ["node"]   
+  },
+  "include": ["paypal/**/*", "appwrite-client/**/*"]
 }
+
