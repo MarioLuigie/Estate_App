@@ -10,12 +10,24 @@ interface CreateOrderInput {
 
 export default async function createOrder(event: any, context: any) {
 	try {
-		// fallback: event.body może być undefined w React Native SDK
-		const bodyStr = event.body || event.payload || '{}';
-    const { amount, currency, bookingId, returnUrl, cancelUrl } = JSON.parse(bodyStr).data as CreateOrderInput;
-		// const { amount, currency, bookingId, returnUrl, cancelUrl } = JSON.parse(
-		// 	bodyStr
-		// ) as CreateOrderInput;
+    console.log("EVENT:", event);
+    console.log("EVENT:", event.body);
+    console.log("EVENT:", event.payload);
+
+		const rawInput = event.body || event.payload || '{}';
+		const parsed = JSON.parse(rawInput);
+
+		// logujemy co naprawdę mamy
+		console.log('Parsed input:', parsed);
+
+		const { amount, currency, bookingId, returnUrl, cancelUrl } =
+			parsed as CreateOrderInput;
+
+		// walidacja
+		if (typeof amount !== 'number')
+			throw new Error(`Invalid amount: ${amount}`);
+		if (!currency) throw new Error(`Invalid currency: ${currency}`);
+		if (!bookingId) throw new Error(`Missing bookingId`);
 
 		console.log('event.body:', event.body);
 		console.log('event.payload:', event.payload);
