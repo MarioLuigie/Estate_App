@@ -55,6 +55,8 @@ export default function ConfirmPlaceOrderScreen() {
   const RETURN_URL = "https://example.com/paypal-success";
   const CANCEL_URL = "https://example.com/paypal-cancel";
 
+	console.log("%%%%%%%%%%%%%%%5", booking.totalPrice)
+
   const handlePlaceOrder = async () => {
     try {
       setLoading(true);
