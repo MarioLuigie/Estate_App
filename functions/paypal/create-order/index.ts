@@ -1,4 +1,4 @@
-import { client, databases } from '@/functions/appwrite-client';
+import { getAccessToken } from "../utils/paypalAuth";
 
 interface CreateOrderInput {
   amount: number;
@@ -6,14 +6,17 @@ interface CreateOrderInput {
   bookingId: string;
 }
 
+
 export default async function createOrder(event: any, context: any) {
   const { amount, currency, bookingId } = JSON.parse(event.body) as CreateOrderInput;
+  
+  const accessToken = await getAccessToken();
 
   const response = await fetch('https://api-m.sandbox.paypal.com/v2/checkout/orders', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${process.env.PAYPAL_ACCESS_TOKEN}`
+      'Authorization': `Bearer ${accessToken}`
     },
     body: JSON.stringify({
       intent: 'CAPTURE',
