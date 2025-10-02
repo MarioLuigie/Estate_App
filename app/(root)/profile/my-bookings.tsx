@@ -33,7 +33,16 @@ export default function MyBookingsScreen() {
 		const fetchMyBookingsList = async () => {
 			try {
 				const result = await getMyBookings();
-				result && setBookings(result);
+				if (result) {
+					// sortujemy od najnowszego do najstarszego po $createdAt
+					const sorted = result.sort(
+						(a, b) =>
+							new Date(b.$createdAt).getTime() -
+							new Date(a.$createdAt).getTime()
+					);
+					setBookings(sorted);
+					console.log('Sorted bookings:', sorted);
+				}
 			} catch (error) {
 				console.error('Failed to fetch bookings:', error);
 			}

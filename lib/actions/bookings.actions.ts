@@ -14,13 +14,15 @@ export async function getMyBookings() {
 		if (USE_API) {
 			const authUser = await Appwrite.account.get();
 
-			const result = Appwrite.databases.listDocuments(
+			const result = await Appwrite.databases.listDocuments(
 				Appwrite.config.databaseId!,
 				Appwrite.config.bookingsCollectionId!,
 				[Query.equal('ownerId', authUser.$id), Query.orderDesc('$createdAt')]
 			);
 
-			return (await result).documents;
+			console.log("getMyBookings:", result.documents)
+
+			return result.documents;
 		} else {
 			return await Mock.getMyBookings();
 		}
