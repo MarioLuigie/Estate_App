@@ -3,6 +3,7 @@ import BookingBooked from '@/components/content/bookings/BookingBooked';
 import CustomTouchable from '@/components/ui/CustomTouchable';
 import { getMyBookings } from '@/lib/actions/bookings.actions';
 import { getPropertiesByIds } from '@/lib/actions/properties.actions';
+import { sortDescItems } from '@/lib/utils';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
@@ -35,11 +36,7 @@ export default function MyBookingsScreen() {
 				const result = await getMyBookings();
 				if (result) {
 					// sortujemy od najnowszego do najstarszego po $createdAt
-					const sorted = result.sort(
-						(a, b) =>
-							new Date(b.$createdAt).getTime() -
-							new Date(a.$createdAt).getTime()
-					);
+					const sorted = sortDescItems(result);
 					setBookings(sorted);
 					console.log('Sorted bookings:', sorted);
 				}

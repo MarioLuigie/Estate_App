@@ -89,20 +89,29 @@ export function normalizePhoneNumber(phone: string): string {
 }
 
 export function normalizePolishPhoneNumber(value: string) {
-  if (!value) return '';
-  // Usuń wszystko, co nie jest cyfrą
-  let digits = value.replace(/\D/g, '');
+	if (!value) return '';
+	// Usuń wszystko, co nie jest cyfrą
+	let digits = value.replace(/\D/g, '');
 
-  // Zamień prefiks 00 na +
-  if (digits.startsWith('00')) {
-    digits = '+' + digits.slice(2);
-  } else if (digits.startsWith('48')) {
-    digits = '+48' + digits.slice(2);
-  } else if (!digits.startsWith('+48')) {
-    digits = '+48' + digits;
-  }
+	// Zamień prefiks 00 na +
+	if (digits.startsWith('00')) {
+		digits = '+' + digits.slice(2);
+	} else if (digits.startsWith('48')) {
+		digits = '+48' + digits.slice(2);
+	} else if (!digits.startsWith('+48')) {
+		digits = '+48' + digits;
+	}
 
-  return digits;
+	return digits;
 }
 
 export const polishPhoneRegex = /^\+48\d{9}$/;
+
+export function sortDescItems(list: any[]): any[] {
+	const result: any[] = list.sort(
+		(a, b) =>
+			new Date(b.$createdAt).getTime() - new Date(a.$createdAt).getTime()
+	);
+
+	return result;
+}
