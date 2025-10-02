@@ -17,7 +17,7 @@ export async function getMyBookings() {
 			const result = await Appwrite.databases.listDocuments(
 				Appwrite.config.databaseId!,
 				Appwrite.config.bookingsCollectionId!,
-				[Query.equal('ownerId', authUser.$id), Query.orderDesc('$createdAt')]
+				[Query.equal('ownerId', authUser.$id)]
 			);
 
 			console.log("getMyBookings:", result.documents)

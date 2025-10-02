@@ -115,3 +115,17 @@ export function sortDescItems(list: any[]): any[] {
 
 	return result;
 }
+
+export function sortItems(list: any[], pointer: 'desc' | 'asc'): any[] {
+    const time = (i: any) => new Date(i.$createdAt).getTime();
+    const sorted: any[] = list.sort((a, b) => {
+        if (pointer === 'desc') {
+            return time(b) - time(a); // od najnowszych do najstarszych
+        } else if (pointer === 'asc') {
+            return time(a) - time(b); // od najstarszych do najnowszych
+        }
+        return 0; // domyślnie nie zmieniamy
+    });
+    return sorted;
+}
+
