@@ -1,13 +1,6 @@
 import { getAccessToken } from '../utils/paypalAuth';
-import { databases, account, ID } from '../../appwrite-client/index';
-
-// interface CreateOrderInput {
-// 	amount: number;
-// 	currency: string;
-// 	bookingId: string;
-// 	returnUrl?: string;
-// 	cancelUrl?: string;
-// }
+import { databases, ID } from '../../appwrite-client/index';
+import { Models, Account, Client } from 'node-appwrite';
 
 interface CreateOrderInput {
 	startDate: Date | null;
@@ -23,15 +16,25 @@ interface CreateOrderInput {
 	currency?: string;
 	returnUrl?: string;
 	cancelUrl?: string;
+	jwt: Models.Jwt;
 }
 
 export default async function createOrder(event: any, context: any) {
 	try {
-		// auth user
-		const authUser = await account.get();
-
 		const rawInput = event.req.body || '{}';
 		const parsed = JSON.parse(rawInput) as CreateOrderInput;
+
+		// auth user
+		// wyciągam sam token string
+		const jwtString = parsed.jwt.jwt; // zamiast JSON.parse(event.req.body.jwt)
+		// buduje klienta z JWT
+		const client = new Client()
+			.setEndpoint(process.env.APPWRITE_ENDPOINT!)
+			.setProject(process.env.APPWRITE_PROJECT_ID!)
+			.setJWT(jwtString);
+
+		const account = new Account(client);
+		const authUser = await account.get();
 
 		const {
 			property,
@@ -47,7 +50,7 @@ export default async function createOrder(event: any, context: any) {
 			cancelUrl,
 		} = parsed;
 
-		// logujemy co naprawdę mamy
+		// loguje co naprawdę mamy
 		console.log('Parsed input:', parsed);
 
 		// const { amount, currency, bookingId, returnUrl, cancelUrl } =
@@ -59,7 +62,7 @@ export default async function createOrder(event: any, context: any) {
 		// if (!currency) throw new Error(`Invalid currency: ${currency}`);
 		// if (!bookingId) throw new Error(`Missing bookingId`);
 
-		// tworzymy dokument booking w DB
+		// tworze dokument booking w DB
 		const bookingDoc = await databases.createDocument(
 			process.env.APPWRITE_DATABASE_ID!,
 			process.env.APPWRITE_BOOKINGS_COLLECTION_ID!,
@@ -82,16 +85,19 @@ export default async function createOrder(event: any, context: any) {
 
 		const bookingId = bookingDoc.$id;
 
-		// pobieramy token PayPal
+		// pobieram token PayPal
 		const accessToken = await getAccessToken();
 		if (!accessToken) throw new Error('No PayPal access token');
 
-		// budujemy zamówienie
+		// buduje zamówienie
 		const body = {
 			intent: 'CAPTURE',
 			purchase_units: [
 				{
-					amount: { currency_code: currency, value: totalPrice.toFixed(2) },
+					amount: {
+						currency_code: currency,
+						value: totalPrice.toFixed(2),
+					},
 					custom_id: bookingId,
 				},
 			],
@@ -101,7 +107,7 @@ export default async function createOrder(event: any, context: any) {
 			},
 		};
 
-		// wywołanie PayPal API
+		// wywołołuje PayPal API
 		const response = await fetch(
 			'https://api-m.sandbox.paypal.com/v2/checkout/orders',
 			{

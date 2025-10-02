@@ -1,4 +1,4 @@
-import { client } from '@/lib/services/appwrite';
+import { client, account } from '@/lib/services/appwrite';
 import { Functions } from 'react-native-appwrite';
 import { PaymentMethod, Status } from '../constants/enums';
 
@@ -15,18 +15,23 @@ interface Booking {
 	paymentMethod: PaymentMethod;
 	createdAt: string;
 	status: Status;
-};
+}
 
 export async function createPaypalOrder(
 	// total: number,
 	// bookingId: string,
 	// currency: string = 'USD'
 	booking: Booking,
-	currency: string = 'USD',
+	currency: string = 'USD'
 ) {
+	const session = await account.getSession('current');
+	if (!session) throw new Error('Not authenticated');
+
+	const jwt = await account.createJWT();
+
 	const execution = await functions.createExecution(
 		'68d66cb800384019b45c',
-		JSON.stringify({...booking, currency }),
+		JSON.stringify({ ...booking, currency, jwt }),
 		false
 	);
 
