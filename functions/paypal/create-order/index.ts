@@ -1,32 +1,86 @@
 import { getAccessToken } from '../utils/paypalAuth';
+import { databases, account, ID } from '../../appwrite-client/index';
+
+// interface CreateOrderInput {
+// 	amount: number;
+// 	currency: string;
+// 	bookingId: string;
+// 	returnUrl?: string;
+// 	cancelUrl?: string;
+// }
 
 interface CreateOrderInput {
-	amount: number;
-	currency: string;
-	bookingId: string;
+	startDate: Date | null;
+	endDate: Date | null;
+	property: string;
+	totalPrice: number;
+	fullName: string;
+	email: string;
+	phone: string;
+	paymentMethod: string;
+	createdAt: string;
+	status: string;
+	currency?: string;
 	returnUrl?: string;
 	cancelUrl?: string;
 }
 
 export default async function createOrder(event: any, context: any) {
 	try {
-    console.log("EVENT:", event);
-    console.log("EVENT:", event.req.body);
+		// auth user
+		const authUser = await account.get();
 
-		const rawInput = event.req.body || event.payload || '{}';
-		const parsed = JSON.parse(rawInput);
+		const rawInput = event.req.body || '{}';
+		const parsed = JSON.parse(rawInput) as CreateOrderInput;
+
+		const {
+			property,
+			totalPrice,
+			startDate,
+			endDate,
+			paymentMethod,
+			fullName,
+			email,
+			phone,
+			currency = 'USD',
+			returnUrl,
+			cancelUrl,
+		} = parsed;
 
 		// logujemy co naprawdę mamy
 		console.log('Parsed input:', parsed);
 
-		const { amount, currency, bookingId, returnUrl, cancelUrl } =
-			parsed.data as CreateOrderInput;
+		// const { amount, currency, bookingId, returnUrl, cancelUrl } =
+		// 	parsed.data as CreateOrderInput;
 
 		// walidacja
-		if (typeof amount !== 'number')
-			throw new Error(`Invalid amount: ${amount}`);
-		if (!currency) throw new Error(`Invalid currency: ${currency}`);
-		if (!bookingId) throw new Error(`Missing bookingId`);
+		// if (typeof amount !== 'number')
+		// 	throw new Error(`Invalid amount: ${amount}`);
+		// if (!currency) throw new Error(`Invalid currency: ${currency}`);
+		// if (!bookingId) throw new Error(`Missing bookingId`);
+
+		// tworzymy dokument booking w DB
+		const bookingDoc = await databases.createDocument(
+			process.env.APPWRITE_DATABASE_ID!,
+			process.env.APPWRITE_BOOKINGS_COLLECTION_ID!,
+			ID.unique(),
+			{
+				ownerId: authUser.$id,
+				property,
+				totalPrice,
+				startDate,
+				endDate,
+				status: 'pending',
+				paymentMethod,
+				fullName,
+				email,
+				phone,
+				transactionId: '',
+				createdAt: new Date().toISOString(),
+			}
+		);
+
+		const bookingId = bookingDoc.$id;
 
 		// pobieramy token PayPal
 		const accessToken = await getAccessToken();
@@ -37,7 +91,7 @@ export default async function createOrder(event: any, context: any) {
 			intent: 'CAPTURE',
 			purchase_units: [
 				{
-					amount: { currency_code: currency, value: amount.toFixed(2) },
+					amount: { currency_code: currency, value: totalPrice.toFixed(2) },
 					custom_id: bookingId,
 				},
 			],
@@ -66,7 +120,10 @@ export default async function createOrder(event: any, context: any) {
 
 		return {
 			statusCode: 200,
-			body: JSON.stringify(data),
+			body: JSON.stringify({
+				paypalOrder: data,
+				bookingId,
+			}),
 		};
 	} catch (err: any) {
 		console.error('Error in create-order:', err);

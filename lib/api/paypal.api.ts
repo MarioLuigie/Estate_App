@@ -1,32 +1,51 @@
-import { client } from "@/lib/services/appwrite";
-import { Functions } from "react-native-appwrite";
+import { client } from '@/lib/services/appwrite';
+import { Functions } from 'react-native-appwrite';
+import { PaymentMethod, Status } from '../constants/enums';
 
 const functions = new Functions(client);
 
-export async function createPaypalOrder(total: number, bookingId: string, currency: string = "USD") {
-  const execution = await functions.createExecution(
-    "68d66cb800384019b45c",
-    JSON.stringify({ data: {amount: total, currency, bookingId} }),
-    false
-  );
+interface Booking {
+	startDate: Date | null;
+	endDate: Date | null;
+	property: string;
+	totalPrice: number;
+	fullName: string;
+	email: string;
+	phone: string;
+	paymentMethod: PaymentMethod;
+	createdAt: string;
+	status: Status;
+};
 
-  if (!execution.responseBody) throw new Error("Empty response from function");
+export async function createPaypalOrder(
+	// total: number,
+	// bookingId: string,
+	// currency: string = 'USD'
+	booking: Booking,
+	currency: string = 'USD',
+) {
+	const execution = await functions.createExecution(
+		'68d66cb800384019b45c',
+		JSON.stringify({...booking, currency }),
+		false
+	);
 
-  return JSON.parse(execution.responseBody);
+	if (!execution.responseBody) throw new Error('Empty response from function');
+
+	return JSON.parse(execution.responseBody);
 }
 
 export async function capturePaypalOrder(orderId: string) {
-  const execution = await functions.createExecution(
-    "68d6bb17c4fffffb04c3",
-    JSON.stringify({ orderId }),
-    false
-  );
+	const execution = await functions.createExecution(
+		'68d66ddf003ba12bb5c2',
+		JSON.stringify({ orderId }),
+		false
+	);
 
-  if (!execution.responseBody) throw new Error("Empty response from function");
+	if (!execution.responseBody) throw new Error('Empty response from function');
 
-  return JSON.parse(execution.responseBody);
+	return JSON.parse(execution.responseBody);
 }
-
 
 // import { client } from "@/lib/services/appwrite";
 // import { Functions } from "react-native-appwrite";
@@ -57,9 +76,8 @@ export async function capturePaypalOrder(orderId: string) {
 //   return JSON.parse(execution.responseBody);
 // }
 
-
 // import { client } from "@/lib/services/appwrite";
-// import { Functions } from "react-native-appwrite"; 
+// import { Functions } from "react-native-appwrite";
 
 // const functions = new Functions(client);
 

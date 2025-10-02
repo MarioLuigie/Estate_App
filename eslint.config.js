@@ -7,4 +7,17 @@ module.exports = defineConfig([
   {
     ignores: ['dist/*'],
   },
+  {
+    files: ["functions/**/*.ts", "functions/**/*.js"],
+    languageOptions: {
+      globals: {
+        // to mówi ESLintowi, że ma znać zmienne Node.js
+        Buffer: "readonly",
+        process: "readonly",
+        require: "readonly",
+        module: "readonly",
+        __dirname: "readonly",
+      },
+    },
+  },
 ]);
