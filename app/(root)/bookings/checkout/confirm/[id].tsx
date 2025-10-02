@@ -67,14 +67,16 @@ export default function ConfirmPlaceOrderScreen() {
 			setLoading(true);
 
 			// 1️⃣ Tworzymy zamówienie w PayPal
-			const paypalOrder = await createPaypalOrder(
+			const data = await createPaypalOrder(
 				// booking.totalPrice,
 				// booking.id,
 				booking
 			);
 
+			console.log("paypalOrder:", data)
+
 			// 2️⃣ Otwórz WebView na approve link
-			const approveLink = paypalOrder.links.find(
+			const approveLink = data.paypalOrder.links.find(
 				(l: any) => l.rel === 'approve'
 			)?.href;
 			if (!approveLink) throw new Error('Brak linku do płatności PayPal');
