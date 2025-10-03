@@ -1,4 +1,4 @@
-import PropertySummary from '@/components/content/properties/PropertySummary';
+import PropertySummary from '@/components/content/properties/PropertySummaryCard';
 import CustomTouchable from '@/components/ui/CustomTouchable';
 import Paper from '@/components/ui/Paper';
 import { getBookingsByPropertyId } from '@/lib/actions/bookings.actions';

@@ -1,4 +1,4 @@
-import BookingSummary from '@/components/content/bookings/BookingSummary';
+import BookingSummary from '@/components/content/bookings/BookingSummaryCard';
 import CustomTouchable from '@/components/ui/CustomTouchable';
 import { getPropertyById } from '@/lib/actions/properties.actions';
 import { capturePaypalOrder, createPaypalOrder } from '@/lib/api/paypal.api';

@@ -1,5 +1,5 @@
 // modules
-import BookingBooked from '@/components/content/bookings/BookingBooked';
+import BookingBooked from '@/components/content/bookings/BookingBookedCard';
 import CustomTouchable from '@/components/ui/CustomTouchable';
 import { getMyBookings } from '@/lib/actions/bookings.actions';
 import { getPropertiesByIds } from '@/lib/actions/properties.actions';
