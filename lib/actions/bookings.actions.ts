@@ -60,7 +60,7 @@ export async function createBooking(data: any) {
 
 		return result;
 	} catch (error) {
-		console.error('Bookings not founded error:', error);
+		console.error('Bookings not created error:', error);
 		return null;
 	}
 }
