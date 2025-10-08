@@ -1,6 +1,6 @@
 # Estate - Mobile Application for Android
 
-![Application intro](https://raw.githubusercontent.com/MarioLuigie/Estate_App/main/assets/images/git-hub-board.jpg)
+![Application intro](https://raw.githubusercontent.com/MarioLuigie/Estate_App/main/assets/images/git-hub-board.png)
 
 **REACT NATIVE | EXPO | NODE.JS | APPWRITE | NATIVEWIND**
 
