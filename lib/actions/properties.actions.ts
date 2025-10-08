@@ -1,6 +1,5 @@
 // modules
 import { ID, Permission, Query, Role } from 'react-native-appwrite';
-import Constants from 'expo-constants';
 // lib
 import { createGallery, deleteGallery } from '@/lib/actions/galleries.actions';
 import * as Appwrite from '@/lib/services/appwrite';
@@ -12,24 +11,22 @@ export async function addOwnLikesToProperty(properties: any[]) {
 	try {
 		if (!properties.length) return [];
 
-		// 1. Zbierz wszystkie ID property
 		const propertyIds = properties.map((p) => p.$id);
 
-		// 2. Pobierz wszystkie lajki dla tych ID jednym zapytaniem
 		const likesResult = await Appwrite.databases.listDocuments(
 			Appwrite.config.databaseId!,
 			Appwrite.config.likesCollectionId!,
-			[Query.equal('property', propertyIds)] // Query.in -> Appwrite automatycznie przyjmuje array
+			[Query.equal('property', propertyIds)] 
 		);
 
-		// 3. Policz lajki per propertyId
+		
 		const likesCountMap: Record<string, number> = {};
 		likesResult.documents.forEach((doc) => {
 			const pid = doc.property;
 			likesCountMap[pid] = (likesCountMap[pid] || 0) + 1;
 		});
 
-		// 4. Wzbogac properties o liczbę lajków
+		
 		return properties.map((p) => ({
 			...p,
 			likes: likesCountMap[p.$id] || 0,
@@ -88,7 +85,7 @@ export async function getProperties({
 
 export async function getLatestProperties(limit: number | string = 5) {
 	try {
-		const parsedLimit = Number(limit) || 5; // fallback jeśli undefined albo NaN
+		const parsedLimit = Number(limit) || 5; 
 
 		const result = await Appwrite.databases.listDocuments(
 			Appwrite.config.databaseId!,
@@ -99,8 +96,6 @@ export async function getLatestProperties(limit: number | string = 5) {
 				Query.select(['*', 'gallery.*', 'reviews.*', 'image.*']),
 			]
 		);
-
-		// console.log("getLatestProperties:", typeof result?.documents[0].image[0].image)
 
 		const parsedList = result?.documents.map(normalizeProperty);
 
@@ -119,8 +114,7 @@ export async function getPropertyById({ id }: { id: string }) {
 			Appwrite.config.databaseId!,
 			Appwrite.config.propertiesCollectionId!,
 			id,
-			[Query.select(['*', 'gallery.*', 'reviews.*', 'image.*', 'agent.*'])] // '*' = wszystkie własne pola rekordu
-			// 'gallery.*', 'reviews.*', 'agent.*' = pełne obiekty relacji
+			[Query.select(['*', 'gallery.*', 'reviews.*', 'image.*', 'agent.*'])] 
 		);
 
 		const parsedProperty = {
@@ -140,7 +134,6 @@ export async function getPropertyById({ id }: { id: string }) {
 	}
 }
 
-// For bookings list - dosnt need likes for displaying - remove addOwnLikesToProperty for optimalization request
 export async function getPropertiesByIds(ids: string[]) {
 	if (!ids || ids.length === 0) return [];
 
@@ -158,9 +151,6 @@ export async function getPropertiesByIds(ids: string[]) {
 
 		const parsedList = result?.documents.map(normalizeProperty);
 
-		// const parsedListWithLikes = await addOwnLikesToProperty(parsedList);
-
-		// return parsedListWithLikes;
 		return parsedList;
 	} catch (error) {
 		console.error('getPropertiesByIds error:', error);
@@ -196,7 +186,7 @@ export async function getLikesByUser(userId: string) {
 			[Query.equal('owner', userId)]
 		);
 
-		return result.documents; // każdy dokument ma propertyId i $id (id lajka)
+		return result.documents; 
 	} catch (error) {
 		console.error('Error fetching user likes:', error);
 		return [];
@@ -278,12 +268,9 @@ export async function getAddressFromCoordinates(lat: number, lng: number) {
 		const apiKey = Appwrite.config.googleMapsApiKey;
 
 		const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}`;
-		// console.log('GOOGLE MAPS API KEY:', apiKey);
 
 		const response = await fetch(url);
 		const data = await response.json();
-
-		// console.log('GOOGLE MAPS data:', data);
 
 		if (data.status !== 'OK' || !data.results.length) {
 			console.warn('Google Maps returned no results');
@@ -292,8 +279,6 @@ export async function getAddressFromCoordinates(lat: number, lng: number) {
 
 		const result = data.results[0];
 		const addressComponents = result.address_components;
-
-		// console.log('GOOGLE MAPS data result:', result);
 
 		const street = addressComponents.find((c: any) =>
 			c.types.includes('route')
@@ -350,17 +335,15 @@ export async function getCoordinatesFromAddress(address: string) {
 	}
 }
 
-// CREATE PROPERTY
 export async function createProperty(data: any) {
 	try {
 		const currentUser = await Appwrite.account.get();
 		const preparedImage = prepareImageForStorage(data?.image[0]);
-		// const uploadedImage = await addImageToStorage(preparedImage); // { fileId: string, url: string }
 
 		const uploadedImage = await uploadWithRetry(
 			addImageToStorage,
 			preparedImage
-		); // { fileId: string, url: string }
+		);
 		const resultGallery = await createGallery(uploadedImage!);
 
 		const resultProperty = await Appwrite.databases.createDocument(
@@ -388,7 +371,7 @@ export async function createProperty(data: any) {
 			);
 		}
 
-		return resultProperty; // clear js object
+		return resultProperty; 
 	} catch (error) {
 		console.error('Property not created', error);
 		return null;
@@ -402,17 +385,6 @@ export async function addImageToStorage(file: {
 	size: number;
 }): Promise<{ fileId: string; url: string } | null> {
 	try {
-		// console.log('BUCKET ID:', config.bucketId);
-		// console.log('ADD IMAGE TO STORAGE1:', file);
-
-		// const fetchBlob = async (uri: string) => {
-		// 	const response = await fetch(uri);
-		// 	const blob = await response.blob();
-		// 	return blob;
-		// };
-
-		// const blobFile = await fetchBlob(file.uri);
-
 		const isValidExt = (name: string): boolean => {
 			const ext = name.split('.').pop()?.toLowerCase();
 			return ext === 'jpg' || ext === 'jpeg' || ext === 'png';
@@ -466,21 +438,13 @@ export async function createLike(propertyId: string) {
 	}
 }
 
-// UPDATE PROPERTY
 export async function updateMyProperty(data: any) {
-	// First, add a new file to Storage.
-	// If the upload is successful, try updating the document in the DB.
-	// If the DB update is successful, delete the old file.
-	// If the DB update fails, delete the new file (rollback).0
-
-	// If image was not changed in form
 	const property = await getPropertyById({ id: data?.$id });
 
 	const oldImage = property?.image?.[0]?.image;
 	const newImage = data?.image?.[0];
 	const oldImageId = oldImage?.fileId;
 
-	// Sprawdzenie, czy obrazek został zmieniony
 	const currentImageId =
 		'image' in (newImage || {}) ? newImage.image.fileId : null;
 	const isImageChanged = oldImageId !== currentImageId;
@@ -501,9 +465,7 @@ export async function updateMyProperty(data: any) {
 		}
 	}
 
-	// If image was changed in form
 	try {
-		// First, add a new file to Storage.
 		const preparedImage = prepareImageForStorage(newImage);
 		const uploadedNewImage = await uploadWithRetry(
 			addImageToStorage,
@@ -513,17 +475,14 @@ export async function updateMyProperty(data: any) {
 		if (!uploadedNewImage) throw new Error('Upload failed');
 
 		try {
-			// If the upload is successful, try creating the new document in the DB in galleries.
 			const resultGallery = await createGallery(uploadedNewImage);
 
-			// If the resultGallery is successful, try deleting the old document in the DB in galleries.
 			try {
 				await deleteGallery(property.image[0].$id);
 			} catch (deleteError) {
 				console.warn("Couldn't delete old gallery record", deleteError);
 			}
 
-			// If the upload is successful, try updating the document in the DB in properties.
 			const result = await Appwrite.databases.updateDocument(
 				Appwrite.config.databaseId!,
 				Appwrite.config.propertiesCollectionId!,
@@ -531,14 +490,12 @@ export async function updateMyProperty(data: any) {
 				{ ...data, image: [resultGallery?.$id] }
 			);
 
-			// If the DB update is successful, delete the old file
 			if (result && oldImageId) {
 				await deleteImageFromStorageWithRetry(oldImageId);
 			}
 
 			return result;
 		} catch (dbError) {
-			// Rollback - If the DB update fails, delete the new file (rollback).
 			await deleteImageFromStorageWithRetry(uploadedNewImage.fileId);
 			throw dbError;
 		}
@@ -548,7 +505,6 @@ export async function updateMyProperty(data: any) {
 	}
 }
 
-// DELETE PROPERTIES
 export async function deleteAllPropertiesAtomic(
 	properties: { id: string; imageId: string }[]
 ) {
@@ -564,10 +520,9 @@ export async function deleteAllPropertiesAtomic(
 					`Property ${id} NOT deleted: failed to delete image ${imageId}.`
 				);
 				results.push({ id, success: false });
-				continue; // go next
+				continue; 
 			}
 
-			// Remove document from db
 			await Appwrite.databases.deleteDocument(
 				Appwrite.config.databaseId!,
 				Appwrite.config.propertiesCollectionId!,
@@ -582,7 +537,6 @@ export async function deleteAllPropertiesAtomic(
 		}
 	}
 
-	// Summary
 	const failed = results.filter((r) => !r.success);
 	if (failed.length > 0) {
 		console.warn(`${failed.length} properties failed to delete.`);
@@ -598,7 +552,6 @@ const RETRY_DELAY_MS = 500;
 
 export async function deleteMyPropertyAtomic(id: string, imageId: string) {
 	try {
-		// First remove image file from storage
 		const imageDeleted = await deleteImageFromStorageWithRetry(imageId);
 		if (!imageDeleted) {
 			console.warn(
@@ -609,7 +562,6 @@ export async function deleteMyPropertyAtomic(id: string, imageId: string) {
 
 		const likes = await getLikesByProperty(id);
 
-		// When image removed from storage, remove document from db
 		await Appwrite.databases.deleteDocument(
 			Appwrite.config.databaseId!,
 			Appwrite.config.propertiesCollectionId!,
@@ -662,8 +614,6 @@ export async function countLikesForProperty(propertyId: string) {
 			[Query.equal('property', propertyId), Query.limit(1)]
 		);
 
-		// console.log('countLikesForProperty():', result.total);
-
 		return result.total;
 	} catch (error) {
 		console.error('Error getting likes for property:', error);
@@ -698,7 +648,7 @@ export async function deleteLikes(likes: any[]) {
 				Appwrite.config.likesCollectionId!,
 				like.$id
 			);
-			deletedIds.push(like.$id); // jeśli tu doszło, to się udało
+			deletedIds.push(like.$id); 
 		}
 
 		console.log('deleteLikes(): Deleted likes:', deletedIds);
