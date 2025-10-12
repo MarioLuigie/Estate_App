@@ -86,16 +86,52 @@ This project is built using modern mobile development technologies to ensure per
 
 ## Directory Structure
 
-- `/estate-app`  
-  - `/assets/` – Static files (images, icons)  
-  - `/components/` – Reusable UI components  
-  - `/screens/` – Application screens (Home, Explore, Details, Profile)  
-  - `/navigation/` – Navigation configuration (React Navigation)  
-  - `/hooks/` – Custom hooks  
-  - `/context/` – Global app context  
-  - `/utils/` – Utility functions  
-  - `/App.tsx` – Main entry component  
-  - `package.json` – Dependencies and project scripts  
+| Folder / File        | Description |
+|----------------------|------------|
+| `/estate_app`        | Root folder of the project |
+| ├─ `/app/`           | Screens, layouts, and routing (Expo Router) |
+| │  ├─ `(root)/`      | Main screens and stacks |
+| │  ├─ `_layout.tsx`  | Root layout of the app |
+| │  ├─ `globals.css`  | Global styles |
+| │  └─ `sign-in.tsx`  | Sign-in screen |
+| ├─ `/assets/`        | Static assets |
+| │  ├─ `fonts/`       | Fonts |
+| │  ├─ `icons/`       | Icons |
+| │  └─ `images/`      | Images |
+| ├─ `/components/`    | Reusable UI components |
+| │  ├─ `content/`     | Content views (property, booking) |
+| │  ├─ `forms/`       | Forms |
+| │  ├─ `layouts/`     | Layout components |
+| │  ├─ `modals/`      | Modals |
+| │  ├─ `shared/`      | Shared components |
+| │  └─ `ui/`          | UI elements |
+| ├─ `/functions/`     | Backend logic (Appwrite, PayPal) |
+| │  ├─ `appwrite-client/` | Appwrite client |
+| │  ├─ `paypal/`      | Payment logic |
+| │  └─ `dist/`        | Compiled/dist files |
+| ├─ `/lib/`           | Business logic and tools |
+| │  ├─ `actions/`     | Actions and operations |
+| │  ├─ `api/`         | API client functions |
+| │  ├─ `constants/`   | Constants, icons, enums |
+| │  ├─ `context/`     | Global app context |
+| │  ├─ `hooks/`       | Custom hooks |
+| │  ├─ `mock/`        | Mock data |
+| │  ├─ `services/`    | Services and integrations |
+| │  ├─ `store/`       | Application state/store |
+| │  ├─ `tools/`       | Helper tools |
+| │  ├─ `types/`       | TypeScript types |
+| │  ├─ `utils/`       | Utility functions |
+| │  └─ `validators/`  | Validation logic |
+| └─ **Configuration & root files** |  |
+|    ├─ `.env.local`    | Environment variables |
+|    ├─ `app.config.js` | Expo configuration |
+|    ├─ `babel.config.js` | Babel configuration |
+|    ├─ `eas.json`      | Build & deployment configuration |
+|    ├─ `metro.config.js` | Metro bundler configuration |
+|    ├─ `tailwind.config.js` | Tailwind configuration |
+|    ├─ `tsconfig.json` | TypeScript configuration |
+|    ├─ `package.json`  | Dependencies and scripts |
+|    └─ `README.md`     | Project documentation |
 
 ---
 
