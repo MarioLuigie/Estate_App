@@ -9,9 +9,14 @@ My website about my Estate application's architecture: https://estate-web-intro.
 ## Introduction
 
 **Estate** – Mobile Estate App for **Android**, built with **React Native** and **Expo**.  
-The application allows users to browse properties, view details, manage profiles, log in via **Google Authentication**, and explore property locations using **Google Maps**.  
+The application allows users to browse and host properties, view details, manage profiles, log in via **Google Authentication**, explore property locations using **Google Maps** and pay using paypal.  
 
 The project is prepared for development with **Expo Go** and production builds with **EAS Build**.  
+
+How I built It?
+System Architecture and Technical Highlights.
+
+![System Architecture](https://raw.githubusercontent.com/MarioLuigie/Estate_App/main/assets/images/c3.png)
 
 ---
 
