@@ -13,9 +13,16 @@ The application allows users to browse and host properties, view details, manage
 
 The project is prepared for development with **Expo Go** and production builds with **EAS Build**.  
 
-How I built It?
+**How I built It?**
 System Architecture and Technical Highlights.
 
+**C1 - SYSTEM CONTEXT DIAGRAM**
+![System Architecture](https://raw.githubusercontent.com/MarioLuigie/Estate_App/main/assets/images/c1.png)
+
+**C2 - HIGH LEVEL CONTAINER DIAGRAM**
+![System Architecture](https://raw.githubusercontent.com/MarioLuigie/Estate_App/main/assets/images/c2.png)
+
+**C3 - COMPONENT DIAGRAM**
 ![System Architecture](https://raw.githubusercontent.com/MarioLuigie/Estate_App/main/assets/images/c3.png)
 
 ---
